@@ -69,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final mediaSize = MediaQuery.of(context).size;
-    const value = 400;
+    const value = 500;
     print(mediaSize.width);
     // TamaÃ±os ajustables de widgets
     final isIpad = (mediaSize.width < value);
@@ -140,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   SafeArea _buildMainBody(Restaurant restaurant, BuildContext context) {
     final mediaSize = MediaQuery.of(context).size;
-    const value = 400;
+    const value = 500;
     print(mediaSize.width);
     // TamaÃ±os ajustables de widgets
     final isIpad = (mediaSize.width < value);
@@ -380,22 +380,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                 const SizedBox(width: 10),
-                if (!isIpadvalue)
-                  if (isIpadvalue)
-                    CircleAvatar(
-                      backgroundColor: const Color(0xFF1E1E1E),
-                      child: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            isVisibleTopMenu = !isVisibleTopMenu;
-                          });
-                        },
-                        icon: const Icon(
-                          Icons.filter_list_sharp,
-                          color: Colors.white,
-                        ),
+                if (isIpadvalue)
+                  CircleAvatar(
+                    backgroundColor: const Color(0xFF1E1E1E),
+                    child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          isVisibleTopMenu = !isVisibleTopMenu;
+                        });
+                      },
+                      icon: const Icon(
+                        Icons.filter_list_sharp,
+                        color: Colors.white,
                       ),
                     ),
+                  ),
                 if (!kIsWeb) _buildAdminOptions(),
               ],
             ),
@@ -426,25 +425,25 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         const SizedBox(width: 10),
-        InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context2) => Provider.value(
-                  value: widget.firebaseUser,
-                  child: const AdminScreen(),
-                ),
-              ),
-            );
-          },
-          child: CircleAvatar(
-            backgroundColor: const Color(0xFF1E1E1E),
-            child: Image.asset(
-              'assets/icons/hamburguer.png',
-            ),
-          ),
-        )
+        // InkWell(
+        //   onTap: () {
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(
+        //         builder: (context2) => Provider.value(
+        //           value: widget.firebaseUser,
+        //           child: const AdminScreen(),
+        //         ),
+        //       ),
+        //     );
+        //   },
+        //   child: CircleAvatar(
+        //     backgroundColor: const Color(0xFF1E1E1E),
+        //     child: Image.asset(
+        //       'assets/icons/hamburguer.png',
+        //     ),
+        //   ),
+        // )
       ],
     );
   }
