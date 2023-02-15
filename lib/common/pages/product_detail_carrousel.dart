@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:project1/common/pages/restaurant_logo.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -105,39 +106,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   products.firstWhere((element) => element.id == widget.proId);
               products.removeWhere((element) => element.id == widget.proId);
               products.insert(0, product);
-
+              print(providerR.r.logo);
               return ListView(
                 children: [
                   if (!isIpad)
                     Center(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(kIsWeb ? 1 : 80),
-                        child: kIsWeb
-                            ? Image.network(
-                                providerR.r.logo,
-                                width: isIpad ? 180 : 300,
-                                height: isIpad ? 180 : 100,
-                              )
-                            : CachedNetworkImage(
-                                width: isIpad ? 150 : 300,
-                                height: isIpad ? 150 : 100,
-                                fit: BoxFit.cover,
-                                filterQuality: FilterQuality.high,
-                                imageUrl: providerR.r.logo,
-                                errorWidget: (context, url, error) {
-                                  return Center(
-                                    child: Text(
-                                      error.toString(),
-                                      style: const TextStyle(color: Colors.red),
-                                    ),
-                                  );
-                                },
-                              ),
+                      child: RestaurantLogo(
+                        backgroundColor: providerR.r.guestCheckInColor,
+                        restaurant: providerR.r,
                       ),
                     ),
                   Container(
-                    width: 200,
-                    height: 600,
+                    width: 300,
+                    height: isIpad ? 600 : 800,
                     child: PageView(
                       controller: controller,
                       children: products

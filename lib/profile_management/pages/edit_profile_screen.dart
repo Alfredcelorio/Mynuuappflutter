@@ -9,6 +9,8 @@ import 'package:project1/common/utils/utils.dart';
 import 'package:project1/profile_management/blocs/edit_profile_bloc.dart';
 import 'package:provider/provider.dart';
 
+import '../../authentication/blocs/authentication_bloc.dart';
+
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
 
@@ -143,34 +145,56 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ),
           );
         }
-        return TextButton(
-          onPressed: () async {
-            // save profile edit
-            if (editForm.currentState!.validate()) {
-              final restaurantToUpdate = updatedRestaurant;
-              if (restaurantToUpdate != null) {
-                await bloc.updateRestaurantProfile(
-                  restaurantToUpdate,
-                  newRestaurantLogo,
-                );
-
-                bool? success = await PlatformAlertDialog(
-                  title: 'Profile updated',
-                  content: 'The restaurant profile was updated successfully!',
-                  defaultActionText: 'Ok',
-                ).show(context);
-                if (success != null) {
-                  Navigator.pop(context);
-                }
-              }
-            }
-          },
-          child: const Text(
-            'Save',
-            style: TextStyle(
-              color: Colors.white,
+        return Row(
+          children: [
+            TextButton(
+              onPressed: () async {
+                final bloc = context.read<AuthenticationBLoc>();
+                bloc.signOut();
+                bloc.skipToUploadLogo.value = false;
+                Navigator.pop(context);
+              },
+              child: const Text(
+                'Logout',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             ),
-          ),
+            SizedBox(
+              width: 10,
+            ),
+            TextButton(
+              onPressed: () async {
+                // save profile edit
+                if (editForm.currentState!.validate()) {
+                  final restaurantToUpdate = updatedRestaurant;
+                  if (restaurantToUpdate != null) {
+                    await bloc.updateRestaurantProfile(
+                      restaurantToUpdate,
+                      newRestaurantLogo,
+                    );
+
+                    bool? success = await PlatformAlertDialog(
+                      title: 'Profile updated',
+                      content:
+                          'The restaurant profile was updated successfully!',
+                      defaultActionText: 'Ok',
+                    ).show(context);
+                    if (success != null) {
+                      Navigator.pop(context);
+                    }
+                  }
+                }
+              },
+              child: const Text(
+                'Save',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            )
+          ],
         );
       },
     );

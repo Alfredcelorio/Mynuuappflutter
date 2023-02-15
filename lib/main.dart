@@ -83,7 +83,7 @@ class _MyAppState extends State<MyApp> {
       GoRoute(
         path: '/',
         builder: (BuildContext context, GoRouterState state) =>
-            kIsWeb ? const NotFoundScreen() : const RouteScreen(),
+            kIsWeb ? const RouteScreen() : const RouteScreen(),
         routes: <GoRoute>[
           GoRoute(
               path: ':shortUrl',

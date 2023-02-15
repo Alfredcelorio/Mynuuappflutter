@@ -52,7 +52,7 @@ class ProductExtendedCard extends StatelessWidget {
                             fontFamily: 'Metropolis',
                             color: Colors.white,
                             fontWeight: FontWeight.w700,
-                            fontSize: 14,
+                            fontSize: 20,
                           ),
                         ),
                       ),
@@ -63,8 +63,8 @@ class ProductExtendedCard extends StatelessWidget {
                   if (isIpad) Expanded(child: buildProductImage()),
                   if (!isIpad)
                     SizedBox(
-                      width: 200,
-                      height: 300,
+                      width: 400,
+                      height: 500,
                       child: buildProductImage(),
                     )
                 ],
@@ -105,7 +105,7 @@ class ProductExtendedCard extends StatelessWidget {
                     fontFamily: 'Metropolis',
                     color: Colors.white,
                     fontWeight: FontWeight.w700,
-                    fontSize: 14,
+                    fontSize: 13,
                   ),
                 ),
               ),
@@ -125,7 +125,7 @@ class ProductExtendedCard extends StatelessWidget {
                     fontFamily: 'Metropolis',
                     color: Colors.white,
                     fontWeight: FontWeight.w400,
-                    fontSize: 10),
+                    fontSize: 15),
               ),
             ),
             const SizedBox(
@@ -143,24 +143,47 @@ class ProductExtendedCard extends StatelessWidget {
               const SizedBox(
                 height: 4,
               ),
-            Row(
-              mainAxisAlignment: isIpad
-                  ? MainAxisAlignment.spaceBetween
-                  : MainAxisAlignment.center,
-              children: [
-                Text(
-                  product.price.toStringAsFixed(1) + ' USD',
-                  style: const TextStyle(
-                    fontFamily: 'Metropolis',
-                    overflow: TextOverflow.ellipsis,
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
+            if (!isIpad)
+              SizedBox(
+                width: 200,
+                child: Row(
+                  mainAxisAlignment: isIpad
+                      ? MainAxisAlignment.spaceBetween
+                      : MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      product.price.toStringAsFixed(1) + ' USD',
+                      style: const TextStyle(
+                        fontFamily: 'Metropolis',
+                        overflow: TextOverflow.ellipsis,
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    if (!kIsWeb) buildShareButton(context)
+                  ],
                 ),
-                if (!kIsWeb) buildShareButton(context)
-              ],
-            ),
+              ),
+            if (isIpad)
+              Row(
+                mainAxisAlignment: isIpad
+                    ? MainAxisAlignment.spaceBetween
+                    : MainAxisAlignment.center,
+                children: [
+                  Text(
+                    product.price.toStringAsFixed(1) + ' USD',
+                    style: const TextStyle(
+                      fontFamily: 'Metropolis',
+                      overflow: TextOverflow.ellipsis,
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  if (!kIsWeb) buildShareButton(context)
+                ],
+              ),
           ],
         ),
       ),
