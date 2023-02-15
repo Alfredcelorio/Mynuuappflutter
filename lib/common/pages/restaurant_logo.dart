@@ -37,11 +37,14 @@ class _RestaurantLogoState extends State<RestaurantLogo> {
     final isIpad = (mediaSize.width < value);
     final valuePadding = mediaSize.width < value ? 0.0 : 80.0;
     return Container(
-      color: widget.backgroundColor,
+      width: 100,
+      height: 100,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(80), color: Colors.black),
       child: GestureDetector(
         onTap: () async {
           // Manage edit logo.
-          if (!kIsWeb && widget.opt==1) {
+          if (!kIsWeb && widget.opt == 1) {
             await Navigator.push(
               context,
               MaterialPageRoute(
@@ -68,8 +71,7 @@ class _RestaurantLogoState extends State<RestaurantLogo> {
                 ),
               )
             : Center(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(kIsWeb ? 100 : 80),
+                child: ClipOval(
                   child: kIsWeb
                       ? Image.network(
                           widget.restaurant.logo,
@@ -78,7 +80,6 @@ class _RestaurantLogoState extends State<RestaurantLogo> {
                         )
                       : CachedNetworkImage(
                           width: isIpad ? 150 : 300,
-                          height: isIpad ? 150 : 300,
                           fit: BoxFit.cover,
                           filterQuality: FilterQuality.high,
                           imageUrl: widget.restaurant.logo,
@@ -90,6 +91,18 @@ class _RestaurantLogoState extends State<RestaurantLogo> {
                               ),
                             );
                           },
+                          imageBuilder: (context, imageProvider) => Container(
+                            height: 100,
+                            width: 100,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                           placeholder: (context, url) {
                             return buildLoadingLogoSkeleton();
                           },

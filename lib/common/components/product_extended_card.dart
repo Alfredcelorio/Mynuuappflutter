@@ -52,7 +52,7 @@ class ProductExtendedCard extends StatelessWidget {
                             fontFamily: 'Metropolis',
                             color: Colors.white,
                             fontWeight: FontWeight.w700,
-                            fontSize: 20,
+                            fontSize: 30,
                           ),
                         ),
                       ),
@@ -63,8 +63,8 @@ class ProductExtendedCard extends StatelessWidget {
                   if (isIpad) Expanded(child: buildProductImage()),
                   if (!isIpad)
                     SizedBox(
-                      width: 400,
-                      height: 500,
+                      width: 600,
+                      height: 800,
                       child: buildProductImage(),
                     )
                 ],
@@ -125,7 +125,7 @@ class ProductExtendedCard extends StatelessWidget {
                     fontFamily: 'Metropolis',
                     color: Colors.white,
                     fontWeight: FontWeight.w400,
-                    fontSize: 15),
+                    fontSize: 17),
               ),
             ),
             const SizedBox(
@@ -157,7 +157,7 @@ class ProductExtendedCard extends StatelessWidget {
                         fontFamily: 'Metropolis',
                         overflow: TextOverflow.ellipsis,
                         color: Colors.white,
-                        fontSize: 16,
+                        fontSize: 18,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -177,7 +177,7 @@ class ProductExtendedCard extends StatelessWidget {
                       fontFamily: 'Metropolis',
                       overflow: TextOverflow.ellipsis,
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: 18,
                       fontWeight: FontWeight.w500,
                     ),
                   ),

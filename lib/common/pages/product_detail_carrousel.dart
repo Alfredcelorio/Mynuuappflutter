@@ -106,7 +106,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   products.firstWhere((element) => element.id == widget.proId);
               products.removeWhere((element) => element.id == widget.proId);
               products.insert(0, product);
-              print(providerR.r.logo);
+              print('logo' + providerR.r.logo);
               return ListView(
                 children: [
                   if (!isIpad)
@@ -119,7 +119,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                   Container(
                     width: 300,
-                    height: isIpad ? 600 : 800,
+                    height: isIpad ? 600 : 1000,
                     child: PageView(
                       controller: controller,
                       children: products

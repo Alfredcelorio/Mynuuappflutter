@@ -19,6 +19,8 @@ import 'package:project1/menu_management/pages/admin_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../services/providers.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
     Key? key,
@@ -42,6 +44,13 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Product> filteredProducts = [];
   String filter = '';
   bool showSearchResults = false;
+  Restaurant restaurant = Restaurant(
+      email: '',
+      id: '',
+      landingImage: '',
+      logo: '',
+      ownerName: '',
+      restaurantName: '');
 
   String restaurantId = '';
 
@@ -93,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Stack(
                 children: [
                   _buildMainBody(restaurant, context),
-                  _buildTopNavigationMenu()
+                  _buildTopNavigationMenu(restaurant, context)
                 ],
               ),
             ),
@@ -101,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
         });
   }
 
-  Widget _buildTopNavigationMenu() {
+  Widget _buildTopNavigationMenu(Restaurant r, BuildContext context) {
     return MultiProvider(
       providers: [
         Provider.value(value: widget.firebaseUser),
@@ -119,6 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onMenuSelected: (menu) {
           setState(
             () {
+              restaurant = r;
               selectedMenu = menu;
               isVisibleTopMenu = false;
               searchByMenuId(menu.id);
@@ -141,7 +151,6 @@ class _HomeScreenState extends State<HomeScreen> {
   SafeArea _buildMainBody(Restaurant restaurant, BuildContext context) {
     final mediaSize = MediaQuery.of(context).size;
     const value = 500;
-    print(mediaSize.width);
     // TamaÃ±os ajustables de widgets
     final isIpad = (mediaSize.width < value);
     final valuePadding = mediaSize.width < value ? 0.0 : 80.0;
@@ -161,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: RestaurantLogo(
                   backgroundColor: restaurant.guestCheckInColor,
                   restaurant: restaurant,
-                  opt:1,
+                  opt: 1,
                 ),
               ),
             ),
@@ -212,7 +221,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       delegate: SliverChildListDelegate(
                         [
                           buildStreamProductCategoryList(
-                              selectedCategory!, restaurant),
+                              selectedCategory!,
+                              this.restaurant.email.isEmpty
+                                  ? restaurant
+                                  : this.restaurant),
                         ],
                       ),
                     )
@@ -236,7 +248,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     .map(
                                       (category) =>
                                           buildStreamProductCategoryList(
-                                              category, restaurant),
+                                              category,
+                                              this.restaurant.email.isEmpty
+                                                  ? restaurant
+                                                  : this.restaurant),
                                     )
                                     .toList(),
                               );
@@ -287,7 +302,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             .toList(),
                         category: category,
                         shortUrl: widget.shortUrl,
-                        rest: Restaurant.empty(),
+                        rest: restaurant,
                       ),
                     )
                     .toList(),
@@ -506,6 +521,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget buildStreamProductCategoryList(
       ProductCategory category, Restaurant valueR) {
+    print('valor: ${valueR}');
     return StreamBuilder<List<Product>>(
       stream: homeBloc.streamProductByCategory(category.id),
       builder: (context, snapshot) {
