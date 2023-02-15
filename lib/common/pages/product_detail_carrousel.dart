@@ -114,6 +114,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       child: RestaurantLogo(
                         backgroundColor: providerR.r.guestCheckInColor,
                         restaurant: providerR.r,
+                        opt: 0,
                       ),
                     ),
                   Container(

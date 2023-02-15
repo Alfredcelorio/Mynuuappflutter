@@ -161,6 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: RestaurantLogo(
                   backgroundColor: restaurant.guestCheckInColor,
                   restaurant: restaurant,
+                  opt:1,
                 ),
               ),
             ),

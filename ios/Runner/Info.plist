@@ -35,12 +35,14 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Allow access to photo library</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -63,7 +65,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
 </dict>
 </plist>

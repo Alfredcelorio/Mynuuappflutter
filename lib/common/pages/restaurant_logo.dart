@@ -14,11 +14,12 @@ class RestaurantLogo extends StatefulWidget {
     Key? key,
     required this.backgroundColor,
     required this.restaurant,
+    required this.opt,
   }) : super(key: key);
 
   final Color backgroundColor;
   final Restaurant restaurant;
-
+  final int opt;
   @override
   State<RestaurantLogo> createState() => _RestaurantLogoState();
 }
@@ -40,7 +41,7 @@ class _RestaurantLogoState extends State<RestaurantLogo> {
       child: GestureDetector(
         onTap: () async {
           // Manage edit logo.
-          if (!kIsWeb) {
+          if (!kIsWeb && widget.opt==1) {
             await Navigator.push(
               context,
               MaterialPageRoute(
