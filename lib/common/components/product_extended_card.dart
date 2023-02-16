@@ -64,7 +64,7 @@ class ProductExtendedCard extends StatelessWidget {
                   if (!isIpad)
                     SizedBox(
                       width: 600,
-                      height: 800,
+                      height: 700,
                       child: buildProductImage(),
                     )
                 ],

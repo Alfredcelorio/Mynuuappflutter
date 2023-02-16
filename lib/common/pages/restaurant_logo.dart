@@ -79,7 +79,7 @@ class _RestaurantLogoState extends State<RestaurantLogo> {
                           height: isIpad ? 180 : 300,
                         )
                       : CachedNetworkImage(
-                          width: isIpad ? 150 : 300,
+                          width: isIpad ? 150 : 200,
                           fit: BoxFit.cover,
                           filterQuality: FilterQuality.high,
                           imageUrl: widget.restaurant.logo,
@@ -92,7 +92,7 @@ class _RestaurantLogoState extends State<RestaurantLogo> {
                             );
                           },
                           imageBuilder: (context, imageProvider) => Container(
-                            height: 100,
+                            height: 110,
                             width: 100,
                             decoration: BoxDecoration(
                               borderRadius:

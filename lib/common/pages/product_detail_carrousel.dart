@@ -111,12 +111,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 children: [
                   if (!isIpad)
                     Center(
+                        child: SizedBox(
+                      width: 140,
+                      height: 120,
                       child: RestaurantLogo(
                         backgroundColor: providerR.r.guestCheckInColor,
                         restaurant: providerR.r,
                         opt: 0,
                       ),
-                    ),
+                    )),
                   Container(
                     width: 300,
                     height: isIpad ? 600 : 1000,
