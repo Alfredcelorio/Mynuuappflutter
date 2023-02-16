@@ -121,11 +121,11 @@ class ProductExtendedCard extends StatelessWidget {
                 trimCollapsedText: ' ',
                 trimExpandedText: '',
                 colorClickableText: Colors.white,
-                style: const TextStyle(
+                style: TextStyle(
                     fontFamily: 'Metropolis',
                     color: Colors.white,
                     fontWeight: FontWeight.w400,
-                    fontSize: 17),
+                    fontSize: isIpad ? 17 : 25),
               ),
             ),
             const SizedBox(
@@ -133,7 +133,7 @@ class ProductExtendedCard extends StatelessWidget {
             ),
             if (!isIpad)
               const SizedBox(
-                width: 250,
+                width: 350,
                 child: Divider(
                   height: 10,
                   color: Colors.white,
@@ -153,11 +153,11 @@ class ProductExtendedCard extends StatelessWidget {
                   children: [
                     Text(
                       product.price.toStringAsFixed(1) + ' USD',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontFamily: 'Metropolis',
                         overflow: TextOverflow.ellipsis,
                         color: Colors.white,
-                        fontSize: 18,
+                        fontSize: isIpad ? 17 : 20,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -173,11 +173,11 @@ class ProductExtendedCard extends StatelessWidget {
                 children: [
                   Text(
                     product.price.toStringAsFixed(1) + ' USD',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontFamily: 'Metropolis',
                       overflow: TextOverflow.ellipsis,
                       color: Colors.white,
-                      fontSize: 18,
+                      fontSize: isIpad ? 17 : 20,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
