@@ -153,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
     const value = 500;
     // TamaÃ±os ajustables de widgets
     final isIpad = (mediaSize.width < value);
-    final valuePadding = mediaSize.width < value ? 0.0 : 80.0;
+    final valuePadding = mediaSize.width < value ? 0.0 : 80;
     return SafeArea(
       child: CustomScrollView(
         slivers: [
@@ -161,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
             pinned: true,
             delegate: SliverAppBarDelegate(
               minHeight: 0,
-              maxHeight: kIsWeb ? 200 : 160.0,
+              maxHeight: kIsWeb ? 200 : isIpad ? 160 : 400,
               child: MultiProvider(
                 providers: [
                   Provider.value(value: widget.firebaseUser),
@@ -178,8 +178,8 @@ class _HomeScreenState extends State<HomeScreen> {
           SliverPersistentHeader(
             pinned: true,
             delegate: SliverAppBarDelegate(
-              minHeight: 80.0,
-              maxHeight: 80.0,
+              minHeight: 80,
+              maxHeight: 80,
               child: _buildHomeOptions(restaurant.guestCheckInColor, isIpad),
             ),
           ),
@@ -441,25 +441,25 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         const SizedBox(width: 10),
-        // InkWell(
-        //   onTap: () {
-        //     Navigator.push(
-        //       context,
-        //       MaterialPageRoute(
-        //         builder: (context2) => Provider.value(
-        //           value: widget.firebaseUser,
-        //           child: const AdminScreen(),
-        //         ),
-        //       ),
-        //     );
-        //   },
-        //   child: CircleAvatar(
-        //     backgroundColor: const Color(0xFF1E1E1E),
-        //     child: Image.asset(
-        //       'assets/icons/hamburguer.png',
-        //     ),
-        //   ),
-        // )
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context2) => Provider.value(
+                  value: widget.firebaseUser,
+                  child: const AdminScreen(),
+                ),
+              ),
+            );
+          },
+          child: CircleAvatar(
+            backgroundColor: const Color(0xFF1E1E1E),
+            child: Image.asset(
+              'assets/icons/hamburguer.png',
+            ),
+          ),
+        )
       ],
     );
   }
