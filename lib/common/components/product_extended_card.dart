@@ -80,7 +80,7 @@ class ProductExtendedCard extends StatelessWidget {
 
   Widget buildProductInformation(BuildContext context) {
     final mediaSize = MediaQuery.of(context).size;
-    const value = 400;
+    const value = 500;
     // TamaÃ±os ajustables de widgets
     final isIpad = (mediaSize.width < value);
     final valuePadding = mediaSize.width < value ? 0.0 : 80.0;
@@ -105,7 +105,7 @@ class ProductExtendedCard extends StatelessWidget {
                     fontFamily: 'Metropolis',
                     color: Colors.white,
                     fontWeight: FontWeight.w700,
-                    fontSize: 13,
+                    fontSize: 14,
                   ),
                 ),
               ),
@@ -125,7 +125,7 @@ class ProductExtendedCard extends StatelessWidget {
                     fontFamily: 'Metropolis',
                     color: Colors.white,
                     fontWeight: FontWeight.w400,
-                    fontSize: isIpad ? 17 : 25),
+                    fontSize: isIpad ? 15 : 25),
               ),
             ),
             const SizedBox(
@@ -157,7 +157,7 @@ class ProductExtendedCard extends StatelessWidget {
                         fontFamily: 'Metropolis',
                         overflow: TextOverflow.ellipsis,
                         color: Colors.white,
-                        fontSize: isIpad ? 17 : 20,
+                        fontSize: isIpad ? 15 : 20,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -177,7 +177,7 @@ class ProductExtendedCard extends StatelessWidget {
                       fontFamily: 'Metropolis',
                       overflow: TextOverflow.ellipsis,
                       color: Colors.white,
-                      fontSize: isIpad ? 17 : 20,
+                      fontSize: isIpad ? 15 : 20,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
