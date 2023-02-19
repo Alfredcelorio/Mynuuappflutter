@@ -31,7 +31,7 @@ class _RestaurantLogoState extends State<RestaurantLogo> {
   @override
   Widget build(BuildContext context) {
     final mediaSize = MediaQuery.of(context).size;
-    const value = 400;
+    const value = 500;
     print(mediaSize.width);
     // TamaÃ±os ajustables de widgets
     final isIpad = (mediaSize.width < value);

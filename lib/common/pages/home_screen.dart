@@ -161,7 +161,11 @@ class _HomeScreenState extends State<HomeScreen> {
             pinned: true,
             delegate: SliverAppBarDelegate(
               minHeight: 0,
-              maxHeight: kIsWeb ? 200 : isIpad ? 160 : 400,
+              maxHeight: kIsWeb
+                  ? 200
+                  : isIpad
+                      ? 160
+                      : 400,
               child: MultiProvider(
                 providers: [
                   Provider.value(value: widget.firebaseUser),
@@ -396,21 +400,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                 const SizedBox(width: 10),
-                if (isIpadvalue)
-                  CircleAvatar(
-                    backgroundColor: const Color(0xFF1E1E1E),
-                    child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          isVisibleTopMenu = !isVisibleTopMenu;
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.filter_list_sharp,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+                // if (isIpadvalue)
+                //   CircleAvatar(
+                //     backgroundColor: const Color(0xFF1E1E1E),
+                //     child: IconButton(
+                //       onPressed: () {
+                //         setState(() {
+                //           isVisibleTopMenu = !isVisibleTopMenu;
+                //         });
+                //       },
+                //       icon: const Icon(
+                //         Icons.filter_list_sharp,
+                //         color: Colors.white,
+                //       ),
+                //     ),
+                //   ),
                 if (!kIsWeb) _buildAdminOptions(),
               ],
             ),
