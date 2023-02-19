@@ -26,7 +26,7 @@ class ProductExtendedCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mediaSize = MediaQuery.of(context).size;
-    const value = 400;
+    const value = 500;
     // TamaÃ±os ajustables de widgets
     final isIpad = (mediaSize.width < value);
     final valuePadding = mediaSize.width < value ? 0.0 : 80.0;
