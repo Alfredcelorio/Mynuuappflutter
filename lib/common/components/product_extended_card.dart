@@ -63,8 +63,8 @@ class ProductExtendedCard extends StatelessWidget {
                   if (isIpad) Expanded(child: buildProductImage()),
                   if (!isIpad)
                     SizedBox(
-                      width: 600,
-                      height: 700,
+                      width: 800,
+                      height: 900,
                       child: buildProductImage(),
                     )
                 ],
@@ -72,7 +72,12 @@ class ProductExtendedCard extends StatelessWidget {
               const SizedBox(
                 height: 8,
               ),
-              buildProductInformation(context),
+              if (!isIpad)
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: buildProductInformation(context),
+                ),
+              if (isIpad) buildProductInformation(context),
             ],
           ),
         ));
