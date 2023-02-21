@@ -116,16 +116,16 @@ class ProductExtendedCard extends StatelessWidget {
               padding: const EdgeInsets.only(right: 10.0),
               child: ReadMoreText(
                 product.description.toUpperCase(),
-                trimLines: 1,
+                trimLines: 3,
                 trimMode: TrimMode.Line,
-                trimCollapsedText: ' ',
+                trimCollapsedText: '',
                 trimExpandedText: '',
                 colorClickableText: Colors.white,
                 style: TextStyle(
                     fontFamily: 'Metropolis',
                     color: Colors.white,
                     fontWeight: FontWeight.w400,
-                    fontSize: isIpad ? 15 : 25),
+                    fontSize: isIpad ? 14 : 25),
               ),
             ),
             const SizedBox(
