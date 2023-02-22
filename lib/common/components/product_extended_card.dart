@@ -81,6 +81,7 @@ class ProductExtendedCard extends StatelessWidget {
   Widget buildProductInformation(BuildContext context) {
     final mediaSize = MediaQuery.of(context).size;
     const value = 500;
+    print(product.description.length);
     // TamaÃ±os ajustables de widgets
     final isIpad = (mediaSize.width < value);
     final valuePadding = mediaSize.width < value ? 0.0 : 80.0;
@@ -89,6 +90,7 @@ class ProductExtendedCard extends StatelessWidget {
         left: isIpad ? 0.0 : 70,
         bottom: 16,
         top: 8,
+        right: isIpad ? 0.0 : 70,
       ),
       child: Center(
         child: Column(
