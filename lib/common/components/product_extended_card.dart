@@ -72,7 +72,14 @@ class ProductExtendedCard extends StatelessWidget {
               const SizedBox(
                 height: 8,
               ),
-              buildProductInformation(context),
+              if (!isIpad)
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  SizedBox(
+                    width: 800,
+                    child: buildProductInformation(context),
+                  ),
+                ]),
+              if (isIpad) buildProductInformation(context),
             ],
           ),
         ));
@@ -81,16 +88,13 @@ class ProductExtendedCard extends StatelessWidget {
   Widget buildProductInformation(BuildContext context) {
     final mediaSize = MediaQuery.of(context).size;
     const value = 500;
-    print(product.description.length);
     // TamaÃ±os ajustables de widgets
     final isIpad = (mediaSize.width < value);
     final valuePadding = mediaSize.width < value ? 0.0 : 80.0;
     return Padding(
-      padding: EdgeInsets.only(
-        left: isIpad ? 0.0 : 70,
+      padding: const EdgeInsets.only(
         bottom: 16,
         top: 8,
-        right: isIpad ? 0.0 : 70,
       ),
       child: Center(
         child: Column(
