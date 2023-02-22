@@ -73,7 +73,7 @@ class ProductExtendedCard extends StatelessWidget {
                 height: 8,
               ),
               if (!isIpad)
-                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   SizedBox(
                     width: 800,
                     child: buildProductInformation(context),
