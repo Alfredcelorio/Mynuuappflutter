@@ -113,7 +113,7 @@ class ProductExtendedCard extends StatelessWidget {
               height: 4,
             ),
             Padding(
-              padding: EdgeInsets.only(right: isIpad ? 10.0 : 0),
+              padding: EdgeInsets.only(right: isIpad ? 10.0 : 5),
               child: ReadMoreText(
                 product.description.toUpperCase(),
                 trimLines: 3,
