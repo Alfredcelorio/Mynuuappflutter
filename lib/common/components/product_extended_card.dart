@@ -74,7 +74,7 @@ class ProductExtendedCard extends StatelessWidget {
               ),
               if (!isIpad)
                 Padding(
-                  padding: const EdgeInsets.only(left: 10),
+                  padding: const EdgeInsets.only(left: 0),
                   child: buildProductInformation(context),
                 ),
               if (isIpad) buildProductInformation(context),
