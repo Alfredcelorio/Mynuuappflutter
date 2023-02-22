@@ -111,7 +111,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 children: [
                   Container(
                     width: 300,
-                    height: isIpad ? 600 : 1500,
+                    height: isIpad ? 600 : 1200,
                     child: PageView(
                       controller: controller,
                       children: products
