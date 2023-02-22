@@ -85,7 +85,8 @@ class ProductExtendedCard extends StatelessWidget {
     final isIpad = (mediaSize.width < value);
     final valuePadding = mediaSize.width < value ? 0.0 : 80.0;
     return Padding(
-      padding: const EdgeInsets.only(
+      padding: EdgeInsets.only(
+        left: isIpad ? 0.0 : 70,
         bottom: 16,
         top: 8,
       ),
@@ -113,11 +114,10 @@ class ProductExtendedCard extends StatelessWidget {
               height: 4,
             ),
             Padding(
-              padding: EdgeInsets.only(
-                  left: !isIpad ? 10.0 : 0, right: isIpad ? 10.0 : 0),
+              padding: EdgeInsets.only(right: isIpad ? 10.0 : 0),
               child: ReadMoreText(
                 product.description.toUpperCase(),
-                trimLines: 5,
+                trimLines: 10,
                 trimMode: TrimMode.Line,
                 trimCollapsedText: '',
                 trimExpandedText: '',
