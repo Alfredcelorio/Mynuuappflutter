@@ -64,7 +64,7 @@ class ProductExtendedCard extends StatelessWidget {
                   if (!isIpad)
                     SizedBox(
                       width: 800,
-                      height: 900,
+                      height: mediaSize.height > 1250 ? 900 : 600,
                       child: buildProductImage(),
                     )
                 ],
@@ -73,7 +73,7 @@ class ProductExtendedCard extends StatelessWidget {
                 height: 8,
               ),
               if (!isIpad)
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                   SizedBox(
                     width: 800,
                     child: buildProductInformation(context),
