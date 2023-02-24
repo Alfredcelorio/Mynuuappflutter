@@ -27,6 +27,8 @@ class PushNotificationProvider {
       sound: true,
     );
 
+    print(await messaging.getToken());
+
     initializeLocalNotifications();
     FirebaseMessaging.onMessageOpenedApp.listen((msg) {
       onResume(msg);
@@ -44,10 +46,9 @@ class PushNotificationProvider {
     return token;
   }
 
-
   Future<void> initializeLocalNotifications() async {
     const InitializationSettings _initSettings = InitializationSettings(
-      android: AndroidInitializationSettings("icon_name"),
+      //android: AndroidInitializationSettings("icon_name"),
       iOS: DarwinInitializationSettings(),
     );
     await _localNotificationsPlugin.initialize(
@@ -77,6 +78,7 @@ class PushNotificationProvider {
   void selectNotification(String payload) async {}
 
   Future<dynamic> onMessage(RemoteMessage message) async {
+    print(message.notification!.title);
     await _localNotificationsPlugin.show(
       0,
       message.notification!.title,
