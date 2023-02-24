@@ -102,6 +102,7 @@ class PushNotificationProvider {
   }
 
   Future<dynamic> onResume(RemoteMessage message) async {
+    print(message.notification!.title);
     final guestId = message.data['guestId'];
     if (guestId != null) {
       _messageStreamController.sink.add(guestId);
