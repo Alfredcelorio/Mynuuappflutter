@@ -130,6 +130,26 @@ class CloudFirestoreService {
         );
   }
 
+  Stream<List<Product>> streamEnabledFalseProductByCategory(String categoryId) {
+    //add two values userID and string global
+    var ref = _db
+        .collection('products')
+        .where('categoryId', isEqualTo: categoryId)
+        .where('enabled', isEqualTo: false)
+        .where('deleted', isEqualTo: false);
+
+    return ref.snapshots().map(
+          (list) => list.docs
+              .map(
+                (doc) => Product.fromMap(
+                  doc.id,
+                  doc.data(),
+                ),
+              )
+              .toList(),
+        );
+  }
+
   Stream<List<Product>> streamDeletedProducts(String restaurantId) {
     //add two values userID and string global
     var ref = _db
@@ -208,6 +228,41 @@ class CloudFirestoreService {
         );
   }
 
+  Future<List<Product>> searchProductsEnableFalse(
+    String restaurantId,
+    String searchText, {
+    bool isPanelAdmin = false,
+  }) async {
+    searchText = searchText.toLowerCase();
+    final strFrontCode = searchText.substring(0, searchText.length - 1);
+    final strEndCode = searchText.characters.last;
+    final limit =
+        strFrontCode + String.fromCharCode(strEndCode.codeUnitAt(0) + 1);
+
+    var ref = _db
+        .collection('products')
+        .where('deleted', isEqualTo: false)
+        .where('enable', isEqualTo: false)
+        .where('restaurantId', isEqualTo: restaurantId);
+
+    // if (!isPanelAdmin) {
+    //   ref = ref.where('enabled', isEqualTo: true);
+    // }
+
+    return ref.get().then(
+          (value) => value.docs
+              .map(
+                (doc) => Product.fromMap(
+                  doc.id,
+                  doc.data(),
+                ),
+              )
+              .where(
+                  (element) => element.name.toLowerCase().contains(searchText))
+              .toList(),
+        );
+  }
+
   Future<List<Product>> searchProductsByMenuId(
     String restaurantId,
     String menuId, {
@@ -222,6 +277,34 @@ class CloudFirestoreService {
     if (!isPanelAdmin) {
       ref = ref.where('enabled', isEqualTo: true);
     }
+
+    return ref.get().then(
+          (value) => value.docs
+              .map(
+                (doc) => Product.fromMap(
+                  doc.id,
+                  doc.data(),
+                ),
+              )
+              .toList(),
+        );
+  }
+
+  Future<List<Product>> searchProductsByMenuIdEnableFalse(
+    String restaurantId,
+    String menuId, {
+    bool isPanelAdmin = false,
+  }) async {
+    var ref = _db
+        .collection('products')
+        .where('deleted', isEqualTo: false)
+        .where('enable', isEqualTo: false)
+        .where('restaurantId', isEqualTo: restaurantId)
+        .where("menuId", isEqualTo: menuId);
+
+    // if (!isPanelAdmin) {
+    //   ref = ref.where('enabled', isEqualTo: true);
+    // }
 
     return ref.get().then(
           (value) => value.docs

@@ -37,6 +37,10 @@ class HomeBloc {
     return _service.streamEnabledProductByCategory(categoryId);
   }
 
+  Stream<List<Product>> streamProductByCategoryEnableFalse(String categoryId) {
+    return _service.streamEnabledFalseProductByCategory(categoryId);
+  }
+
   Stream<Restaurant> streamRestaurantById(String id) {
     return _service.streamRestaurantById(id);
   }
@@ -56,10 +60,32 @@ class HomeBloc {
     return products;
   }
 
+  Future<List<Product>> searchProductsEnableFalse(
+      String restaurantId, String searchText) async {
+    searchIsComplete.value = false;
+    final products = await _service.searchProductsEnableFalse(
+      restaurantId,
+      searchText,
+    );
+    searchIsComplete.value = true;
+    return products;
+  }
+
   Future<List<Product>> searchProductsByMenuId(
       String restaurantId, String menuId) async {
     searchIsComplete.value = false;
     final products = await _service.searchProductsByMenuId(
+      restaurantId,
+      menuId,
+    );
+    searchIsComplete.value = true;
+    return products;
+  }
+
+  Future<List<Product>> searchProductsByMenuIdEnableFalse(
+      String restaurantId, String menuId) async {
+    searchIsComplete.value = false;
+    final products = await _service.searchProductsByMenuIdEnableFalse(
       restaurantId,
       menuId,
     );

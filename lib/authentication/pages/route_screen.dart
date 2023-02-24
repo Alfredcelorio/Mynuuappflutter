@@ -12,6 +12,10 @@ class RouteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authenticationBloc = context.read<AuthenticationBLoc>();
+    final mediaSize = MediaQuery.of(context).size;
+    const value = 500;
+    // TamaÃ±os ajustables de widgets
+    final isIpad = (mediaSize.width < value);
     return StreamBuilder<FirebaseUser?>(
       stream: authenticationBloc.onAuthStateChanged,
       builder: (_, AsyncSnapshot<FirebaseUser?> snapshot) {
@@ -23,10 +27,7 @@ class RouteScreen extends StatelessWidget {
               child: const LoginScreen(),
             );
           }
-          return buildLandingScreen(
-            user,
-            authenticationBloc,
-          );
+          return buildLandingScreen(user, authenticationBloc, isIpad);
         } else {
           return buildLoading();
         }
@@ -48,8 +49,9 @@ class RouteScreen extends StatelessWidget {
     );
   }
 
-  Widget buildLandingScreen(
-      FirebaseUser user, AuthenticationBLoc authenticationBloc) {
+  Widget buildLandingScreen(FirebaseUser user,
+      AuthenticationBLoc authenticationBloc, bool valueIpad) {
+    final PageController controller = PageController();
     return FutureBuilder<bool>(
       future: authenticationBloc.initializeRestaurant(user.uid),
       builder: (context, snapshot) {
@@ -65,9 +67,19 @@ class RouteScreen extends StatelessWidget {
             return Provider.value(
               value: user,
               child: currentLogo.isNotEmpty || skipToUploadLogo
-                  ? HomeScreen(
-                      firebaseUser: user,
-                      shortUrl: authenticationBloc.currentRestaurant!.shortUrl!)
+                  ? PageView(controller: controller, children: [
+                      HomeScreen(
+                          firebaseUser: user,
+                          shortUrl:
+                              authenticationBloc.currentRestaurant!.shortUrl!,
+                          valuePage: 0),
+                      if (valueIpad)
+                        HomeScreen(
+                            firebaseUser: user,
+                            shortUrl:
+                                authenticationBloc.currentRestaurant!.shortUrl!,
+                            valuePage: 1)
+                    ])
                   : Provider.value(
                       value: authenticationBloc,
                       child: const UploadLogoScreen(),

@@ -13,6 +13,10 @@ class ProductDetailCarrouselBloc {
     return _service.streamEnabledProductByCategory(categoryId);
   }
 
+  Stream<List<Product>> streamProductEnableFalseByCategory(String categoryId) {
+    return _service.streamEnabledFalseProductByCategory(categoryId);
+  }
+
   Future<Restaurant> getRestaurantById(String id) async {
     return await _service.getRestaurantById(id);
   }

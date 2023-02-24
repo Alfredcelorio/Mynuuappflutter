@@ -22,13 +22,15 @@ import 'package:share_plus/share_plus.dart';
 import '../services/providers.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({
-    Key? key,
-    required this.shortUrl,
-    required this.firebaseUser,
-  }) : super(key: key);
+  const HomeScreen(
+      {Key? key,
+      required this.shortUrl,
+      required this.firebaseUser,
+      required this.valuePage})
+      : super(key: key);
 
   final String shortUrl;
+  final int valuePage;
   final FirebaseUser firebaseUser;
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -70,6 +72,9 @@ class _HomeScreenState extends State<HomeScreen> {
       regards = "Good Afternoon";
     } else {
       regards = "Good Evening";
+    }
+    if (widget.valuePage == 1) {
+      regards = "Your 86";
     }
     restaurantId = widget.firebaseUser.uid;
     super.initState();
@@ -306,6 +311,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         category: category,
                         shortUrl: widget.shortUrl,
                         rest: restaurant,
+                        valuePage: widget.valuePage,
                       ),
                     )
                     .toList(),
@@ -524,9 +530,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget buildStreamProductCategoryList(
       ProductCategory category, Restaurant valueR) {
-    print('valor: ${valueR}');
     return StreamBuilder<List<Product>>(
-      stream: homeBloc.streamProductByCategory(category.id),
+      stream: widget.valuePage == 0
+          ? homeBloc.streamProductByCategory(category.id)
+          : homeBloc.streamProductByCategoryEnableFalse(category.id),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const ProductsHorizontalListSkeleton();
@@ -557,6 +564,7 @@ class _HomeScreenState extends State<HomeScreen> {
           category: category,
           shortUrl: widget.shortUrl,
           rest: valueR,
+          valuePage: widget.valuePage,
         );
       },
     );
@@ -565,8 +573,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void searchByKeyword() async {
     final searchText = filter;
     if (searchText.isNotEmpty) {
-      filteredProducts =
-          await homeBloc.searchProducts(restaurantId, searchText);
+      filteredProducts = widget.valuePage == 0
+          ? await homeBloc.searchProducts(restaurantId, searchText)
+          : await homeBloc.searchProductsEnableFalse(restaurantId, searchText);
       if (!recentSearches.contains(filter)) {
         recentSearches.add(filter);
       }
@@ -578,8 +587,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void searchByMenuId(String menuId) async {
-    filteredProducts =
-        await homeBloc.searchProductsByMenuId(restaurantId, menuId);
+    filteredProducts = widget.valuePage == 0
+        ? await homeBloc.searchProductsByMenuId(restaurantId, menuId)
+        : await homeBloc.searchProductsByMenuIdEnableFalse(
+            restaurantId, menuId);
     setState(() {
       showSearchResults = true;
       selectedCategory = null;

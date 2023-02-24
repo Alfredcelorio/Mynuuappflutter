@@ -12,18 +12,20 @@ import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({
-    Key? key,
-    required this.product,
-    required this.shortUrl,
-    required this.productIndex,
-    required this.r,
-  }) : super(key: key);
+  const ProductCard(
+      {Key? key,
+      required this.product,
+      required this.shortUrl,
+      required this.productIndex,
+      required this.r,
+      required this.valuePage})
+      : super(key: key);
 
   final Product product;
   final String shortUrl;
   final int productIndex;
   final Restaurant r;
+  final int valuePage;
   @override
   Widget build(BuildContext context) {
     final providerR = context.watch<Providers>();
@@ -32,6 +34,7 @@ class ProductCard extends StatelessWidget {
       child: InkWell(
         onTap: () {
           providerR.changeR(r);
+          providerR.changeValuePage(valuePage);
           GoRouter.of(context).push(
             '/$shortUrl/menu/${product.categoryId}/${product.id}/$productIndex',
             extra: {

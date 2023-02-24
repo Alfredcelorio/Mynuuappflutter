@@ -143,6 +143,7 @@ class _MyAppState extends State<MyApp> {
                 return HomeScreen(
                   shortUrl: shortUrl,
                   firebaseUser: user ?? const FirebaseUser.notFound(),
+                  valuePage: 0,
                 );
               }),
           GoRoute(

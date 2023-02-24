@@ -95,7 +95,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ),
           backgroundColor: Colors.black,
           body: StreamBuilder<List<Product>>(
-            stream: bloc.streamProductByCategory(widget.categoryID),
+            stream: providerR.valuePage == 0
+                ? bloc.streamProductByCategory(widget.categoryID)
+                : bloc.streamProductEnableFalseByCategory(widget.categoryID),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return _buildLoadingSkeletons();

@@ -7,19 +7,20 @@ import 'package:sizer/sizer.dart';
 import 'product_card.dart';
 
 class ProductsHorizontalListView extends StatelessWidget {
-  const ProductsHorizontalListView({
-    Key? key,
-    required this.products,
-    required this.category,
-    required this.shortUrl,
-    required this.rest,
-  }) : super(key: key);
+  const ProductsHorizontalListView(
+      {Key? key,
+      required this.products,
+      required this.category,
+      required this.shortUrl,
+      required this.rest,
+      required this.valuePage})
+      : super(key: key);
 
   final List<Product> products;
   final ProductCategory category;
   final String shortUrl;
   final Restaurant rest;
-
+  final int valuePage;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -40,10 +41,12 @@ class ProductsHorizontalListView extends StatelessWidget {
               children: [
                 for (var i = 0; i < products.length; i++)
                   ProductCard(
-                      product: products[i],
-                      shortUrl: shortUrl,
-                      productIndex: i,
-                      r: rest),
+                    product: products[i],
+                    shortUrl: shortUrl,
+                    productIndex: i,
+                    r: rest,
+                    valuePage: valuePage,
+                  ),
               ],
             ),
           ),
