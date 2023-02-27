@@ -12,10 +12,6 @@ class RouteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authenticationBloc = context.read<AuthenticationBLoc>();
-    final mediaSize = MediaQuery.of(context).size;
-    const value = 500;
-    // TamaÃ±os ajustables de widgets
-    final isIpad = (mediaSize.width < value);
     return StreamBuilder<FirebaseUser?>(
       stream: authenticationBloc.onAuthStateChanged,
       builder: (_, AsyncSnapshot<FirebaseUser?> snapshot) {
@@ -27,7 +23,7 @@ class RouteScreen extends StatelessWidget {
               child: const LoginScreen(),
             );
           }
-          return buildLandingScreen(user, authenticationBloc, isIpad);
+          return buildLandingScreen(user, authenticationBloc);
         } else {
           return buildLoading();
         }
@@ -49,8 +45,8 @@ class RouteScreen extends StatelessWidget {
     );
   }
 
-  Widget buildLandingScreen(FirebaseUser user,
-      AuthenticationBLoc authenticationBloc, bool valueIpad) {
+  Widget buildLandingScreen(
+      FirebaseUser user, AuthenticationBLoc authenticationBloc) {
     final PageController controller = PageController();
     return FutureBuilder<bool>(
       future: authenticationBloc.initializeRestaurant(user.uid),
@@ -64,6 +60,10 @@ class RouteScreen extends StatelessWidget {
         return ValueListenableBuilder(
           valueListenable: authenticationBloc.skipToUploadLogo,
           builder: (context, bool skipToUploadLogo, _) {
+            final mediaSize = MediaQuery.of(context).size;
+            const value = 500;
+            // TamaÃ±os ajustables de widgets
+            final isIpad = (mediaSize.width < value);
             return Provider.value(
               value: user,
               child: currentLogo.isNotEmpty || skipToUploadLogo
@@ -73,7 +73,7 @@ class RouteScreen extends StatelessWidget {
                           shortUrl:
                               authenticationBloc.currentRestaurant!.shortUrl!,
                           valuePage: 0),
-                      if (valueIpad)
+                      if (isIpad)
                         HomeScreen(
                             firebaseUser: user,
                             shortUrl:

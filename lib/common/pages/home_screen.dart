@@ -183,14 +183,48 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          SliverPersistentHeader(
-            pinned: true,
-            delegate: SliverAppBarDelegate(
-              minHeight: 80,
-              maxHeight: 80,
-              child: _buildHomeOptions(restaurant.guestCheckInColor, isIpad),
+          if (widget.valuePage != 1)
+            SliverPersistentHeader(
+              pinned: true,
+              delegate: SliverAppBarDelegate(
+                minHeight: 80,
+                maxHeight: 80,
+                child: _buildHomeOptions(restaurant.guestCheckInColor, isIpad),
+              ),
             ),
-          ),
+          if (widget.valuePage == 1)
+            SliverPersistentHeader(
+              pinned: true,
+              delegate: SliverAppBarDelegate(
+                minHeight: 80,
+                maxHeight: 10,
+                child: Container(
+                  color: restaurant.guestCheckInColor,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: searchMode ? 0 : 20,
+                      right: 20,
+                    ),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              regards.toString(),
+                              style: const TextStyle(
+                                fontFamily: 'Metropolis',
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ]),
+                  ),
+                ),
+              ),
+            ),
+
           // if (isIpad)
           //   SliverPersistentHeader(
           //     pinned: true,
