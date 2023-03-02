@@ -2,7 +2,7 @@ import 'package:meta/meta.dart';
 
 @immutable
 class FirebaseUser {
-  const FirebaseUser({
+  FirebaseUser({
     required this.uid,
     required this.email,
     this.photoUrl,
@@ -12,7 +12,7 @@ class FirebaseUser {
     required this.providerId,
   });
 
-  final String uid;
+  String uid;
   final String email;
   final String? photoUrl;
   final String? displayName;
@@ -20,7 +20,7 @@ class FirebaseUser {
   final bool isNew;
   final String? providerId;
 
-  const FirebaseUser.notFound()
+  FirebaseUser.notFound()
       : uid = 'notFound',
         email = '',
         photoUrl = '',

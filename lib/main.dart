@@ -142,7 +142,7 @@ class _MyAppState extends State<MyApp> {
 
                 return HomeScreen(
                   shortUrl: shortUrl,
-                  firebaseUser: user ?? const FirebaseUser.notFound(),
+                  firebaseUser: user ?? FirebaseUser.notFound(),
                   valuePage: 0,
                 );
               }),
@@ -168,7 +168,7 @@ class _MyAppState extends State<MyApp> {
                 var guestId = state.params["guestId"]!;
                 return Provider(
                   create: (_) => TableLayoutBloc(
-                    const FirebaseUser.notFound(),
+                    FirebaseUser.notFound(),
                   ),
                   child: GuestDetailScreen(
                     guestId: guestId,

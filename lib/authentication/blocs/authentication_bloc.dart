@@ -123,6 +123,11 @@ class AuthenticationBLoc {
         if (currentRestaurant == null) {
           throw Exception('No user');
         }
+        if (currentRestaurant!.shortUrl!.isEmpty) {
+          final resp = await databaseService.getIdMenu(userLogged.email);
+          currentRestaurant =
+              await databaseService.getRestaurantById(resp['restaurantId']);
+        }
         updatePushNotificationToken(currentRestaurant!);
         return userLogged;
       } else {

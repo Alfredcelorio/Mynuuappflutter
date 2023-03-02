@@ -54,6 +54,51 @@ class CloudFirestoreService {
         );
   }
 
+  Future<Map<String, dynamic>> getIdMenu(String emailUser) async {
+    var ref = await _db
+        .collection('guestPostbyAdmin')
+        .where('email', isEqualTo: emailUser)
+        .limit(1)
+        .get()
+        .then(
+          (snap) => snap.docs
+              .map(
+                (restaurant) => restaurant.data(),
+              )
+              .toList(),
+        );
+    return ref.isEmpty ? {} : ref.first;
+  }
+
+  Future<List<Map<String, dynamic>>> getInvited() {
+    //add two values userID and string global
+    var ref = _db.collection('guestPostbyAdmin');
+
+    return ref.get().then(
+          (value) => value.docs
+              .map(
+                (doc) => doc.data(),
+              )
+              .toList(),
+        );
+  }
+
+  Future<List<Restaurant>> getRestaurants() {
+    //add two values userID and string global
+    var ref = _db.collection('restaurants');
+
+    return ref.get().then(
+          (value) => value.docs
+              .map(
+                (doc) => Restaurant.fromMap(
+                  doc.id,
+                  doc.data(),
+                ),
+              )
+              .toList(),
+        );
+  }
+
   Future<List<ProductCategory>> getCategories(String restaurantId) async {
     var ref = _db.collection('categories').where(
           'restaurantId',

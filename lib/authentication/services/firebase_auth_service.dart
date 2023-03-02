@@ -10,19 +10,21 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project1/common/models/user_system.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
+import '../../common/services/landing_service.dart';
 import 'auth_service.dart';
 
 class FirebaseAuthService implements AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   bool? isNewUser;
-
+  final CloudFirestoreService databaseService = CloudFirestoreService();
+  String idR = '';
   FirebaseUser? _userFromFirebase(User? user) {
     if (user == null) {
       return null;
     }
 
     return FirebaseUser(
-        uid: user.uid,
+        uid: idR == '' ? user.uid : idR,
         email: user.email ?? '',
         displayName: user.displayName,
         photoUrl: user.photoURL,
@@ -40,6 +42,12 @@ class FirebaseAuthService implements AuthService {
   Future<FirebaseUser?> signInWithEmailAndPassword(
       String email, String password) async {
     try {
+      var arrayInvited = await databaseService.getIdMenu(email);
+      if (arrayInvited.containsKey('restaurantId') &&
+          arrayInvited['restaurantId'] != '') {
+        idR = arrayInvited['restaurantId'];
+        print(idR);
+      }
       final UserCredential authResult =
           await _firebaseAuth.signInWithCredential(EmailAuthProvider.credential(
         email: email,
