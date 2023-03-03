@@ -1,7 +1,8 @@
 import UIKit
 import Flutter
 import flutter_local_notifications
-
+import FirebaseCore
+import FirebaseMessaging;
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
 
@@ -9,6 +10,7 @@ import flutter_local_notifications
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+      FirebaseApp.configure();
     // This is required to make any communication available in the action isolate.
     FlutterLocalNotificationsPlugin.setPluginRegistrantCallback { (registry) in
         GeneratedPluginRegistrant.register(with: registry)
@@ -21,4 +23,8 @@ import flutter_local_notifications
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
+//  override func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+//    print("Registered for Apple Remote Notifications")
+//    Messaging.messaging().setAPNSToken(deviceToken, type: .unknown)
+//}
 }
