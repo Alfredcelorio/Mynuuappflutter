@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:project1/authentication/blocs/authentication_bloc.dart';
 import 'package:project1/common/components/custom_dialog.dart';
 import 'package:project1/common/models/user_system.dart';
@@ -191,9 +192,11 @@ class _AdminScreenState extends State<AdminScreen> {
           });
         }
         if (value == 2 && currentPage != 2) {
+          EasyLoading.show(status: '');
           final bloc = context.read<AuthenticationBLoc>();
           bloc.signOut();
           bloc.skipToUploadLogo.value = false;
+          EasyLoading.dismiss();
           Navigator.pop(context);
         }
 
@@ -264,10 +267,13 @@ class _AdminScreenState extends State<AdminScreen> {
 
   Future<void> _deleteAccount(BuildContext context) async {
     try {
+      EasyLoading.show(status: '');
       await bloc.deleteProfile();
       await FirebaseAuth.instance.currentUser?.delete();
+      EasyLoading.dismiss();
       Navigator.pop(context);
     } on PlatformException catch (_) {
+      EasyLoading.dismiss();
       await PlatformAlertDialog(
         title: 'There was an error',
         content: 'Please try again later',

@@ -46,7 +46,6 @@ class FirebaseAuthService implements AuthService {
       if (arrayInvited.containsKey('restaurantId') &&
           arrayInvited['restaurantId'] != '') {
         idR = arrayInvited['restaurantId'];
-        print(idR);
       }
       final UserCredential authResult =
           await _firebaseAuth.signInWithCredential(EmailAuthProvider.credential(
@@ -77,6 +76,7 @@ class FirebaseAuthService implements AuthService {
 
   @override
   Future<FirebaseUser?> signInWithGoogle() async {
+    print('sdsdsd');
     GoogleSignIn googleSignIn = GoogleSignIn();
     if (kIsWeb) {
       googleSignIn = GoogleSignIn(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:project1/authentication/blocs/authentication_bloc.dart';
 import 'package:project1/authentication/components/authentication_button.dart';
 import 'package:project1/authentication/components/custom_textfield.dart';
@@ -229,15 +230,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future<void> _registerUserWithEmailAndPassword(BuildContext context) async {
     try {
+      EasyLoading.show(status: '');
       await bloc.createUserWithEmailAndPassword(
         email: email.text,
         password: password.text,
         restaurantName: restaurant.text,
         ownerName: name.text,
       );
+      EasyLoading.dismiss();
     } on PlatformException catch (e) {
+      EasyLoading.dismiss();
       await _showSignInError(context, e.code);
     } catch (e) {
+      EasyLoading.dismiss();
       await _showSignInError(
         context,
         e.toString(),

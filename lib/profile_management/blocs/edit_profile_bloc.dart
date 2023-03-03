@@ -18,7 +18,7 @@ class EditProfileBloc {
 
   Future<void> updateRestaurantProfile(
       Restaurant restaurant, File? logo) async {
-    loading.value = true;
+    loading.value = false;
 
     if (logo != null) {
       restaurant.logo = await _uploadRestaurantLogo(
@@ -36,7 +36,7 @@ class EditProfileBloc {
 
   Future<void> updateLandingRestaurantInformation(
       Restaurant restaurant, File? landingImage) async {
-    loading.value = true;
+    loading.value = false;
 
     if (landingImage != null) {
       restaurant.landingImage = await _uploadRestaurantLogo(

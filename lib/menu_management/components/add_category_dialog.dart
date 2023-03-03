@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project1/common/models/category.dart';
 import 'package:project1/common/models/menu.dart';
@@ -283,6 +284,7 @@ class _AddOrUpdateCategoryDialogState extends State<AddOrUpdateCategoryDialog> {
       menuId: selectedMenuId ?? '',
       position: 0,
     );
+    await EasyLoading.show(status: '');
     if (widget.category != null) {
       await bloc.updateCategory(
         finalCategory,
@@ -291,7 +293,7 @@ class _AddOrUpdateCategoryDialogState extends State<AddOrUpdateCategoryDialog> {
     } else {
       await bloc.addCategory(finalCategory);
     }
-
+    await EasyLoading.dismiss();
     Navigator.pop(context);
   }
 }

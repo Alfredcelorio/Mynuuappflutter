@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project1/common/models/category.dart';
 import 'package:project1/common/models/menu.dart';
@@ -539,11 +540,13 @@ class _AddOrEditProductDialogState extends State<AddOrEditProductDialog> {
       positionInCategory: widget.product?.positionInCategory ?? 0,
       menuId: selectedMenuId,
     );
+    await EasyLoading.show(status: '');
     if (widget.product != null) {
       await bloc.updateProduct(finalProduct, mYimage);
     } else {
       await bloc.addProduct(finalProduct, mYimage);
     }
+    await EasyLoading.dismiss();
 
     Navigator.pop(context);
   }

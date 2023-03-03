@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project1/common/models/menu.dart';
 import 'package:project1/common/models/user_system.dart';
@@ -204,12 +205,13 @@ class _AddOrUpdateMenuDialogState extends State<AddOrUpdateMenuDialog> {
       name: nameC.text,
       restaurantId: context.read<FirebaseUser>().uid,
     );
+    await EasyLoading.show(status: '');
     if (widget.menu != null) {
       await bloc.updateMenu(finalMenu);
     } else {
       await bloc.addMenu(finalMenu);
     }
-
+    await EasyLoading.dismiss();
     Navigator.of(context).pop(true);
   }
 }

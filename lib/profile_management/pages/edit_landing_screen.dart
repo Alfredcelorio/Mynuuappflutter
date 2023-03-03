@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:project1/common/components/custom_dialog.dart';
 import 'package:project1/common/models/restaurant.dart';
 import 'package:project1/common/models/user_system.dart';
@@ -363,11 +364,12 @@ class _EditProfileScreenState extends State<EditLandingScreen> {
             if (editForm.currentState!.validate()) {
               final restaurantToUpdate = updatedRestaurant;
               if (restaurantToUpdate != null) {
+                await EasyLoading.show(status: '');
                 await bloc.updateLandingRestaurantInformation(
                   restaurantToUpdate,
                   newLandingImage,
                 );
-
+                await EasyLoading.dismiss();
                 bool? success = await PlatformAlertDialog(
                   title: 'Profile updated',
                   content: 'The restaurant profile was updated successfully!',

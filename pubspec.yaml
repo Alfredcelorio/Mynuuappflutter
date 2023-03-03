@@ -81,6 +81,7 @@ dependencies:
   share_plus: ^6.3.0
   shimmer: ^2.0.0
   smooth_page_indicator: ^1.0.0+2
+  flutter_easyloading: ^3.0.5
 
 dependency_overrides:
   image_picker_android: 0.8.5+5

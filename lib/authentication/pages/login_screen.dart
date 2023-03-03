@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:project1/authentication/blocs/authentication_bloc.dart';
 import 'package:project1/authentication/components/authentication_button.dart';
 import 'package:project1/authentication/components/custom_textfield.dart';
@@ -299,10 +300,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _signInWithEmailAndPassword(BuildContext context) async {
     try {
+      EasyLoading.show(status: '');
       await bloc.signInWithEmailAndPassword(email.text, password.text);
+      EasyLoading.dismiss();
     } on PlatformException catch (e) {
+      EasyLoading.dismiss();
       await _showSignInError(context, e.message);
     } catch (e) {
+      EasyLoading.dismiss();
       await _showSignInError(
         context,
         e.toString(),

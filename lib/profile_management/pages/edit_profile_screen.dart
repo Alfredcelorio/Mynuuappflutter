@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:project1/authentication/components/custom_textfield.dart';
 import 'package:project1/common/components/custom_dialog.dart';
 import 'package:project1/common/models/restaurant.dart';
@@ -149,9 +150,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           children: [
             TextButton(
               onPressed: () async {
+                await EasyLoading.show(status: '');
                 final bloc = context.read<AuthenticationBLoc>();
                 bloc.signOut();
                 bloc.skipToUploadLogo.value = false;
+                await EasyLoading.dismiss();
                 Navigator.pop(context);
               },
               child: const Text(
@@ -166,6 +169,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ),
             TextButton(
               onPressed: () async {
+                await EasyLoading.show(status: '');
                 // save profile edit
                 if (editForm.currentState!.validate()) {
                   final restaurantToUpdate = updatedRestaurant;
@@ -174,7 +178,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       restaurantToUpdate,
                       newRestaurantLogo,
                     );
-
+                    await EasyLoading.dismiss();
                     bool? success = await PlatformAlertDialog(
                       title: 'Profile updated',
                       content:
@@ -185,6 +189,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       Navigator.pop(context);
                     }
                   }
+                } else {
+                  EasyLoading.dismiss();
                 }
               },
               child: const Text(

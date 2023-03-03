@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project1/common/models/product.dart';
 import 'package:project1/common/style/mynuu_colors.dart';
@@ -174,10 +175,12 @@ class DeactivateActionSheet extends StatelessWidget {
   }
 
   void deactivateProduct(BuildContext context) async {
+    EasyLoading.show(status: '');
     final succesfull =
         await context.read<TableLayoutBloc>().changeProductStatus(
               productResult,
             );
+    await EasyLoading.dismiss();
     if (succesfull) {
       refresh();
     }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:project1/authentication/blocs/authentication_bloc.dart';
 import 'package:project1/authentication/components/authentication_button.dart';
 import 'package:project1/authentication/components/custom_textfield.dart';
@@ -99,7 +100,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   Future<void> _sendEmailRecovery(BuildContext context) async {
     try {
+      EasyLoading.show(status: '');
       await bloc.sendPasswordResetEmail(email.text);
+      EasyLoading.dismiss();
       await PlatformAlertDialog(
               content:
                   'We\'ve sent a verification link to ${email.text}, please review your inbox.',
@@ -108,8 +111,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           .show(context);
       Navigator.pop(context);
     } on PlatformException catch (e) {
+      EasyLoading.dismiss();
       await _showSignInError(context, e.code);
     } catch (e) {
+      EasyLoading.dismiss();
       await _showSignInError(
         context,
         e.toString(),

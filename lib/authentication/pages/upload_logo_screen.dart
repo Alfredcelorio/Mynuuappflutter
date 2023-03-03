@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:project1/authentication/blocs/authentication_bloc.dart';
 import 'package:project1/authentication/components/authentication_button.dart';
 import 'package:project1/authentication/components/footer.dart';
@@ -55,12 +56,15 @@ class _UploadLogoScreenState extends State<UploadLogoScreen> {
   }
 
   void _uploadFile() async {
+    EasyLoading.show(status: '');
     final logo = restaurantLogo;
     if (logo == null) {
+      EasyLoading.dismiss();
       _showUploadWithErrorsDialog();
     } else {
       if (bloc.uploadLogoCompleted.value) {
         bloc.uploadLogoCompleted.value = false;
+        EasyLoading.dismiss();
         navigateToPushReplace(
           context,
           const RouteScreen(),
@@ -68,7 +72,9 @@ class _UploadLogoScreenState extends State<UploadLogoScreen> {
       } else {
         final successful = await bloc.uploadRestaurantLogo(logo);
         if (successful) {
+          EasyLoading.dismiss();
         } else {
+          EasyLoading.dismiss();
           _showUploadWithErrorsDialog();
         }
       }

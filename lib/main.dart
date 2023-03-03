@@ -21,6 +21,7 @@ import 'package:project1/common/style/mynuu_colors.dart';
 import 'package:project1/firebase_options.dart';
 import 'package:project1/menu_management/blocs/table_layout_bloc.dart';
 import 'package:project1/menu_management/pages/guest_detail_screen.dart';
+import 'package:project1/profile_management/pages/customLoading.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -30,6 +31,7 @@ import 'authentication/services/firebase_auth_service.dart';
 import 'common/models/user_system.dart';
 import 'common/pages/restaurant_resolving_wrapper.dart';
 import 'common/services/apple_sign_in_available.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 List<String> recentSearches = [];
 main() async {
@@ -55,6 +57,25 @@ main() async {
     value: appleSignInAvailable,
     child: const MyApp(),
   ));
+  configLoading();
+}
+
+void configLoading() {
+  EasyLoading.instance
+    ..displayDuration = const Duration(milliseconds: 2000)
+    ..maskType = EasyLoadingMaskType.black
+    ..indicatorType = EasyLoadingIndicatorType.ring
+    ..loadingStyle = EasyLoadingStyle.custom
+    ..indicatorSize = 45.0
+    ..radius = 10.0
+    ..progressColor = mynuuPrimary
+    ..backgroundColor = Color.fromARGB(255, 0, 0, 0).withOpacity(0.8)
+    ..indicatorColor = mynuuPrimary
+    ..textColor = Colors.yellow
+    ..maskColor = Colors.blue.withOpacity(0.5)
+    ..userInteractions = true
+    ..dismissOnTap = false
+    ..customAnimation = CustomAnimation();
 }
 
 class MyApp extends StatefulWidget {
@@ -211,6 +232,7 @@ class _MyAppState extends State<MyApp> {
             routeInformationParser: _router.routeInformationParser,
             routerDelegate: _router.routerDelegate,
             theme: mynuuTheme(),
+            builder: EasyLoading.init(),
           ),
         ),
       );
