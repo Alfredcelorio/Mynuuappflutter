@@ -426,6 +426,27 @@ class CloudFirestoreService {
     );
   }
 
+  Future<Restaurant> getRestaurantByEmail(String email) async {
+    var request = _db.collection('restaurants');
+    List<Restaurant> list = await request.get().then((snap) => snap.docs
+        .map(
+          (restaurant) => Restaurant.fromMap(
+            restaurant.id,
+            restaurant.data(),
+          ),
+        )
+        .toList());
+
+    Restaurant r = Restaurant.notFound();
+    for (var i = 0; i < list.length; i++) {
+      if (list.elementAt(i).emailUsers!.contains(email)) {
+        r = list.elementAt(i);
+        break;
+      }
+    }
+    return r;
+  }
+
   Stream<Restaurant> streamRestaurantById(String id) {
     return _db.collection('restaurants').doc(id).snapshots().map(
           (snap) => Restaurant.fromMap(

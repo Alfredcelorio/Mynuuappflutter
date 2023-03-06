@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:project1/common/blocs/home_bloc.dart';
 import 'package:project1/common/models/restaurant.dart';
 import 'package:project1/common/models/user_system.dart';
+import 'package:project1/common/services/providers.dart';
 import 'package:project1/common/style/mynuu_colors.dart';
 import 'package:project1/profile_management/pages/edit_profile_screen.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +28,7 @@ class RestaurantLogo extends StatefulWidget {
 class _RestaurantLogoState extends State<RestaurantLogo> {
   late final userSession = context.read<FirebaseUser>();
   late final homeBloc = context.read<HomeBloc>();
-
+  late final restau = context.read<Providers>();
   @override
   Widget build(BuildContext context) {
     final mediaSize = MediaQuery.of(context).size;
@@ -43,6 +44,7 @@ class _RestaurantLogoState extends State<RestaurantLogo> {
           borderRadius: BorderRadius.circular(80), color: Colors.black),
       child: GestureDetector(
         onTap: () async {
+          restau.changeR(widget.restaurant);
           // Manage edit logo.
           if (!kIsWeb && widget.opt == 1) {
             await Navigator.push(
@@ -54,7 +56,6 @@ class _RestaurantLogoState extends State<RestaurantLogo> {
                 ),
               ),
             );
-            setState(() {});
           }
         },
         child: widget.restaurant.logo.isEmpty

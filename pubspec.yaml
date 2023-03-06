@@ -82,6 +82,7 @@ dependencies:
   shimmer: ^2.0.0
   smooth_page_indicator: ^1.0.0+2
   flutter_easyloading: ^3.0.5
+  flutter_session_manager: ^1.0.3
 
 dependency_overrides:
   image_picker_android: 0.8.5+5

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:project1/authentication/components/custom_textfield.dart';
 import 'package:project1/common/components/custom_dialog.dart';
 import 'package:project1/common/models/restaurant.dart';
@@ -11,6 +12,7 @@ import 'package:project1/profile_management/blocs/edit_profile_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../authentication/blocs/authentication_bloc.dart';
+import '../../common/services/providers.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
@@ -33,6 +35,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final restau = context.read<Providers>();
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -47,7 +50,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       body: SafeArea(
         child: FutureBuilder<Restaurant>(
           future: bloc.getRestaurantProfile(
-            context.read<FirebaseUser>().uid,
+            restau.r.id,
           ),
           builder: (_, snapshot) {
             final restaurant = snapshot.data;
@@ -154,6 +157,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 final bloc = context.read<AuthenticationBLoc>();
                 bloc.signOut();
                 bloc.skipToUploadLogo.value = false;
+                await SessionManager().destroy();
                 await EasyLoading.dismiss();
                 Navigator.pop(context);
               },

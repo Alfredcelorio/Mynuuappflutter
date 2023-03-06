@@ -12,6 +12,7 @@ class Restaurant implements MynuuModel {
   String landingImage;
   final String email;
   String? shortUrl;
+  List<String>? emailUsers;
 
   bool isFacebookEnabled;
 
@@ -27,22 +28,22 @@ class Restaurant implements MynuuModel {
 
   List<String> notificationTokens;
 
-  Restaurant({
-    required this.id,
-    required this.restaurantName,
-    required this.ownerName,
-    required this.logo,
-    required this.landingImage,
-    required this.email,
-    this.shortUrl,
-    this.isFacebookEnabled = false,
-    this.isGoogleEnabled = false,
-    this.isPhoneLoginEnabled = false,
-    this.isAnonymousLoginEnabled = false,
-    this.askForBirthDate = false,
-    this.guestCheckInColor = Colors.black,
-    this.notificationTokens = const [],
-  });
+  Restaurant(
+      {required this.id,
+      required this.restaurantName,
+      required this.ownerName,
+      required this.logo,
+      required this.landingImage,
+      required this.email,
+      this.shortUrl,
+      this.isFacebookEnabled = false,
+      this.isGoogleEnabled = false,
+      this.isPhoneLoginEnabled = false,
+      this.isAnonymousLoginEnabled = false,
+      this.askForBirthDate = false,
+      this.guestCheckInColor = Colors.black,
+      this.notificationTokens = const [],
+      this.emailUsers = const []});
 
   @override
   Map<String, dynamic> toMap() {
@@ -60,6 +61,7 @@ class Restaurant implements MynuuModel {
       'askForBirthDate': askForBirthDate,
       'guestCheckInColor': toHex(leadingHashSign: false),
       'notificationTokens': notificationTokens,
+      'emailUsers': emailUsers
     };
   }
 
@@ -77,13 +79,13 @@ class Restaurant implements MynuuModel {
 
   factory Restaurant.notFound() {
     return Restaurant(
-      id: 'notFound',
-      restaurantName: 'notFound',
-      ownerName: 'notFound',
-      logo: '',
-      landingImage: '',
-      email: 'notFound',
-    );
+        id: 'notFound',
+        restaurantName: 'notFound',
+        ownerName: 'notFound',
+        logo: '',
+        landingImage: '',
+        email: 'notFound',
+        emailUsers: []);
   }
 
   factory Restaurant.fromMap(String id, Map<String, dynamic> map) {
@@ -107,6 +109,8 @@ class Restaurant implements MynuuModel {
       notificationTokens: map['notificationTokens'] != null
           ? map['notificationTokens'].cast<String>()
           : [],
+      emailUsers:
+          map['emailUsers'] != null ? map['emailUsers'].cast<String>() : [],
     );
   }
 
@@ -145,7 +149,7 @@ class Restaurant implements MynuuModel {
 
   @override
   String toString() {
-    return 'Restaurant(id: $id, restaurantName: $restaurantName, ownerName: $ownerName, logo: $logo, email: $email, shortUrl: $shortUrl)';
+    return 'Restaurant(id: $id, restaurantName: $restaurantName, ownerName: $ownerName, logo: $logo, email: $email, shortUrl: $shortUrl, emailUsers:$emailUsers)';
   }
 
   String toHex({bool leadingHashSign = true}) => '${leadingHashSign ? '#' : ''}'

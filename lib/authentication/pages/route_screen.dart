@@ -5,6 +5,7 @@ import 'package:project1/authentication/pages/upload_logo_screen.dart';
 import 'package:project1/common/models/user_system.dart';
 import 'package:project1/common/pages/home_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 
 class RouteScreen extends StatelessWidget {
   const RouteScreen({Key? key}) : super(key: key);
@@ -49,13 +50,14 @@ class RouteScreen extends StatelessWidget {
       FirebaseUser user, AuthenticationBLoc authenticationBloc) {
     final PageController controller = PageController();
     return FutureBuilder<bool>(
-      future: authenticationBloc.initializeRestaurant(user.uid),
+      future: authenticationBloc.initializeRestaurant(user.uid, user.email),
       builder: (context, snapshot) {
         final result = snapshot.data;
         if (result == null) {
           return buildLoading();
         }
 
+        print(authenticationBloc.currentRestaurant);
         final currentLogo = authenticationBloc.currentRestaurant?.logo ?? '';
         return ValueListenableBuilder(
           valueListenable: authenticationBloc.skipToUploadLogo,
@@ -70,12 +72,14 @@ class RouteScreen extends StatelessWidget {
                   ? PageView(controller: controller, children: [
                       HomeScreen(
                           firebaseUser: user,
+                          idR: authenticationBloc.currentRestaurant?.id ?? '',
                           shortUrl:
                               authenticationBloc.currentRestaurant!.shortUrl!,
                           valuePage: 0),
                       if (isIpad)
                         HomeScreen(
                             firebaseUser: user,
+                            idR: authenticationBloc.currentRestaurant?.id ?? '',
                             shortUrl:
                                 authenticationBloc.currentRestaurant!.shortUrl!,
                             valuePage: 1)

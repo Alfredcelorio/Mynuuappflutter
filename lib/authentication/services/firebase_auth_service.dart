@@ -9,6 +9,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project1/common/models/user_system.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 
 import '../../common/services/landing_service.dart';
 import 'auth_service.dart';
@@ -17,6 +18,7 @@ class FirebaseAuthService implements AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   bool? isNewUser;
   final CloudFirestoreService databaseService = CloudFirestoreService();
+  var sessionManager = SessionManager();
   String idR = '';
   FirebaseUser? _userFromFirebase(User? user) {
     if (user == null) {
@@ -24,7 +26,7 @@ class FirebaseAuthService implements AuthService {
     }
 
     return FirebaseUser(
-        uid: idR == '' ? user.uid : idR,
+        uid: user.uid,
         email: user.email ?? '',
         displayName: user.displayName,
         photoUrl: user.photoURL,
@@ -46,6 +48,7 @@ class FirebaseAuthService implements AuthService {
       if (arrayInvited.containsKey('restaurantId') &&
           arrayInvited['restaurantId'] != '') {
         idR = arrayInvited['restaurantId'];
+        await sessionManager.set('idR', idR);
       }
       final UserCredential authResult =
           await _firebaseAuth.signInWithCredential(EmailAuthProvider.credential(
@@ -89,9 +92,14 @@ class FirebaseAuthService implements AuthService {
     final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
 
     if (googleUser != null) {
+      var arrayInvited = await databaseService.getIdMenu(googleUser.email);
+      if (arrayInvited.containsKey('restaurantId') &&
+          arrayInvited['restaurantId'] != '') {
+        idR = arrayInvited['restaurantId'];
+        await sessionManager.set('idR', idR);
+      }
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
-
       if (googleAuth.accessToken != null && googleAuth.idToken != null) {
         final UserCredential authResult = await _firebaseAuth
             .signInWithCredential(GoogleAuthProvider.credential(

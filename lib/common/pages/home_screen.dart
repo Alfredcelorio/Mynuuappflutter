@@ -26,10 +26,12 @@ class HomeScreen extends StatefulWidget {
       {Key? key,
       required this.shortUrl,
       required this.firebaseUser,
+      required this.idR,
       required this.valuePage})
       : super(key: key);
 
   final String shortUrl;
+  final String idR;
   final int valuePage;
   final FirebaseUser firebaseUser;
   @override
@@ -76,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (widget.valuePage == 1) {
       regards = "Your 86";
     }
-    restaurantId = widget.firebaseUser.uid;
+    restaurantId = widget.idR;
     super.initState();
   }
 
@@ -90,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return StreamBuilder<Restaurant>(
         stream: widget.firebaseUser.uid == 'notFound'
             ? homeBloc.streamRestaurantByShortUrl(widget.shortUrl)
-            : homeBloc.streamRestaurantById(widget.firebaseUser.uid),
+            : homeBloc.streamRestaurantById(widget.idR),
         initialData: Restaurant.empty(),
         builder: (context, snapshot) {
           final restaurant = snapshot.data;

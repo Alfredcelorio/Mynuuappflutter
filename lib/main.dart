@@ -103,7 +103,7 @@ class _MyAppState extends State<MyApp> {
     routes: <GoRoute>[
       GoRoute(
         path: '/',
-        builder: (BuildContext context, GoRouterState state) =>
+        builder: (BuildContext context, GoRouterState state) => 
             kIsWeb ? const RouteScreen() : const RouteScreen(),
         routes: <GoRoute>[
           GoRoute(
@@ -163,6 +163,7 @@ class _MyAppState extends State<MyApp> {
 
                 return HomeScreen(
                   shortUrl: shortUrl,
+                  idR: '',
                   firebaseUser: user ?? FirebaseUser.notFound(),
                   valuePage: 0,
                 );

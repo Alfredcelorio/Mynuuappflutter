@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:project1/authentication/services/auth_service.dart';
 import 'package:project1/common/models/guest.dart';
 import 'package:project1/common/models/restaurant.dart';
@@ -177,8 +178,16 @@ class AuthenticationBLoc {
     }
   }
 
-  Future<bool> initializeRestaurant(String userId) async {
-    currentRestaurant = await databaseService.getRestaurantById(userId);
+  Future<bool> initializeRestaurant(String userId, String email) async {
+    var idInvit = await SessionManager().get("idR") as String?;
+    if (idInvit != null) {
+      print('invitado');
+      currentRestaurant = await databaseService.getRestaurantById(idInvit);
+    } else {
+      print('owner');
+      currentRestaurant = await databaseService.getRestaurantById(userId);
+    }
+
     return true;
   }
 
