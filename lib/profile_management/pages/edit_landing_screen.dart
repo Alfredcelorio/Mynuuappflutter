@@ -11,6 +11,8 @@ import 'package:project1/common/utils/utils.dart';
 import 'package:project1/profile_management/blocs/edit_profile_bloc.dart';
 import 'package:provider/provider.dart';
 
+import '../../common/services/providers.dart';
+
 class EditLandingScreen extends StatefulWidget {
   const EditLandingScreen({Key? key}) : super(key: key);
 
@@ -39,6 +41,10 @@ class _EditProfileScreenState extends State<EditLandingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final providerFirebaseUser = context.read<FirebaseUser>();
+    final providerR = context.read<Providers>();
+    providerFirebaseUser.uid = providerR.r.id;
+    print("fireuser: ${providerFirebaseUser.uid}");
     return FutureBuilder<Restaurant>(
       future: bloc.getRestaurantProfile(
         context.read<FirebaseUser>().uid,

@@ -136,6 +136,25 @@ class CloudFirestoreService {
         );
   }
 
+  Future<List<Guest>> getGuests(String restaurantId) {
+    //add two values userID and string global
+    var ref = _db.collection('guests').where(
+          'restaurantId',
+          isEqualTo: restaurantId,
+        );
+
+    return ref.get().then(
+          (value) => value.docs
+              .map(
+                (doc) => Guest.fromMap(
+                  doc.id,
+                  doc.data(),
+                ),
+              )
+              .toList(),
+        );
+  }
+
   Stream<List<Product>> streamProductByCategory(String categoryId) {
     //add two values userID and string global
     var ref = _db
@@ -221,13 +240,13 @@ class CloudFirestoreService {
   }
 
   Stream<List<Guest>> streamGuests(String restaurantId) {
+    print("rest: $restaurantId");
     //add two values userID and string global
     var ref = _db.collection('guests').where(
           'restaurantId',
           isEqualTo: restaurantId,
         );
-
-    return ref.snapshots().map(
+    final result = ref.snapshots().map(
           (list) => list.docs
               .map(
                 (doc) => Guest.fromMap(
@@ -237,6 +256,7 @@ class CloudFirestoreService {
               )
               .toList(),
         );
+    return result;
   }
 
   Future<List<Product>> searchProducts(
@@ -393,6 +413,12 @@ class CloudFirestoreService {
         );
   }
 
+  Future<Map<String, dynamic>> getGuestByAdmin(String id) async {
+    return _db.collection('guestPostbyAdmin').doc(id).get().then(
+          (snap) => snap.data() ?? {},
+        );
+  }
+
   Future<Restaurant> getRestaurantByShortUrl(String shortUrl) async {
     final restaurants = await _db
         .collection('restaurants')
@@ -417,6 +443,7 @@ class CloudFirestoreService {
   }
 
   Future<Restaurant> getRestaurantById(String id) async {
+    print(id);
     var request = _db.collection('restaurants').doc(id).get();
     return request.then(
       (snap) => Restaurant.fromMap(

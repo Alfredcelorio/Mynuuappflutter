@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:project1/common/models/guest.dart';
+import 'package:project1/common/services/providers.dart';
 import 'package:project1/common/style/mynuu_colors.dart';
 import 'package:project1/menu_management/blocs/table_layout_bloc.dart';
 import 'package:project1/menu_management/pages/guest_detail_screen.dart';
@@ -16,58 +19,165 @@ class GuestsTableScreen extends StatefulWidget {
 
 class _GuestsTableScreenState extends State<GuestsTableScreen> {
   TextEditingController searchController = TextEditingController();
+  DateTime? nowUtc;
+  int covers = 0;
+  @override
+  void initState() {
+    super.initState();
+    nowUtc = DateTime.now();
+    context.read<Providers>().getGuest().then((value) {
+      covers = filterDate(value, nowUtc!).length;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<Providers>();
+    const borderColor = Color(0xFF646464);
     TableLayoutBloc bloc = context.read<TableLayoutBloc>();
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       children: [
+        const Center(
+          child: Text('Guests List',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 18)),
+        ),
         const SizedBox(height: 10),
         Row(
           children: [
-            Expanded(
-              child: buildSearchOptions(context),
-            ),
-            Expanded(
-              child: ElevatedButton.icon(
-                icon: Image.asset('assets/icons/calendar.png'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: mynuuYellow,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                width: 43,
+                height: 43,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: borderColor,
                   ),
                 ),
-                onPressed: () {},
-                label: Text(
-                  DateFormat('dd/MM/yyyy').format(
-                    DateTime.now(),
-                  ),
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                child: const Center(
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: borderColor,
                   ),
                 ),
               ),
-            )
+            ),
+            Expanded(
+              child: buildSearchOptions(context),
+            ),
+            GestureDetector(
+              onTap: () {
+                DatePicker.showDatePicker(context,
+                    showTitleActions: true,
+                    theme: const DatePickerTheme(
+                        headerColor: mynuuBlack,
+                        backgroundColor: mynuuBlack,
+                        itemStyle: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14),
+                        doneStyle: TextStyle(color: Colors.white, fontSize: 16),
+                        cancelStyle:
+                            TextStyle(color: Colors.white, fontSize: 16)),
+                    onChanged: (date) {
+                  print('change $date in time zone ' +
+                      date.timeZoneOffset.inHours.toString());
+                }, onConfirm: (date) async {
+                  final result = await provider.getGuest();
+                  setState(() {
+                    nowUtc = date;
+                    covers = filterDate(result, nowUtc!).length;
+                  });
+                }, currentTime: DateTime.now(), locale: LocaleType.en);
+              },
+              child: Container(
+                width: 43,
+                height: 43,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: borderColor,
+                  ),
+                ),
+                child: const Center(child: Icon(Icons.calendar_month_outlined)),
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 10),
-        _buildTitle(),
-        _buildTableHeaders(),
+        //_buildTableHeaders(),
+        Container(
+            height: 70,
+            decoration: BoxDecoration(
+              color: const Color(0xFF171717),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 30,
+                    ),
+                    child: Text(
+                        nowUtc != null
+                            ? DateFormat('EEE, MMM d yyyy')
+                                .format(nowUtc!)
+                                .toString()
+                            : DateFormat('EEE, MMM d yyyy')
+                                .format(DateTime.now())
+                                .toString(),
+                        style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.white,
+                            fontFamily: 'Metropolis'))),
+                Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 30,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text('Covers',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontFamily: 'Metropolis')),
+                        Row(
+                          children: [
+                            const Icon(Icons.group),
+                            Text(covers.toString(),
+                                style: TextStyle(color: Colors.white))
+                          ],
+                        )
+                      ],
+                    ))
+              ],
+            )),
+        const SizedBox(height: 5),
         StreamBuilder<List<Guest>>(
           stream: bloc.streamRestaurantGuests(),
-          builder: (BuildContext context, AsyncSnapshot<List<Guest>> snapshot) {
+          builder: (context, snapshot) {
             final guests = snapshot.data;
             if (guests == null) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                ),
-              );
+              EasyLoading.show(status: '');
+              // return const Center(
+              //   child: CircularProgressIndicator(
+              //     color: Colors.white,
+              //   ),
+              // );
+              return Center();
             }
+            EasyLoading.dismiss();
             if (guests.isEmpty) {
               return const Center(
                 child: Text(
@@ -76,8 +186,17 @@ class _GuestsTableScreenState extends State<GuestsTableScreen> {
                 ),
               );
             }
-
-            return _buildTableBody(guests, context, bloc);
+            final guestsAux = <Guest>[...guests];
+            if (filterDate(guestsAux, nowUtc!).isEmpty) {
+              return const Center(
+                child: Text(
+                  "No guests yet",
+                  style: TextStyle(color: Colors.white),
+                ),
+              );
+            }
+            return _buildTableBody(
+                filterDate(guestsAux, nowUtc!), context, bloc);
           },
         ),
       ],
@@ -143,18 +262,6 @@ class _GuestsTableScreenState extends State<GuestsTableScreen> {
         SizedBox(
           height: 8,
         ),
-        SizedBox(
-          height: 8,
-        ),
-        SizedBox(
-          height: 8,
-        ),
-        SizedBox(
-          height: 8,
-        ),
-        SizedBox(
-          height: 8,
-        ),
       ],
     );
   }
@@ -165,9 +272,7 @@ class _GuestsTableScreenState extends State<GuestsTableScreen> {
       rows.add(
         _buildTableRow(context, bloc, guest),
       );
-      rows.add(
-        _buildSpacerRow(),
-      );
+      rows.add(_buildSpacerRow());
     }
     return rows;
   }
@@ -177,7 +282,7 @@ class _GuestsTableScreenState extends State<GuestsTableScreen> {
     return TableRow(
       decoration: BoxDecoration(
         color: const Color(0xFF1A1A1A).withOpacity(.5),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(10),
       ),
       children: [
         TableRowInkWell(
@@ -194,90 +299,77 @@ class _GuestsTableScreenState extends State<GuestsTableScreen> {
               ),
             );
           },
-          child: tableHeader(
-            guest.name,
-          ),
-        ),
-        TableRowInkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Provider.value(
-                  value: bloc,
-                  child: GuestDetailScreen(
-                    guestId: guest.id,
-                  ),
-                ),
-              ),
-            );
-          },
-          child: tableHeader(
-            _getGuestId(guest),
-            textcolor: mynuuGreen,
-          ),
-        ),
-        TableRowInkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Provider.value(
-                  value: bloc,
-                  child: GuestDetailScreen(
-                    guestId: guest.id,
-                  ),
-                ),
-              ),
-            );
-          },
-          child: tableHeader(
-            guest.birthdate == null
-                ? ''
-                : DateFormat('MMM dd').format(guest.birthdate!).toString(),
-          ),
-        ),
-        TableRowInkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Provider.value(
-                  value: bloc,
-                  child: GuestDetailScreen(
-                    guestId: guest.id,
-                  ),
-                ),
-              ),
-            );
-          },
-          child: tableHeader(
-            DateFormat('dd/MM/yyyy HH:mm:ss').format(
-              guest.firstVisit!.toDate(),
-            ),
-            textcolor: mynuuPurple,
-          ),
-        ),
-        TableRowInkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Provider.value(
-                  value: bloc,
-                  child: GuestDetailScreen(
-                    guestId: guest.id,
-                  ),
-                ),
-              ),
-            );
-          },
-          child: tableHeader(
-            DateFormat('dd/MM/yyyy HH:mm:ss').format(
-              guest.lastVisit!.toDate(),
-            ),
-            textcolor: mynuuYellow,
-          ),
+          child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: Container(
+                height: 80,
+                child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 30,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                  bottom: 12,
+                                ),
+                                child: Text(
+                                    nowUtc != null
+                                        ? DateFormat('h:mm a')
+                                            .format(nowUtc!)
+                                            .toString()
+                                        : DateFormat('h:mm a')
+                                            .format(DateTime.now())
+                                            .toString(),
+                                    style: const TextStyle(
+                                        color: Colors.grey, fontSize: 12))),
+                            Container(
+                              width: 90,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Column(
+                                    children: const [
+                                      Icon(Icons.monetization_on_outlined,
+                                          size: 18),
+                                      Text('-',
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      const Icon(Icons.account_circle_outlined,
+                                          size: 18),
+                                      Text(guest.numberOfVisits.toString(),
+                                          style: const TextStyle(
+                                              color: Colors.white))
+                                    ],
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.only(
+                              bottom: 5,
+                            ),
+                            child: Text(guest.name,
+                                style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w800,
+                                    color: Colors.white,
+                                    fontFamily: 'Metropolis')))
+                      ],
+                    )),
+              )),
         ),
       ],
     );

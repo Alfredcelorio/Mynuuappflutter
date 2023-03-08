@@ -204,6 +204,7 @@ class TableLayoutBloc {
   }
 
   Stream<List<Guest>> streamRestaurantGuests() {
+    // print(_dbService.getGuests(userSession.uid));
     return _dbService.streamGuests(userSession.uid);
   }
 

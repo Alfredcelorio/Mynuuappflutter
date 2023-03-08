@@ -44,12 +44,6 @@ class FirebaseAuthService implements AuthService {
   Future<FirebaseUser?> signInWithEmailAndPassword(
       String email, String password) async {
     try {
-      var arrayInvited = await databaseService.getIdMenu(email);
-      if (arrayInvited.containsKey('restaurantId') &&
-          arrayInvited['restaurantId'] != '') {
-        idR = arrayInvited['restaurantId'];
-        await sessionManager.set('idR', idR);
-      }
       final UserCredential authResult =
           await _firebaseAuth.signInWithCredential(EmailAuthProvider.credential(
         email: email,

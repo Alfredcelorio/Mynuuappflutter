@@ -13,6 +13,7 @@ import 'package:project1/menu_management/pages/trash.dart';
 import 'package:project1/profile_management/pages/edit_landing_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import '../../common/services/providers.dart';
 
 class AdminScreen extends StatefulWidget {
   const AdminScreen({Key? key}) : super(key: key);
@@ -29,8 +30,12 @@ class _AdminScreenState extends State<AdminScreen> {
 
   @override
   void initState() {
+    final providerFirebaseUser = context.read<FirebaseUser>();
+    final providerR = context.read<Providers>();
+    providerFirebaseUser.uid = providerR.r.id;
+    print("fireuser: ${providerFirebaseUser.uid}");
     bloc = TableLayoutBloc(
-      context.read<FirebaseUser>(),
+      providerFirebaseUser,
     );
     pages = [
       const TabsLayout(),
@@ -44,9 +49,10 @@ class _AdminScreenState extends State<AdminScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final providerR = context.read<Providers>();
     return Scaffold(
       key: _scaffoldKey,
-      drawer: _buildDrawer(),
+      drawer: _buildDrawer(context),
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
@@ -72,7 +78,7 @@ class _AdminScreenState extends State<AdminScreen> {
     );
   }
 
-  Widget _buildDrawer() {
+  Widget _buildDrawer(BuildContext context) {
     return Drawer(
       backgroundColor: const Color(0xFF1F1F1F),
       child: SafeArea(

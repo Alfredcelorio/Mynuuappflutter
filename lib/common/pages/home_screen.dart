@@ -67,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    //context.read<Providers>().getGuest();
     int time = DateTime.now().hour;
     if (time < 12) {
       regards = "Good Morning";
@@ -191,7 +192,8 @@ class _HomeScreenState extends State<HomeScreen> {
               delegate: SliverAppBarDelegate(
                 minHeight: 80,
                 maxHeight: 80,
-                child: _buildHomeOptions(restaurant.guestCheckInColor, isIpad),
+                child: _buildHomeOptions(
+                    restaurant.guestCheckInColor, restaurant, isIpad, context),
               ),
             ),
           if (widget.valuePage == 1)
@@ -380,7 +382,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildHomeOptions(Color backgroundColor, dynamic isIpad) {
+  Widget _buildHomeOptions(Color backgroundColor, Restaurant restaurant,
+      dynamic isIpad, BuildContext context) {
     final isIpadvalue = isIpad as bool;
     return Container(
       color: backgroundColor,
@@ -456,7 +459,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                if (!kIsWeb) _buildAdminOptions(),
+                if (!kIsWeb) _buildAdminOptions(restaurant, context),
               ],
             ),
           ],
@@ -465,7 +468,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildAdminOptions() {
+  Widget _buildAdminOptions(Restaurant restaurant, BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -486,25 +489,26 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         const SizedBox(width: 10),
-        // InkWell(
-        //   onTap: () {
-        //     Navigator.push(
-        //       context,
-        //       MaterialPageRoute(
-        //         builder: (context2) => Provider.value(
-        //           value: widget.firebaseUser,
-        //           child: const AdminScreen(),
-        //         ),
-        //       ),
-        //     );
-        //   },
-        //   child: CircleAvatar(
-        //     backgroundColor: const Color(0xFF1E1E1E),
-        //     child: Image.asset(
-        //       'assets/icons/hamburguer.png',
-        //     ),
-        //   ),
-        // )
+        InkWell(
+          onTap: () {
+            context.read<Providers>().changeR(restaurant);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context2) => Provider.value(
+                  value: widget.firebaseUser,
+                  child: const AdminScreen(),
+                ),
+              ),
+            );
+          },
+          child: CircleAvatar(
+            backgroundColor: const Color(0xFF1E1E1E),
+            child: Image.asset(
+              'assets/icons/hamburguer.png',
+            ),
+          ),
+        )
       ],
     );
   }

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project1/common/models/category.dart';
 import 'package:project1/common/models/product.dart';
@@ -67,10 +68,13 @@ class _TabsLayoutState extends State<TabsLayout> {
           stream: bloc.streamCategories(),
           builder: (BuildContext context, snapshot) {
             if (!snapshot.hasData) {
-              return const Center(
-                child: CircularProgressIndicator(color: Colors.white),
-              );
+              // return const Center(
+              //   child: CircularProgressIndicator(color: Colors.white),
+              // );
+              EasyLoading.show(status: '');
+              return Center();
             }
+            EasyLoading.dismiss();
             final categories = snapshot.data ?? [];
 
             categories.sort(
@@ -420,11 +424,10 @@ class _TabsLayoutState extends State<TabsLayout> {
               categoryId), // .getProductsByCategory(categoryId),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return const Center(
-                child: CircularProgressIndicator(color: Colors.white),
-              );
+              EasyLoading.show(status: '');
+              return Center();
             }
-
+            EasyLoading.dismiss();
             _productList = snapshot.data!;
 
             if (_productList.isEmpty) {

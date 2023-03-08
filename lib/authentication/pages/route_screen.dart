@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:project1/authentication/blocs/authentication_bloc.dart';
 import 'package:project1/authentication/pages/login_screen.dart';
 import 'package:project1/authentication/pages/upload_logo_screen.dart';
@@ -7,12 +8,16 @@ import 'package:project1/common/pages/home_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 
+import '../../common/services/landing_service.dart';
+import '../../common/style/mynuu_colors.dart';
+
 class RouteScreen extends StatelessWidget {
   const RouteScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final authenticationBloc = context.read<AuthenticationBLoc>();
+    final CloudFirestoreService databaseService = CloudFirestoreService();
     return StreamBuilder<FirebaseUser?>(
       stream: authenticationBloc.onAuthStateChanged,
       builder: (_, AsyncSnapshot<FirebaseUser?> snapshot) {
@@ -39,7 +44,7 @@ class RouteScreen extends StatelessWidget {
           width: 50,
           height: 50,
           child: CircularProgressIndicator(
-            color: Colors.white,
+            color: mynuuPrimary,
           ),
         ),
       ),
@@ -54,9 +59,9 @@ class RouteScreen extends StatelessWidget {
       builder: (context, snapshot) {
         final result = snapshot.data;
         if (result == null) {
-          return buildLoading();
+          EasyLoading.show(status: '');
         }
-
+        EasyLoading.dismiss();
         print(authenticationBloc.currentRestaurant);
         final currentLogo = authenticationBloc.currentRestaurant?.logo ?? '';
         return ValueListenableBuilder(

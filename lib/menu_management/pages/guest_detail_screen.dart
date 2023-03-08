@@ -123,7 +123,7 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                       Expanded(
                         child: _buildStatisticDataContainer(
                           'VISITS',
-                          '-',
+                          guest.numberOfVisits.toString(),
                           valueColor: mynuuPurple,
                         ),
                       ),
@@ -318,14 +318,6 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
               iconBackground: 'assets/icons/birthday-bg.png',
               isCustomIcon: true,
               customIcon: 'assets/icons/birthday-icon.png',
-            ),
-            _buildGuestListTile(
-              title: 'VIP',
-              subtitle: '',
-              icon: Icons.mail_outlined,
-              iconBackground: 'assets/icons/vip-bg.png',
-              isCustomIcon: true,
-              customIcon: 'assets/icons/vip-icon.png',
             ),
             _buildGuestListTile(
               title: 'VIP MODE',

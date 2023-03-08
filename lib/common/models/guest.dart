@@ -14,6 +14,7 @@ class Guest extends MynuuModel {
   final bool vip;
   final bool blacklisted;
   String signInType;
+  int? numberOfVisits;
 
   Guest({
     required this.firstVisit,
@@ -25,26 +26,31 @@ class Guest extends MynuuModel {
     required this.vip,
     required this.blacklisted,
     required this.signInType,
+    this.numberOfVisits,
     this.birthdate,
     this.phone,
   });
 
   factory Guest.fromMap(String id, Map<String, dynamic> data) {
     return Guest(
-      id: id,
-      firstVisit: data['firstVisit'],
-      lastVisit: data['lastVisit'],
-      birthdate: data['birthdate'] != null
-          ? (data['birthdate'] as Timestamp).toDate()
-          : null,
-      name: data['name'] ?? '',
-      email: data['email'] ?? '',
-      phone: data['phone'],
-      restaurantId: data['restaurantId'] ?? '',
-      vip: data['vip'] ?? false,
-      blacklisted: data['blacklisted'] ?? false,
-      signInType: data['signInType'] ?? '',
-    );
+        id: id,
+        firstVisit: data['firstVisit'] != null && data['firstVisit'] != ''
+            ? data['firstVisit']
+            : null,
+        lastVisit: data['lastVisit'] != null && data['lastVisit'] != ''
+            ? data['lastVisit']
+            : null,
+        birthdate: data['birthdate'] != null && data['birthdate'] != ''
+            ? (data['birthdate'] as Timestamp).toDate()
+            : null,
+        name: data['name'] ?? '',
+        email: data['email'] ?? '',
+        phone: data['phone'],
+        restaurantId: data['restaurantId'] ?? '',
+        vip: data['vip'] ?? false,
+        blacklisted: data['blacklisted'] ?? false,
+        signInType: data['signInType'] ?? '',
+        numberOfVisits: data['numberOfVisits'] ?? 0);
   }
 
   @override
@@ -59,7 +65,8 @@ class Guest extends MynuuModel {
       'vip': vip,
       'blacklisted': blacklisted,
       'signInType': signInType,
-      'birthdate': birthdate
+      'birthdate': birthdate,
+      'numberOfVisits': numberOfVisits
     };
   }
 
@@ -74,19 +81,20 @@ class Guest extends MynuuModel {
       bool? vip,
       bool? blacklisted,
       String? signInType,
+      int? numberOfVisits,
       DateTime? birthdate}) {
     return Guest(
-      firstVisit: firstVisit ?? this.firstVisit,
-      lastVisit: lastVisit ?? this.lastVisit,
-      birthdate: birthdate ?? this.birthdate,
-      id: id ?? this.id,
-      name: name ?? this.name,
-      email: email ?? this.email,
-      phone: phone ?? this.phone,
-      restaurantId: restaurantId ?? this.restaurantId,
-      vip: vip ?? this.vip,
-      blacklisted: blacklisted ?? this.blacklisted,
-      signInType: signInType ?? this.signInType,
-    );
+        firstVisit: firstVisit ?? this.firstVisit,
+        lastVisit: lastVisit ?? this.lastVisit,
+        birthdate: birthdate ?? this.birthdate,
+        id: id ?? this.id,
+        name: name ?? this.name,
+        email: email ?? this.email,
+        phone: phone ?? this.phone,
+        restaurantId: restaurantId ?? this.restaurantId,
+        vip: vip ?? this.vip,
+        blacklisted: blacklisted ?? this.blacklisted,
+        signInType: signInType ?? this.signInType,
+        numberOfVisits: numberOfVisits ?? this.numberOfVisits);
   }
 }

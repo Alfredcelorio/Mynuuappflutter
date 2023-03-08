@@ -179,12 +179,11 @@ class AuthenticationBLoc {
   }
 
   Future<bool> initializeRestaurant(String userId, String email) async {
-    var idInvit = await SessionManager().get("idR") as String?;
-    if (idInvit != null) {
-      print('invitado');
-      currentRestaurant = await databaseService.getRestaurantById(idInvit);
+    final restInvited = await databaseService.getGuestByAdmin(userId);
+    if (restInvited.containsKey('owner') && restInvited['owner'] != '') {
+      currentRestaurant = await databaseService
+          .getRestaurantById(restInvited['owner'] as String);
     } else {
-      print('owner');
       currentRestaurant = await databaseService.getRestaurantById(userId);
     }
 
