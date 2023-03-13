@@ -15,23 +15,25 @@ class Guest extends MynuuModel {
   final bool blacklisted;
   String signInType;
   int? numberOfVisits;
+  List<dynamic>? listNotes;
 
-  Guest({
-    required this.firstVisit,
-    required this.lastVisit,
-    required this.id,
-    required this.name,
-    required this.email,
-    required this.restaurantId,
-    required this.vip,
-    required this.blacklisted,
-    required this.signInType,
-    this.numberOfVisits,
-    this.birthdate,
-    this.phone,
-  });
+  Guest(
+      {required this.firstVisit,
+      required this.lastVisit,
+      required this.id,
+      required this.name,
+      required this.email,
+      required this.restaurantId,
+      required this.vip,
+      required this.blacklisted,
+      required this.signInType,
+      this.numberOfVisits,
+      this.birthdate,
+      this.phone,
+      this.listNotes});
 
   factory Guest.fromMap(String id, Map<String, dynamic> data) {
+    print(data);
     return Guest(
         id: id,
         firstVisit: data['firstVisit'] != null && data['firstVisit'] != ''
@@ -50,6 +52,8 @@ class Guest extends MynuuModel {
         vip: data['vip'] ?? false,
         blacklisted: data['blacklisted'] ?? false,
         signInType: data['signInType'] ?? '',
+        listNotes:
+            data['listNotes'] != null ? data['listNotes'] as List<dynamic> : [],
         numberOfVisits: data['numberOfVisits'] ?? 0);
   }
 
@@ -66,7 +70,8 @@ class Guest extends MynuuModel {
       'blacklisted': blacklisted,
       'signInType': signInType,
       'birthdate': birthdate,
-      'numberOfVisits': numberOfVisits
+      'numberOfVisits': numberOfVisits,
+      'listNotes': listNotes
     };
   }
 
@@ -82,6 +87,7 @@ class Guest extends MynuuModel {
       bool? blacklisted,
       String? signInType,
       int? numberOfVisits,
+      List<dynamic>? listNotes,
       DateTime? birthdate}) {
     return Guest(
         firstVisit: firstVisit ?? this.firstVisit,
@@ -95,6 +101,7 @@ class Guest extends MynuuModel {
         vip: vip ?? this.vip,
         blacklisted: blacklisted ?? this.blacklisted,
         signInType: signInType ?? this.signInType,
+        listNotes: this.listNotes,
         numberOfVisits: numberOfVisits ?? this.numberOfVisits);
   }
 }

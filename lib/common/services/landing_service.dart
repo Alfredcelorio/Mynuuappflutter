@@ -413,10 +413,27 @@ class CloudFirestoreService {
         );
   }
 
-  Future<Map<String, dynamic>> getGuestByAdmin(String id) async {
-    return _db.collection('guestPostbyAdmin').doc(id).get().then(
-          (snap) => snap.data() ?? {},
+  Future<List<Map<String, String>>> getGuestByAdmin(String id) async {
+    List<Map<String, String>> idsR = [];
+    final arrayMap = await _db.collection('guestPostbyAdmin').get().then(
+          (snap) => snap.docs
+              .map(
+                (map) => map.data(),
+              )
+              .toList(),
         );
+    for (var i = 0; i < arrayMap.length; i++) {
+      final rests = arrayMap[i]['listRestaurants'] as List<dynamic>;
+      for (var j = 0; j < rests.length; j++) {
+        final res = rests[j] as Map<dynamic, dynamic>;
+        if (res['email'] == id) {
+          idsR.add(
+              {'idR': arrayMap[i]['owner'], 'nameR': res['restaurantName']});
+        }
+      }
+    }
+
+    return idsR;
   }
 
   Future<Restaurant> getRestaurantByShortUrl(String shortUrl) async {

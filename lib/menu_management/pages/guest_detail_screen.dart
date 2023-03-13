@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:project1/authentication/components/footer.dart';
 import 'package:project1/common/models/guest.dart';
+import 'package:project1/common/services/landing_service.dart';
 import 'package:project1/common/style/mynuu_colors.dart';
 import 'package:project1/menu_management/blocs/table_layout_bloc.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +21,17 @@ class GuestDetailScreen extends StatefulWidget {
 
 class _GuestDetailScreenState extends State<GuestDetailScreen> {
   late TableLayoutBloc bloc = context.read<TableLayoutBloc>();
+  List<Map<String, dynamic>> notes = [];
+  TextEditingController controller = TextEditingController();
+  Map<String, dynamic> valueNote = {};
+  CloudFirestoreService dataBase = CloudFirestoreService();
+  @override
+  void initState() {
+    valueNote = {};
+    notes = [];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,6 +55,14 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                   color: Colors.white,
                 ),
               );
+            }
+            notes.clear();
+            if (guest.listNotes != null) {
+              for (var i = 0; i < guest.listNotes!.length; i++) {
+                final valueNote =
+                    guest.listNotes!.elementAt(i) as Map<String, dynamic>;
+                notes.add(valueNote);
+              }
             }
             return ListView(
               children: [
@@ -130,117 +150,215 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                     ],
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(36.0),
-                  child: Text(
-                    'NOTE',
-                    style: TextStyle(color: Colors.white),
-                  ),
+
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 36.0, top: 36, right: 36.0, bottom: 10),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'NOTE',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: mynuuDarkGrey,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          width: 30,
+                          height: 30,
+                          child: IconButton(
+                            icon: Image.asset(
+                              'assets/delete.png',
+                              width: 100,
+                              height: 100,
+                            ),
+                            onPressed: () async {
+                              int idNumber = (notes.length - 1) + 1;
+                              if (valueNote.isNotEmpty) {
+                                valueNote['note'] = controller.text;
+                                for (var i = 0; i < notes.length; i++) {
+                                  if (notes[i]['id'] == valueNote['id']) {
+                                    notes[i] = valueNote;
+                                    break;
+                                  }
+                                }
+
+                                await dataBase.update(
+                                    collectionName: 'guests',
+                                    data: {'listNotes': notes},
+                                    id: guest.id);
+                                setState(() {
+                                  valueNote = {};
+                                  controller.clear();
+                                });
+                              } else {
+                                if (controller.text.isNotEmpty) {
+                                  notes.add({
+                                    'id': idNumber,
+                                    'note': controller.text
+                                  });
+                                  await dataBase.update(
+                                      collectionName: 'guests',
+                                      data: {'listNotes': notes},
+                                      id: guest.id);
+                                  setState(() {
+                                    controller.clear();
+                                  });
+                                }
+                              }
+                            },
+                          ),
+                        )
+                      ]),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit duis nisi urna ornare nunc mauris turpis. Phasellus integer tellus vitae non non congue. Donec interdum tristique odio turpis faucibus curabitur tempus ipsum sagittis. In nulla nunc, habitant consequat viverra donec gravida posuere adipiscing. Id volutpat arcu tincidunt sit massa',
-                    style: TextStyle(
-                      fontFamily: GoogleFonts.georama().fontFamily,
-                      color: const Color(0xFF646464),
-                      fontSize: 11,
+                  padding: const EdgeInsets.only(
+                      left: 30.0, right: 30.0, bottom: 10),
+                  child: TextField(
+                    controller: controller,
+                    maxLines: 5,
+                    cursorColor: Colors.white,
+                    style: const TextStyle(
+                      fontFamily: 'Metropolis',
+                      color: Colors.white,
+                      fontSize: 13,
+                    ),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: mynuuDarkGrey,
+                      enabledBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(5),
+                        ),
+                        borderSide: BorderSide(
+                          color: Colors.transparent,
+                        ),
+                        gapPadding: 120,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                        borderSide: BorderSide(
+                          color: Colors.white.withOpacity(0.3),
+                        ),
+                      ),
+                      errorBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                        borderSide: BorderSide(color: Colors.red),
+                        gapPadding: 120,
+                      ),
+                      focusedErrorBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(12),
+                        ),
+                        borderSide: BorderSide(color: Colors.red),
+                      ),
                     ),
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(36.0),
-                  child: Text(
-                    'TAGS',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Wrap(
-                    spacing: 10,
-                    children: [
-                      Chip(
-                        label: ConstrainedBox(
-                          constraints: const BoxConstraints(
-                            maxWidth: 80,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(
-                                Icons.star,
-                                color: mynuuGreen,
-                              ),
-                              Text(
-                                'allergy',
-                                style: TextStyle(
-                                  fontFamily: GoogleFonts.georama().fontFamily,
-                                  color: Colors.white,
-                                  fontSize: 11,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        backgroundColor: const Color(0xFF1E1E1E),
-                      ),
-                      Chip(
-                        label: ConstrainedBox(
-                          constraints: const BoxConstraints(
-                            maxWidth: 70,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(
-                                Icons.star,
-                                color: mynuuGreen,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'friends',
-                                  style: TextStyle(
-                                    fontFamily:
-                                        GoogleFonts.georama().fontFamily,
-                                    color: Colors.white,
-                                    fontSize: 11,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        backgroundColor: const Color(0xFF1E1E1E),
-                      ),
-                      Chip(
-                        label: ConstrainedBox(
-                          constraints: const BoxConstraints(
-                            maxWidth: 80,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(
-                                Icons.star,
-                                color: mynuuYellow,
-                              ),
-                              Text(
-                                'Birthday',
-                                style: TextStyle(
-                                  fontFamily: GoogleFonts.georama().fontFamily,
-                                  color: Colors.white,
-                                  fontSize: 11,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        backgroundColor: const Color(0xFF1E1E1E),
-                      ),
-                    ],
-                  ),
+                  padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+                  child: _buildTableBody(notes, guest),
                 ),
+
+                // const Padding(
+                //   padding: EdgeInsets.all(36.0),
+                //   child: Text(
+                //     'TAGS',
+                //     style: TextStyle(color: Colors.white),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 20),
+                //   child: Wrap(
+                //     spacing: 10,
+                //     children: [
+                //       Chip(
+                //         label: ConstrainedBox(
+                //           constraints: const BoxConstraints(
+                //             maxWidth: 80,
+                //           ),
+                //           child: Row(
+                //             mainAxisAlignment: MainAxisAlignment.center,
+                //             children: [
+                //               const Icon(
+                //                 Icons.star,
+                //                 color: mynuuGreen,
+                //               ),
+                //               Text(
+                //                 'allergy',
+                //                 style: TextStyle(
+                //                   fontFamily: GoogleFonts.georama().fontFamily,
+                //                   color: Colors.white,
+                //                   fontSize: 11,
+                //                 ),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //         backgroundColor: const Color(0xFF1E1E1E),
+                //       ),
+                //       Chip(
+                //         label: ConstrainedBox(
+                //           constraints: const BoxConstraints(
+                //             maxWidth: 70,
+                //           ),
+                //           child: Row(
+                //             mainAxisAlignment: MainAxisAlignment.center,
+                //             children: [
+                //               const Icon(
+                //                 Icons.star,
+                //                 color: mynuuGreen,
+                //               ),
+                //               Expanded(
+                //                 child: Text(
+                //                   'friends',
+                //                   style: TextStyle(
+                //                     fontFamily:
+                //                         GoogleFonts.georama().fontFamily,
+                //                     color: Colors.white,
+                //                     fontSize: 11,
+                //                   ),
+                //                 ),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //         backgroundColor: const Color(0xFF1E1E1E),
+                //       ),
+                //       Chip(
+                //         label: ConstrainedBox(
+                //           constraints: const BoxConstraints(
+                //             maxWidth: 80,
+                //           ),
+                //           child: Row(
+                //             mainAxisAlignment: MainAxisAlignment.center,
+                //             children: [
+                //               const Icon(
+                //                 Icons.star,
+                //                 color: mynuuYellow,
+                //               ),
+                //               Text(
+                //                 'Birthday',
+                //                 style: TextStyle(
+                //                   fontFamily: GoogleFonts.georama().fontFamily,
+                //                   color: Colors.white,
+                //                   fontSize: 11,
+                //                 ),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //         backgroundColor: const Color(0xFF1E1E1E),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 const SizedBox(
                   height: 80,
                 ),
@@ -424,6 +542,117 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
         ],
       ),
     );
+  }
+
+  Widget _buildTableBody(List<Map<String, dynamic>> notes, Guest g) {
+    return Table(
+      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+      children: _buildTableRows(notes, g),
+    );
+  }
+
+  TableRow _buildSpacerRow() {
+    return const TableRow(
+      children: [
+        SizedBox(
+          height: 8,
+        ),
+      ],
+    );
+  }
+
+  TableRow _buildTableRow(Map<String, dynamic> note, Guest g) {
+    return TableRow(
+      decoration: BoxDecoration(
+        color: Color.fromARGB(255, 0, 0, 0).withOpacity(.5),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      children: [
+        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Icon(Icons.circle, size: 5),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Container(
+                  width: 220,
+                  child: Text(
+                    note['note'],
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontFamily: 'Metropolis'),
+                  ),
+                ),
+              )
+            ],
+          ),
+          SizedBox(
+              width: 60,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: mynuuDarkGrey,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    width: 25,
+                    height: 25,
+                    child: IconButton(
+                      icon: Image.asset(
+                        'assets/edit.png',
+                        width: 100,
+                        height: 100,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          valueNote = note;
+                          controller.text = note['note'];
+                        });
+                      },
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: mynuuDarkGrey,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    width: 25,
+                    height: 25,
+                    child: IconButton(
+                      icon: Image.asset(
+                        'assets/add.png',
+                        width: 100,
+                        height: 100,
+                      ),
+                      onPressed: () async {
+                        notes.remove(note);
+                        await dataBase.update(
+                            collectionName: 'guests',
+                            data: {'listNotes': notes},
+                            id: g.id);
+                        setState(() {});
+                      },
+                    ),
+                  )
+                ],
+              ))
+        ]),
+      ],
+    );
+  }
+
+  List<TableRow> _buildTableRows(List<Map<String, dynamic>> notes, Guest g) {
+    List<TableRow> rows = [];
+    for (var note in notes) {
+      rows.add(
+        _buildTableRow(note, g),
+      );
+      rows.add(_buildSpacerRow());
+    }
+    return rows;
   }
 
   String _getGuestId(Guest guest) {

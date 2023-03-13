@@ -480,7 +480,7 @@ class _HomeScreenState extends State<HomeScreen> {
               final currentRestaurant =
                   await homeBloc.getRestaurantById(restaurantId);
               Share.share(
-                  "https://menu.mynuutheapp.com/#/${currentRestaurant.shortUrl}");
+                  "https://mn.mynuutheapp.com/${currentRestaurant.shortUrl}");
             },
             icon: const Icon(
               CupertinoIcons.share,

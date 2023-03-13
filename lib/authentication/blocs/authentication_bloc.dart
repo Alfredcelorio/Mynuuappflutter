@@ -14,7 +14,7 @@ import 'package:project1/common/services/push_notification_service.dart';
 class AuthenticationBLoc {
   ValueNotifier<bool> loading = ValueNotifier(false);
   ValueNotifier<bool> uploadLogoCompleted = ValueNotifier(false);
-
+  ValueNotifier<List<Map<String, String>>> idsR = ValueNotifier([]);
   final storage = FirebaseStorage.instance;
 
   ValueNotifier<bool> skipToUploadLogo = ValueNotifier(false);
@@ -125,9 +125,9 @@ class AuthenticationBLoc {
           throw Exception('No user');
         }
         if (currentRestaurant!.shortUrl!.isEmpty) {
-          final resp = await databaseService.getIdMenu(userLogged.email);
-          currentRestaurant =
-              await databaseService.getRestaurantById(resp['restaurantId']);
+          final resp = await databaseService.getGuestByAdmin(userLogged.email);
+          currentRestaurant = await databaseService
+              .getRestaurantById(resp[0]['idR'] != null ? resp[0]['idR']! : '');
         }
         updatePushNotificationToken(currentRestaurant!);
         return userLogged;
@@ -179,10 +179,12 @@ class AuthenticationBLoc {
   }
 
   Future<bool> initializeRestaurant(String userId, String email) async {
-    final restInvited = await databaseService.getGuestByAdmin(userId);
-    if (restInvited.containsKey('owner') && restInvited['owner'] != '') {
-      currentRestaurant = await databaseService
-          .getRestaurantById(restInvited['owner'] as String);
+    final restInvited = await databaseService.getGuestByAdmin(email);
+    if (restInvited.isNotEmpty) {
+      idsR.value = restInvited;
+      print(idsR.value);
+      currentRestaurant = await databaseService.getRestaurantById(
+          idsR.value[0]['idR'] != null ? idsR.value[0]['idR']! : '');
     } else {
       currentRestaurant = await databaseService.getRestaurantById(userId);
     }

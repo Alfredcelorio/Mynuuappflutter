@@ -61,8 +61,11 @@ class RouteScreen extends StatelessWidget {
         if (result == null) {
           EasyLoading.show(status: '');
         }
+        if (authenticationBloc.currentRestaurant == null) {
+          buildLoading();
+        }
         EasyLoading.dismiss();
-        print(authenticationBloc.currentRestaurant);
+        print("restaurante: ${authenticationBloc.currentRestaurant}");
         final currentLogo = authenticationBloc.currentRestaurant?.logo ?? '';
         return ValueListenableBuilder(
           valueListenable: authenticationBloc.skipToUploadLogo,
@@ -73,26 +76,40 @@ class RouteScreen extends StatelessWidget {
             final isIpad = (mediaSize.width < value);
             return Provider.value(
               value: user,
-              child: currentLogo.isNotEmpty || skipToUploadLogo
-                  ? PageView(controller: controller, children: [
-                      HomeScreen(
-                          firebaseUser: user,
-                          idR: authenticationBloc.currentRestaurant?.id ?? '',
-                          shortUrl:
-                              authenticationBloc.currentRestaurant!.shortUrl!,
-                          valuePage: 0),
-                      if (isIpad)
-                        HomeScreen(
-                            firebaseUser: user,
-                            idR: authenticationBloc.currentRestaurant?.id ?? '',
-                            shortUrl:
-                                authenticationBloc.currentRestaurant!.shortUrl!,
-                            valuePage: 1)
-                    ])
-                  : Provider.value(
-                      value: authenticationBloc,
-                      child: const UploadLogoScreen(),
-                    ),
+              child: authenticationBloc.currentRestaurant == null
+                  ? const Scaffold(
+                      body: Center(
+                        child: SizedBox(
+                          width: 50,
+                          height: 50,
+                          child: CircularProgressIndicator(
+                            color: mynuuPrimary,
+                          ),
+                        ),
+                      ),
+                    )
+                  : currentLogo.isNotEmpty || skipToUploadLogo
+                      ? PageView(controller: controller, children: [
+                          HomeScreen(
+                              firebaseUser: user,
+                              idR: authenticationBloc.currentRestaurant?.id ??
+                                  '',
+                              shortUrl: authenticationBloc
+                                  .currentRestaurant!.shortUrl!,
+                              valuePage: 0),
+                          if (isIpad)
+                            HomeScreen(
+                                firebaseUser: user,
+                                idR: authenticationBloc.currentRestaurant?.id ??
+                                    '',
+                                shortUrl: authenticationBloc
+                                    .currentRestaurant!.shortUrl!,
+                                valuePage: 1)
+                        ])
+                      : Provider.value(
+                          value: authenticationBloc,
+                          child: const UploadLogoScreen(),
+                        ),
             );
           },
         );

@@ -321,7 +321,9 @@ class _GuestsTableScreenState extends State<GuestsTableScreen> {
                                 child: Text(
                                     nowUtc != null
                                         ? DateFormat('h:mm a')
-                                            .format(nowUtc!)
+                                            .format(guest.lastVisit == null
+                                                ? DateTime.now()
+                                                : guest.lastVisit!.toDate())
                                             .toString()
                                         : DateFormat('h:mm a')
                                             .format(DateTime.now())

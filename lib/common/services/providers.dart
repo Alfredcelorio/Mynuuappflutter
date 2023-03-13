@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project1/common/models/guest.dart';
 import 'package:project1/common/models/restaurant.dart';
@@ -34,12 +35,16 @@ List<Guest> filterDate(List<Guest> guests, DateTime valueFilter) {
     final valueGuest = guests[i].lastVisit != null
         ? guests[i].lastVisit!.toDate()
         : DateTime.now();
+    guests[i].lastVisit =
+        guests[i].lastVisit == null ? Timestamp.now() : guests[i].lastVisit!;
     if (valueGuest.year == valueFilter.year &&
         valueGuest.month == valueFilter.month &&
-        valueGuest.day == valueGuest.day) {
+        valueGuest.day == valueFilter.day) {
       dataReturn.add(guests[i]);
     }
   }
 
-  return dataReturn;
+  dataReturn
+      .sort((a, b) => a.lastVisit!.toDate().compareTo(b.lastVisit!.toDate()));
+  return dataReturn.reversed.toList();
 }
