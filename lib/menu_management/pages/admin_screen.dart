@@ -50,9 +50,14 @@ class _AdminScreenState extends State<AdminScreen> {
   @override
   Widget build(BuildContext context) {
     final providerR = context.read<Providers>();
+    final authProvider = context.read<AuthenticationBLoc>();
+    final String role = authProvider.idsR.value.first['rol'] as String;
+    if (role == 'Staff') {
+      currentPage = 2;
+    }
     return Scaffold(
       key: _scaffoldKey,
-      drawer: _buildDrawer(context),
+      drawer: _buildDrawer(context, role),
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
@@ -78,7 +83,7 @@ class _AdminScreenState extends State<AdminScreen> {
     );
   }
 
-  Widget _buildDrawer(BuildContext context) {
+  Widget _buildDrawer(BuildContext context, String role) {
     return Drawer(
       backgroundColor: const Color(0xFF1F1F1F),
       child: SafeArea(
@@ -105,25 +110,27 @@ class _AdminScreenState extends State<AdminScreen> {
               const Divider(
                 color: Colors.white,
               ),
-              ListTile(
-                title: const Text(
-                  'Users',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
+              if (role != 'Staff')
+                ListTile(
+                  title: const Text(
+                    'Users',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
+                  onTap: () {
+                    Navigator.pop(context);
+                    setState(() {
+                      currentPage = 3;
+                    });
+                  },
                 ),
-                onTap: () {
-                  Navigator.pop(context);
-                  setState(() {
-                    currentPage = 3;
-                  });
-                },
-              ),
-              const Divider(
-                color: Colors.white,
-              ),
+              if (role != 'Staff')
+                const Divider(
+                  color: Colors.white,
+                ),
               ListTile(
                 title: const Text(
                   'Menu',
@@ -157,25 +164,27 @@ class _AdminScreenState extends State<AdminScreen> {
                   });
                 },
               ),
-              const Divider(
-                color: Colors.white,
-              ),
-              ListTile(
-                title: const Text(
-                  'Table number',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
+              if (role != 'Staff')
+                const Divider(
+                  color: Colors.white,
                 ),
-                onTap: () {
-                  Navigator.pop(context);
-                  setState(() {
-                    currentPage = 3;
-                  });
-                },
-              ),
+              if (role != 'Staff')
+                ListTile(
+                  title: const Text(
+                    'Table number',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                    setState(() {
+                      currentPage = 3;
+                    });
+                  },
+                ),
             ],
           ),
         ),

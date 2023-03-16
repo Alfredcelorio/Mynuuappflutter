@@ -20,12 +20,16 @@ class Providers extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<Guest>> getGuest() async {
+  Future<List<Guest>> getGuest(String token) async {
     guest = [];
-    final result = await _dbService.getGuests(r.id);
-    guest = result;
+    if (token.isNotEmpty) {
+      guest = await _dbService.getGuestsStaff(r.id, token);
+    } else {
+      guest = await _dbService.getGuests(r.id);
+    }
+
     notifyListeners();
-    return result;
+    return guest;
   }
 }
 

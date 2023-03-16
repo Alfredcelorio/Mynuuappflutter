@@ -280,7 +280,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           StreamBuilder<List<ProductCategory>>(
                             stream: homeBloc.streamCategories(
                               restaurantId,
-                              limit: 10,
+                              limit: null,
                             ),
                             builder: (BuildContext context, snapshot) {
                               var categories = snapshot.data ?? [];

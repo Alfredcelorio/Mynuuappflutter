@@ -16,6 +16,8 @@ import 'package:project1/menu_management/components/product_options_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../authentication/blocs/authentication_bloc.dart';
+
 class TabsLayout extends StatefulWidget {
   final int? previousTab;
   final int? initalTab;
@@ -57,6 +59,8 @@ class _TabsLayoutState extends State<TabsLayout> {
   String searchText = "";
   @override
   Widget build(BuildContext context) {
+    final authProvider = context.read<AuthenticationBLoc>();
+    final String role = authProvider.idsR.value.first['rol'] as String;
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xFF171717),
@@ -143,6 +147,8 @@ class _TabsLayoutState extends State<TabsLayout> {
 
   Widget _buildFilteredProductsTable(
       List<ProductCategory> categories, BuildContext context) {
+    final authProvider = context.read<AuthenticationBLoc>();
+    final String role = authProvider.idsR.value.first['rol'] as String;
     List<String> filteredCategories = [];
     for (final pro in filteredProducts) {
       if (!filteredCategories.contains(pro.categoryId)) {
@@ -173,14 +179,17 @@ class _TabsLayoutState extends State<TabsLayout> {
                         .where((element) => element.categoryId == category.id)
                         .map(
                           (product) => buildTableRow(
-                            product: product,
-                            onRowTap: () => openProductOptionsDialog(
-                              context,
-                              categories: categories,
-                              categoryId: category.id,
-                              pro: product,
-                            ),
-                          ),
+                              product: product,
+                              onRowTap: () {
+                                if (role != 'Staff') {
+                                  openProductOptionsDialog(
+                                    context,
+                                    categories: categories,
+                                    categoryId: category.id,
+                                    pro: product,
+                                  );
+                                }
+                              }),
                         )
                         .toList(),
                   ),
@@ -416,6 +425,8 @@ class _TabsLayoutState extends State<TabsLayout> {
     required String categoryId,
     required List<ProductCategory> categories,
   }) {
+    final authProvider = context.read<AuthenticationBLoc>();
+    final String role = authProvider.idsR.value.first['rol'] as String;
     return Expanded(
       child: Padding(
         padding: EdgeInsets.only(top: 2.w, bottom: 2.w),
@@ -482,14 +493,17 @@ class _TabsLayoutState extends State<TabsLayout> {
                   ..._productList
                       .map(
                         (pro) => buildTableRow(
-                          product: pro,
-                          onRowTap: () => openProductOptionsDialog(
-                            context,
-                            categories: categories,
-                            categoryId: categoryId,
-                            pro: pro,
-                          ),
-                        ),
+                            product: pro,
+                            onRowTap: () {
+                              if (role != 'Staff') {
+                                openProductOptionsDialog(
+                                  context,
+                                  categories: categories,
+                                  categoryId: categoryId,
+                                  pro: pro,
+                                );
+                              }
+                            }),
                       )
                       .toList(),
                   buildAddNewEntry(
@@ -545,42 +559,49 @@ class _TabsLayoutState extends State<TabsLayout> {
   }
 
   Widget _buildAccessStatus(BuildContext context, Product pro) {
+    final authProvider = context.read<AuthenticationBLoc>();
+    final String role = authProvider.idsR.value.first['rol'] as String;
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: GestureDetector(
-        onTap: () async {
-          showModalBottomSheet(
-            context: context,
-            builder: (context) => MultiProvider(
-              providers: [
-                Provider.value(value: userSession),
-                Provider.value(value: bloc),
-              ],
-              child: DeactivateActionSheet(
-                productResult: pro,
-                refresh: () => setState(
-                  () => searchC.clear(),
+      child: role != 'Staff'
+          ? GestureDetector(
+              onTap: () async {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) => MultiProvider(
+                    providers: [
+                      Provider.value(value: userSession),
+                      Provider.value(value: bloc),
+                    ],
+                    child: DeactivateActionSheet(
+                      productResult: pro,
+                      refresh: () => setState(
+                        () => searchC.clear(),
+                      ),
+                    ),
+                  ),
+                );
+              },
+              child: Container(
+                width: 28,
+                height: 28,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(2),
+                  border: Border.all(
+                    color: mynuuYellow,
+                  ),
+                ),
+                child: Icon(
+                  Icons.circle,
+                  color: pro.enabled ? Colors.green : Colors.red,
+                  size: 3.w,
                 ),
               ),
+            )
+          : Text(
+              '--',
+              style: TextStyle(color: Colors.white),
             ),
-          );
-        },
-        child: Container(
-          width: 28,
-          height: 28,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(2),
-            border: Border.all(
-              color: mynuuYellow,
-            ),
-          ),
-          child: Icon(
-            Icons.circle,
-            color: pro.enabled ? Colors.green : Colors.red,
-            size: 3.w,
-          ),
-        ),
-      ),
     );
   }
 
@@ -630,6 +651,7 @@ class _TabsLayoutState extends State<TabsLayout> {
     required List<ProductCategory> categories,
     required String categoryId,
   }) {
+    print("dialog");
     showModalBottomSheet(
       context: context,
       builder: (context) => MultiProvider(

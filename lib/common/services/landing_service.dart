@@ -155,6 +155,28 @@ class CloudFirestoreService {
         );
   }
 
+  Future<List<Guest>> getGuestsStaff(String restaurantId, String token) {
+    //add two values userID and string global
+    var ref = _db
+        .collection('guests')
+        .where(
+          'restaurantId',
+          isEqualTo: restaurantId,
+        )
+        .where('token', isEqualTo: token);
+
+    return ref.get().then(
+          (value) => value.docs
+              .map(
+                (doc) => Guest.fromMap(
+                  doc.id,
+                  doc.data(),
+                ),
+              )
+              .toList(),
+        );
+  }
+
   Stream<List<Product>> streamProductByCategory(String categoryId) {
     //add two values userID and string global
     var ref = _db
@@ -246,6 +268,29 @@ class CloudFirestoreService {
           'restaurantId',
           isEqualTo: restaurantId,
         );
+    final result = ref.snapshots().map(
+          (list) => list.docs
+              .map(
+                (doc) => Guest.fromMap(
+                  doc.id,
+                  doc.data(),
+                ),
+              )
+              .toList(),
+        );
+    return result;
+  }
+
+  Stream<List<Guest>> streamGuestsStaff(String restaurantId, String token) {
+    print("rest: $restaurantId");
+    //add two values userID and string global
+    var ref = _db
+        .collection('guests')
+        .where(
+          'restaurantId',
+          isEqualTo: restaurantId,
+        )
+        .where('token', isEqualTo: token);
     final result = ref.snapshots().map(
           (list) => list.docs
               .map(
@@ -427,8 +472,12 @@ class CloudFirestoreService {
       for (var j = 0; j < rests.length; j++) {
         final res = rests[j] as Map<dynamic, dynamic>;
         if (res['email'] == id) {
-          idsR.add(
-              {'idR': arrayMap[i]['owner'], 'nameR': res['restaurantName']});
+          idsR.add({
+            'idR': arrayMap[i]['owner'],
+            'nameR': res['restaurantName'],
+            'rol': res['rol'],
+            'token': res.containsKey('token') ? res['token'] : ''
+          });
         }
       }
     }

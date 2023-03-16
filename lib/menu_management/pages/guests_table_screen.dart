@@ -10,6 +10,8 @@ import 'package:project1/menu_management/pages/guest_detail_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../authentication/blocs/authentication_bloc.dart';
+
 class GuestsTableScreen extends StatefulWidget {
   const GuestsTableScreen({Key? key}) : super(key: key);
 
@@ -25,7 +27,9 @@ class _GuestsTableScreenState extends State<GuestsTableScreen> {
   void initState() {
     super.initState();
     nowUtc = DateTime.now();
-    context.read<Providers>().getGuest().then((value) {
+    final authProvider = context.read<AuthenticationBLoc>();
+    final String role = authProvider.idsR.value.first['token'] as String;
+    context.read<Providers>().getGuest(role).then((value) {
       covers = filterDate(value, nowUtc!).length;
     });
   }
@@ -33,6 +37,8 @@ class _GuestsTableScreenState extends State<GuestsTableScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<Providers>();
+    final authProvider = context.read<AuthenticationBLoc>();
+    final String role = authProvider.idsR.value.first['rol'] as String;
     const borderColor = Color(0xFF646464);
     TableLayoutBloc bloc = context.read<TableLayoutBloc>();
     return ListView(
@@ -90,7 +96,8 @@ class _GuestsTableScreenState extends State<GuestsTableScreen> {
                   print('change $date in time zone ' +
                       date.timeZoneOffset.inHours.toString());
                 }, onConfirm: (date) async {
-                  final result = await provider.getGuest();
+                  final result = await provider.getGuest(
+                      authProvider.idsR.value.first['token'] as String);
                   setState(() {
                     nowUtc = date;
                     covers = filterDate(result, nowUtc!).length;
@@ -165,7 +172,10 @@ class _GuestsTableScreenState extends State<GuestsTableScreen> {
             )),
         const SizedBox(height: 5),
         StreamBuilder<List<Guest>>(
-          stream: bloc.streamRestaurantGuests(),
+          stream: role == 'Staff'
+              ? bloc.streamRestaurantGuestsStaff(
+                  authProvider.idsR.value.first['token'] as String)
+              : bloc.streamRestaurantGuests(),
           builder: (context, snapshot) {
             final guests = snapshot.data;
             if (guests == null) {
