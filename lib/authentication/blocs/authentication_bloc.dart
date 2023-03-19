@@ -186,6 +186,7 @@ class AuthenticationBLoc {
       currentRestaurant = await databaseService.getRestaurantById(
           idsR.value[0]['idR'] != null ? idsR.value[0]['idR']! : '');
     } else {
+      idsR.value.add({'idR': '', 'nameR': '', 'rol': 'Manager', 'token': ''});
       currentRestaurant = await databaseService.getRestaurantById(userId);
     }
 
