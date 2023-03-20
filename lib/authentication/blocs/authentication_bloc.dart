@@ -179,6 +179,7 @@ class AuthenticationBLoc {
   }
 
   Future<bool> initializeRestaurant(String userId, String email) async {
+    idsR.value = [];
     final restInvited = await databaseService.getGuestByAdmin(email);
     if (restInvited.isNotEmpty) {
       idsR.value = restInvited;
