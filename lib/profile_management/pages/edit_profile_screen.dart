@@ -36,6 +36,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final restau = context.read<Providers>();
+    final authProvider = context.read<AuthenticationBLoc>();
+    final user = context.read<FirebaseUser>();
+    print(user);
+    final String role = authProvider.idsR.value.first['rol'] as String;
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -44,7 +48,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           width: 100,
         ),
         actions: [
-          _buildSaveAction(),
+          _buildSaveAction(role),
         ],
       ),
       body: SafeArea(
@@ -77,8 +81,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     height: 50,
                   ),
                   _buildLogoWidget(restaurant),
-                  ..._buildProfileMetaData(restaurant),
+                  ..._buildProfileMetaData(restaurant, role, user),
                   CustomTextField(
+                    readOnly: role == 'Staff' ? true : false,
                     controller: _restaurantController,
                     hintText: 'Restaurant or bar name',
                     prefixIcon: const Icon(
@@ -107,14 +112,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  List<Widget> _buildProfileMetaData(Restaurant restaurant) {
+  List<Widget> _buildProfileMetaData(
+      Restaurant restaurant, String role, FirebaseUser u) {
     return [
       const SizedBox(
         height: 10,
       ),
       Center(
         child: Text(
-          restaurant.ownerName,
+          role == 'Staff' ? u.displayName ?? '' : restaurant.ownerName,
           style: const TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.bold,
@@ -124,7 +130,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
       Center(
         child: Text(
-          restaurant.email,
+          role == 'Staff' ? u.email : restaurant.email,
           style: const TextStyle(
             color: Colors.white,
           ),
@@ -136,7 +142,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     ];
   }
 
-  Widget _buildSaveAction() {
+  Widget _buildSaveAction(String role) {
     return ValueListenableBuilder(
       valueListenable: bloc.loading,
       builder: (context, bool loading, _) {
@@ -171,39 +177,40 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             SizedBox(
               width: 10,
             ),
-            TextButton(
-              onPressed: () async {
-                await EasyLoading.show(status: '');
-                // save profile edit
-                if (editForm.currentState!.validate()) {
-                  final restaurantToUpdate = updatedRestaurant;
-                  if (restaurantToUpdate != null) {
-                    await bloc.updateRestaurantProfile(
-                      restaurantToUpdate,
-                      newRestaurantLogo,
-                    );
-                    await EasyLoading.dismiss();
-                    bool? success = await PlatformAlertDialog(
-                      title: 'Profile updated',
-                      content:
-                          'The restaurant profile was updated successfully!',
-                      defaultActionText: 'Ok',
-                    ).show(context);
-                    if (success != null) {
-                      Navigator.pop(context);
+            if (role != 'Staff')
+              TextButton(
+                onPressed: () async {
+                  await EasyLoading.show(status: '');
+                  // save profile edit
+                  if (editForm.currentState!.validate()) {
+                    final restaurantToUpdate = updatedRestaurant;
+                    if (restaurantToUpdate != null) {
+                      await bloc.updateRestaurantProfile(
+                        restaurantToUpdate,
+                        newRestaurantLogo,
+                      );
+                      await EasyLoading.dismiss();
+                      bool? success = await PlatformAlertDialog(
+                        title: 'Profile updated',
+                        content:
+                            'The restaurant profile was updated successfully!',
+                        defaultActionText: 'Ok',
+                      ).show(context);
+                      if (success != null) {
+                        Navigator.pop(context);
+                      }
                     }
+                  } else {
+                    EasyLoading.dismiss();
                   }
-                } else {
-                  EasyLoading.dismiss();
-                }
-              },
-              child: const Text(
-                'Save',
-                style: TextStyle(
-                  color: Colors.white,
+                },
+                child: const Text(
+                  'Save',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-            )
+              )
           ],
         );
       },

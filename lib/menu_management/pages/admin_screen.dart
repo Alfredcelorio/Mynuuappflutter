@@ -72,7 +72,7 @@ class _AdminScreenState extends State<AdminScreen> {
           width: 100,
         ),
         actions: [
-          _buildPopupMenuButton(context),
+          _buildPopupMenuButton(context, role),
         ],
       ),
       backgroundColor: Colors.black,
@@ -91,25 +91,27 @@ class _AdminScreenState extends State<AdminScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
-              ListTile(
-                title: const Text(
-                  'Landing Page',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
+              if (role != 'Staff')
+                ListTile(
+                  title: const Text(
+                    'Landing Page',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
+                  onTap: () {
+                    Navigator.pop(context);
+                    setState(() {
+                      currentPage = 4;
+                    });
+                  },
                 ),
-                onTap: () {
-                  Navigator.pop(context);
-                  setState(() {
-                    currentPage = 4;
-                  });
-                },
-              ),
-              const Divider(
-                color: Colors.white,
-              ),
+              if (role != 'Staff')
+                const Divider(
+                  color: Colors.white,
+                ),
               if (role != 'Staff')
                 ListTile(
                   title: const Text(
@@ -192,7 +194,7 @@ class _AdminScreenState extends State<AdminScreen> {
     );
   }
 
-  Widget _buildPopupMenuButton(BuildContext context) {
+  Widget _buildPopupMenuButton(BuildContext context, String role) {
     return PopupMenuButton(
       onSelected: (value) async {
         if (value == 0 && currentPage != 0) {
@@ -206,7 +208,7 @@ class _AdminScreenState extends State<AdminScreen> {
             currentPage = 1;
           });
         }
-        if (value == 2 && currentPage != 2) {
+        if (value == 2) {
           EasyLoading.show(status: '');
           final bloc = context.read<AuthenticationBLoc>();
           bloc.signOut();
@@ -246,29 +248,30 @@ class _AdminScreenState extends State<AdminScreen> {
         ),
       ),
       itemBuilder: (context) {
-        return const [
-          PopupMenuItem(
-            value: 0,
-            child: Text(
-              "Table",
-              style: TextStyle(color: Colors.white),
+        return [
+          if (role != 'Staff')
+            const PopupMenuItem(
+              value: 0,
+              child: Text(
+                "Table",
+                style: TextStyle(color: Colors.white),
+              ),
             ),
-          ),
-          PopupMenuItem(
+          const PopupMenuItem(
             value: 1,
             child: Text(
               "Trash",
               style: TextStyle(color: Colors.white),
             ),
           ),
-          PopupMenuItem(
+          const PopupMenuItem(
             value: 2,
             child: Text(
               "Logout",
               style: TextStyle(color: Colors.white),
             ),
           ),
-          PopupMenuItem(
+          const PopupMenuItem(
             value: 3,
             child: Text(
               "Delete account",
