@@ -459,7 +459,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                if (!kIsWeb) _buildAdminOptions(restaurant, context),
+                if (!kIsWeb)
+                  _buildAdminOptions(restaurant, context, isIpadvalue),
               ],
             ),
           ],
@@ -468,7 +469,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildAdminOptions(Restaurant restaurant, BuildContext context) {
+  Widget _buildAdminOptions(
+      Restaurant restaurant, BuildContext context, dynamic isIpad) {
+    final isIpadValue = isIpad as bool;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -488,27 +491,28 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        const SizedBox(width: 10),
-        InkWell(
-          onTap: () {
-            context.read<Providers>().changeR(restaurant);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context2) => Provider.value(
-                  value: widget.firebaseUser,
-                  child: const AdminScreen(),
+        if (isIpadValue) const SizedBox(width: 10),
+        if (isIpadValue)
+          InkWell(
+            onTap: () {
+              context.read<Providers>().changeR(restaurant);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context2) => Provider.value(
+                    value: widget.firebaseUser,
+                    child: const AdminScreen(),
+                  ),
                 ),
+              );
+            },
+            child: CircleAvatar(
+              backgroundColor: const Color(0xFF1E1E1E),
+              child: Image.asset(
+                'assets/icons/hamburguer.png',
               ),
-            );
-          },
-          child: CircleAvatar(
-            backgroundColor: const Color(0xFF1E1E1E),
-            child: Image.asset(
-              'assets/icons/hamburguer.png',
             ),
-          ),
-        )
+          )
       ],
     );
   }

@@ -27,7 +27,7 @@ class PushNotificationProvider {
       sound: true,
     );
 
-    print(await messaging.getToken());
+    // print(await messaging.getToken());
 
     initializeLocalNotifications();
     FirebaseMessaging.onMessageOpenedApp.listen((msg) {

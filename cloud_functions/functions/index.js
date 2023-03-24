@@ -1,5 +1,3 @@
-
-
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp();
@@ -29,8 +27,7 @@ exports.sendNotifificationOnNewGuest = functions.firestore.document(
                             for (var i = 0; i < restaurantData.notificationTokens.length; i++) {
                                 tokens.push(restaurantData.notificationTokens[i]);
                             }
-                        }
-                        else {
+                        } else {
                             tokens.push(restaurantData.pushNotificationToken);
                         }
                         var title = '';
@@ -56,7 +53,10 @@ exports.sendNotifificationOnNewGuest = functions.firestore.document(
                                 "guestId": change.after.id,
                             }
                         }
-                        return admin.messaging().sendToDevice(tokens, payload).then((response) => {
+                        const options = {
+                            priority: "high"
+                        };
+                        return admin.messaging().sendToDevice(tokens, payload, options).then((response) => {
                             console.log('Successfully', tokens);
                             console.log(response);
                             admin.firestore().collection('notifications').add({
@@ -104,8 +104,7 @@ exports.onProductUpdate = functions.firestore.document(
                             console.log('TOKEN:', restaurantData.notificationTokens[i]);
                             tokens.push(restaurantData.notificationTokens[i]);
                         }
-                    }
-                    else {
+                    } else {
                         tokens.push(restaurantData.pushNotificationToken);
                     }
                     console.log('LIST OF TOKENS', tokens);
@@ -114,20 +113,24 @@ exports.onProductUpdate = functions.firestore.document(
                     var actionMessage = productData.enabled ? 'enabled' : 'disabled';
                     var bodyMessage = productData.name + ' has just been ' + actionMessage + ' in ' + restaurantData.restaurantName;
                     var payload = {
-                        "notification": {
-                            "title": title,
-                            "body": bodyMessage,
-                            "sound": "default"
-                        },
+                            "notification": {
+                                "title": title,
+                                "body": bodyMessage,
+                                "sound": "default"
+                            },
 
-                        "data": {
-                            "sendername": title,
-                            "message": bodyMessage,
-                            "click_action": "FLUTTER_NOTIFICATION_CLICK",
-                            "productId": change.after.id,
+                            "data": {
+                                "sendername": title,
+                                "message": bodyMessage,
+                                "click_action": "FLUTTER_NOTIFICATION_CLICK",
+                                "productId": change.after.id,
+                            }
                         }
-                    }
-                    return admin.messaging().sendToDevice(tokens, payload).then((response) => {
+                        //Create an options object that contains the time to live for the notification and the priority
+                    const options = {
+                        priority: "high"
+                    };
+                    return admin.messaging().sendToDevice(tokens, payload, options).then((response) => {
                         console.log('Successfully', tokens);
                         console.log(response);
                         admin.firestore().collection('notifications').add({
@@ -137,6 +140,9 @@ exports.onProductUpdate = functions.firestore.document(
                         }).then(ref => {
                             console.log('Added document with ID: ', ref.id);
                             console.log(Date.now().toString());
+                            cleanupTokens(response, tokens, productData.restaurantId, doc.data()).then(r => {
+
+                            });
                         });
                     }).catch((err) => {
                         console.log(err);
@@ -153,5 +159,22 @@ exports.onProductUpdate = functions.firestore.document(
 
 })
 
-
-
+// Cleans up the tokens that are no longer valid.
+function cleanupTokens(response, tokens, id, r) {
+    // For each notification we check if there was an error.
+    const tokensDelete = [];
+    response.results.forEach((result, index) => {
+        const error = result.error;
+        if (error) {
+            functions.logger.error('Failure sending notification to', tokens[index], error);
+            // Cleanup the tokens that are not registered anymore.
+            if (error.code === 'messaging/invalid-registration-token' ||
+                error.code === 'messaging/registration-token-not-registered') {
+                r.notificationTokens = r.notificationTokens.filter(el => el != tokens[index]);
+                const deleteTask = admin.firestore().collection('restaurants').doc(id).update(r);
+                tokensDelete.push(deleteTask);
+            }
+        }
+    });
+    return Promise.all(tokensDelete);
+}
