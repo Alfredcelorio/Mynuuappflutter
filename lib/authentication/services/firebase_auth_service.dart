@@ -86,12 +86,6 @@ class FirebaseAuthService implements AuthService {
     final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
 
     if (googleUser != null) {
-      var arrayInvited = await databaseService.getIdMenu(googleUser.email);
-      if (arrayInvited.containsKey('restaurantId') &&
-          arrayInvited['restaurantId'] != '') {
-        idR = arrayInvited['restaurantId'];
-        await sessionManager.set('idR', idR);
-      }
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
       if (googleAuth.accessToken != null && googleAuth.idToken != null) {
