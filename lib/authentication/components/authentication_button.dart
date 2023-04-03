@@ -32,18 +32,10 @@ class AuthenticationButton extends StatelessWidget {
           shape: BoxShape.circle,
         ),
       ),
-      builder: (context, bool loading, child) {
+      builder: (context, bool loading, widget) {
         return GestureDetector(
           onTap: action,
-          child: loading
-              ? const SizedBox(
-                  width: 50,
-                  height: 50,
-                  child: CircularProgressIndicator(
-                    color: mynuuPrimary,
-                  ),
-                )
-              : child,
+          child: widget,
         );
       },
     );
