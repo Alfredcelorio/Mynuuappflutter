@@ -42,16 +42,18 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 15, 15, 15),
+        backgroundColor: const Color.fromRGBO(33, 33, 33, 1),
         automaticallyImplyLeading: false, // Don't show the leading button
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
-            ),
+            Padding(
+                padding: EdgeInsets.only(left: 6),
+                child: IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.arrow_back, color: Colors.white),
+                )),
             const Padding(
               padding: EdgeInsets.only(right: 20),
               child: Text(
@@ -59,6 +61,7 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                 style: TextStyle(
                   fontSize: 18,
                   fontFamily: 'Metropolis',
+                  fontWeight: FontWeight.w800,
                 ),
               ),
             )
@@ -88,11 +91,11 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
               padding: const EdgeInsets.only(top: 10),
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Card(
-                      color: const Color.fromRGBO(31, 32, 54, 0.9),
+                      color: const Color.fromRGBO(102, 108, 255, 0.15),
                       child: SizedBox(
-                          height: 80,
+                          height: 90,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -105,7 +108,7 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                                     children: [
                                       const Icon(
                                         Icons.account_box_outlined,
-                                        size: 30,
+                                        size: 35,
                                       ),
                                       Column(
                                         mainAxisAlignment:
@@ -114,34 +117,30 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                                           Text(
                                             guest.name,
                                             style: const TextStyle(
-                                              fontFamily: 'Metropolis',
-                                              color: Colors.white,
-                                              fontSize: 20,
+                                                fontFamily: 'Metropolis',
+                                                color: Colors.white,
+                                                fontSize: 25),
+                                          ),
+                                          SizedBox(
+                                            width: 120,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                const Icon(Icons.add_call,
+                                                    size: 15),
+                                                Text(
+                                                  _getGuestId(guest),
+                                                  style: const TextStyle(
+                                                    fontFamily: 'Metropolis',
+                                                    color: Colors.white,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          Padding(
-                                            padding: EdgeInsets.only(top: 5),
-                                            child: SizedBox(
-                                              width: 120,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  const Icon(Icons.add_call,
-                                                      size: 15),
-                                                  Text(
-                                                    _getGuestId(guest),
-                                                    style: const TextStyle(
-                                                      fontFamily: 'Metropolis',
-                                                      color: Colors.white,
-                                                      fontSize: 14,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          )
                                         ],
                                       )
                                     ],
@@ -153,103 +152,117 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                   height: 10,
                 ),
                 _buildGuestInformationData(guest),
+                const SizedBox(
+                  height: 10,
+                ),
                 Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Card(
-                            color: const Color.fromARGB(255, 31, 31, 31),
-                            child: SizedBox(
-                              width: 150,
-                              height: 60,
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 10),
-                                      child: Text(
-                                        'Total Spend',
-                                        style: TextStyle(
-                                          fontFamily: 'Metropolis',
-                                          color: Colors.grey,
-                                          fontSize: 10,
+                        Expanded(
+                            child: Card(
+                                color:
+                                    const Color.fromRGBO(255, 255, 255, 0.08),
+                                child: SizedBox(
+                                  height: 70,
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          child: Text(
+                                            'Total Spend',
+                                            style: TextStyle(
+                                              fontFamily: 'Metropolis',
+                                              color: Colors.grey,
+                                              fontSize: 12,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 5),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: const [
-                                            Icon(
-                                              Icons.monetization_on_sharp,
-                                              size: 20,
+                                        Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10, vertical: 5),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: const [
+                                                Icon(
+                                                  Icons.monetization_on_sharp,
+                                                  size: 20,
+                                                ),
+                                                Text(
+                                                  '---',
+                                                  style: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 14,
+                                                    fontFamily: 'Metropolis',
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
+                                            ))
+                                      ]),
+                                ))),
+                        Expanded(
+                            child: Card(
+                                color:
+                                    const Color.fromRGBO(255, 255, 255, 0.08),
+                                child: SizedBox(
+                                  height: 70,
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          child: Text(
+                                            'Visits',
+                                            style: TextStyle(
+                                              fontFamily: 'Metropolis',
+                                              color: Colors.grey,
+                                              fontSize: 12,
                                             ),
-                                            Text(
-                                              '---',
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 10,
-                                                fontFamily: 'Metropolis',
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
-                                        ))
-                                  ]),
-                            )),
-                        Card(
-                            color: const Color.fromARGB(255, 31, 31, 31),
-                            child: SizedBox(
-                              width: 150,
-                              height: 60,
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 10),
-                                      child: Text(
-                                        'Total Visits',
-                                        style: TextStyle(
-                                          fontFamily: 'Metropolis',
-                                          color: Colors.grey,
-                                          fontSize: 10,
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 5),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            const Icon(
-                                              Icons.assistant_photo_outlined,
-                                              size: 20,
-                                            ),
-                                            Text(
-                                              guest.numberOfVisits.toString(),
-                                              style: const TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 10,
-                                                fontFamily: 'Metropolis',
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
-                                        ))
-                                  ]),
-                            ))
+                                        Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10, vertical: 5),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                const Icon(
+                                                  Icons
+                                                      .assistant_photo_outlined,
+                                                  size: 20,
+                                                ),
+                                                Text(
+                                                  guest.numberOfVisits
+                                                      .toString(),
+                                                  style: const TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 14,
+                                                    fontFamily: 'Metropolis',
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
+                                            ))
+                                      ]),
+                                )))
                       ],
                     )),
+                const SizedBox(height: 5),
                 const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                     child: Center(
@@ -259,12 +272,14 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                           color: Colors.white,
                           fontSize: 17,
                           fontFamily: 'Metropolis',
+                          fontWeight: FontWeight.w800,
                         ),
                       ),
                     )),
+                const SizedBox(height: 5),
                 _buildGuestInformationData(guest, mode: 'DetailsTwo'),
                 const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     child: Center(
                       child: Text(
                         'Notes',
@@ -272,18 +287,21 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                           color: Colors.white,
                           fontSize: 17,
                           fontFamily: 'Metropolis',
+                          fontWeight: FontWeight.w800,
                         ),
                       ),
                     )),
+                const SizedBox(height: 5),
                 if (!addOrEdit!)
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    padding: const EdgeInsets.symmetric(horizontal: 35),
                     child: SizedBox(
                         width: 10,
                         height: 40,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: mynuuDarkGrey),
+                              backgroundColor:
+                                  Color.fromRGBO(255, 255, 255, 0.05)),
                           onPressed: () {
                             setState(() {
                               addOrEdit = true;
@@ -400,8 +418,7 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                   ),
                 if (addOrEdit!)
                   Padding(
-                    padding: const EdgeInsets.only(
-                        left: 30.0, right: 30.0, bottom: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 35),
                     child: TextField(
                       controller: controller,
                       maxLines: 5,
@@ -451,7 +468,7 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                   height: 7,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 21.0, right: 21.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: _buildTableBody(notes.reversed.toList(), guest),
                 ),
 
@@ -602,9 +619,9 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
 
   Widget _buildGuestInformationData(Guest guest, {String mode = 'Details'}) {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Card(
-          color: Color.fromARGB(255, 15, 15, 15),
+          color: Color.fromRGBO(255, 255, 255, 0.02),
           child: Container(
               height: mode == 'Details' ? 194 : 110,
               decoration: BoxDecoration(
@@ -736,13 +753,14 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
               ? SizedBox(
                   height: 20,
                   child: Switch(
+                    activeColor: Color.fromRGBO(160, 160, 160, 1),
+                    inactiveThumbColor: Color.fromRGBO(160, 160, 160, 1),
                     activeTrackColor: mynuuYellow,
                     value: switchValue ?? false,
                     onChanged: (value) {
                       onSwitchChanged!(value);
                       setState(() {});
                     },
-                    activeColor: Colors.white,
                   ),
                 )
               : Text(
@@ -782,9 +800,6 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
             ? 4
             : 6;
     return TableRow(
-      decoration: BoxDecoration(
-        color: Color.fromARGB(255, 0, 0, 0).withOpacity(.5),
-      ),
       children: [
         TableRowInkWell(
             onTap: () {
@@ -797,7 +812,7 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
               });
             },
             child: Card(
-                color: const Color.fromARGB(255, 15, 15, 15),
+                color: const Color.fromRGBO(255, 255, 255, 0.02),
                 child: SizedBox(
                     height: (note['note'] as String).length > 35 ? 90 : 70,
                     child: Padding(
@@ -949,9 +964,11 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                               note['note'],
                               textAlign: TextAlign.center,
                               style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontFamily: 'Metropolis'),
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontFamily: 'Metropolis',
+                                fontWeight: FontWeight.w800,
+                              ),
                             ),
                           ]),
                     )))),
