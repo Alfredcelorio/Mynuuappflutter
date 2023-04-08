@@ -108,27 +108,27 @@ class _AdminScreenState extends State<AdminScreen> {
                     });
                   },
                 ),
-              if (role != 'Staff')
-                const Divider(
-                  color: Colors.white,
-                ),
-              if (role != 'Staff')
-                ListTile(
-                  title: const Text(
-                    'Users',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                    setState(() {
-                      currentPage = 3;
-                    });
-                  },
-                ),
+              // if (role != 'Staff')
+              //   const Divider(
+              //     color: Colors.white,
+              //   ),
+              // if (role != 'Staff')
+              //   ListTile(
+              //     title: const Text(
+              //       'Users',
+              //       style: TextStyle(
+              //         color: Colors.white,
+              //         fontSize: 18,
+              //         fontWeight: FontWeight.w600,
+              //       ),
+              //     ),
+              //     onTap: () {
+              //       Navigator.pop(context);
+              //       setState(() {
+              //         currentPage = 3;
+              //       });
+              //     },
+              //   ),
               if (role != 'Staff')
                 const Divider(
                   color: Colors.white,
@@ -170,23 +170,23 @@ class _AdminScreenState extends State<AdminScreen> {
                 const Divider(
                   color: Colors.white,
                 ),
-              if (role != 'Staff')
-                ListTile(
-                  title: const Text(
-                    'Table number',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                    setState(() {
-                      currentPage = 3;
-                    });
-                  },
-                ),
+              // if (role != 'Staff')
+              //   ListTile(
+              //     title: const Text(
+              //       'Table number',
+              //       style: TextStyle(
+              //         color: Colors.white,
+              //         fontSize: 18,
+              //         fontWeight: FontWeight.w600,
+              //       ),
+              //     ),
+              //     onTap: () {
+              //       Navigator.pop(context);
+              //       setState(() {
+              //         currentPage = 3;
+              //       });
+              //     },
+              //   ),
             ],
           ),
         ),

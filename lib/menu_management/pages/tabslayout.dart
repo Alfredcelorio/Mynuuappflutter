@@ -449,13 +449,13 @@ class _TabsLayoutState extends State<TabsLayout> {
                     categoryId: categoryId,
                     categories: categories,
                   ),
-                  const Center(
-                    key: ValueKey('new_entry'),
-                    child: Text(
-                      "Add new item",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )
+                  // const Center(
+                  //   key: ValueKey('new_entry'),
+                  //   child: Text(
+                  //     "Add new item",
+                  //     style: TextStyle(color: Colors.white),
+                  //   ),
+                  // )
                 ],
               );
             }
@@ -675,7 +675,7 @@ class _TabsLayoutState extends State<TabsLayout> {
   }) {
     return Padding(
       key: const ValueKey('buildAddNewEntry'),
-      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 80),
+      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 65),
       child: GestureDetector(
         onTap: () {
           showDialog(
@@ -695,6 +695,7 @@ class _TabsLayoutState extends State<TabsLayout> {
           );
         },
         child: Container(
+          width: 200,
           decoration: BoxDecoration(
               border: Border.all(
                 color: mynuuYellow,
