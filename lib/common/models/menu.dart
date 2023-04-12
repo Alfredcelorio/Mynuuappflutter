@@ -6,18 +6,23 @@ class Menu implements MynuuModel {
   final String id;
   final String name;
   final String restaurantId;
+  final int position;
+  final bool status;
 
-  Menu({
-    required this.id,
-    required this.name,
-    required this.restaurantId,
-  });
+  Menu(
+      {required this.id,
+      required this.name,
+      required this.restaurantId,
+      this.position = 0,
+      this.status = true});
 
   @override
   Map<String, dynamic> toMap() {
     return {
       'name': name,
       'restaurantId': restaurantId,
+      'position': position,
+      'status': status
     };
   }
 

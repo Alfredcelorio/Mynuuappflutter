@@ -58,7 +58,7 @@ class _AddOrUpdateCategoryDialogState extends State<AddOrUpdateCategoryDialog> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Sub menu name:",
+                    "Sub category name:",
                     style: TextStyle(
                       fontFamily: fontFamily,
                       color: Colors.white,
@@ -82,7 +82,8 @@ class _AddOrUpdateCategoryDialogState extends State<AddOrUpdateCategoryDialog> {
                 decoration: const InputDecoration(border: InputBorder.none),
               ),
             ),
-            if (widget.category != null) buildMenuGroupPicker(),
+            // if (widget.category != null)
+            buildMenuGroupPicker(),
             const Divider(
               height: 1,
             ),
@@ -119,7 +120,9 @@ class _AddOrUpdateCategoryDialogState extends State<AddOrUpdateCategoryDialog> {
               final data = snapshot.data;
               if (data == null) {
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    color: mynuuPrimary,
+                  ),
                 );
               }
               return Column(
@@ -181,7 +184,7 @@ class _AddOrUpdateCategoryDialogState extends State<AddOrUpdateCategoryDialog> {
           Padding(
             padding: EdgeInsets.only(left: 20.w),
             child: Text(
-              "Add new sub menu",
+              "Add new sub category",
               style: TextStyle(
                 fontFamily: fontFamily,
                 color: Colors.white,
