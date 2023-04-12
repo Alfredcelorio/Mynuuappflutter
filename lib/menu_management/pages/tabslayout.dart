@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project1/common/models/category.dart';
 import 'package:project1/common/models/product.dart';
@@ -292,16 +293,12 @@ class _TabsLayoutState extends State<TabsLayout> {
             },
           );
           if (result != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Yay! Menu succesfully created!'),
-              ),
-            );
+            showToast('Menu created');
           }
         }
 
         if (value == 1) {
-          showDialog(
+          final value = await showDialog<String>(
             context: context,
             builder: (BuildContext context) {
               return MultiProvider(
@@ -313,6 +310,9 @@ class _TabsLayoutState extends State<TabsLayout> {
               );
             },
           );
+          if (value == 'create') {
+            showToast('Category created');
+          }
         }
       },
       color: const Color(0xFF1A1A1A),
@@ -362,9 +362,9 @@ class _TabsLayoutState extends State<TabsLayout> {
           Radius.circular(6.0),
         ),
       ),
-      onSelected: (value) {
+      onSelected: (value) async {
         if (value == 0) {
-          showDialog(
+          final value = await showDialog<String>(
             context: context,
             builder: (BuildContext context) {
               return MultiProvider(
@@ -378,9 +378,15 @@ class _TabsLayoutState extends State<TabsLayout> {
               );
             },
           );
+          print(value);
+          if (value == 'update') {
+            showToast('Changes saved');
+          }
         }
+
         if (value == 1) {
-          bloc.deleteCategory(category.id);
+          await bloc.deleteCategory(category.id);
+          showToast('Category deleted');
         }
       },
       position: PopupMenuPosition.under,
@@ -673,12 +679,11 @@ class _TabsLayoutState extends State<TabsLayout> {
     required String categoryId,
     required List<ProductCategory> categories,
   }) {
-    return Padding(
+    return Center(
       key: const ValueKey('buildAddNewEntry'),
-      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 65),
       child: GestureDetector(
-        onTap: () {
-          showDialog(
+        onTap: () async {
+          final value = await showDialog<String>(
             context: context,
             builder: (BuildContext context) {
               return MultiProvider(
@@ -693,6 +698,9 @@ class _TabsLayoutState extends State<TabsLayout> {
               );
             },
           );
+          if (value == 'create') {
+            showToast('Item created');
+          }
         },
         child: Container(
           width: 200,
@@ -795,6 +803,16 @@ class _TabsLayoutState extends State<TabsLayout> {
             child: text,
           )
         : text;
+  }
+
+  void showToast(String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Color.fromRGBO(254, 253, 253, 0.1),
+        textColor: Color.fromRGBO(254, 253, 253, 1));
   }
 
   void search() async {

@@ -525,6 +525,7 @@ class _AddOrEditProductDialogState extends State<AddOrEditProductDialog> {
   }
 
   void updateOrCreateProduct() async {
+    var msg = '';
     final bloc = context.read<TableLayoutBloc>();
     final finalProduct = Product(
       id: widget.product?.id ?? itemnumberC.text,
@@ -543,11 +544,12 @@ class _AddOrEditProductDialogState extends State<AddOrEditProductDialog> {
     await EasyLoading.show(status: '');
     if (widget.product != null) {
       await bloc.updateProduct(finalProduct, mYimage);
+      msg = 'update';
     } else {
       await bloc.addProduct(finalProduct, mYimage);
+      msg = 'create';
     }
+    Navigator.of(context).pop(msg);
     await EasyLoading.dismiss();
-
-    Navigator.pop(context);
   }
 }

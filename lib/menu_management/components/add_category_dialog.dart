@@ -39,62 +39,66 @@ class _AddOrUpdateCategoryDialogState extends State<AddOrUpdateCategoryDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Container(
-        width: 80.w,
-        decoration: BoxDecoration(
-          color: mynuuBackgroundModal,
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildModalTitle(context),
-            Padding(
-              padding: EdgeInsets.all(2.w),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Sub category name:",
+        child: SingleChildScrollView(
+          child: Container(
+            width: 80.w,
+            decoration: BoxDecoration(
+              color: mynuuBackgroundModal,
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildModalTitle(context),
+                Padding(
+                  padding: EdgeInsets.all(2.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Sub category name:",
+                        style: TextStyle(
+                          fontFamily: fontFamily,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: TextFormField(
+                    controller: nameC,
+                    cursorColor: Colors.white,
+                    cursorWidth: 1,
+                    autofocus: true,
+                    maxLines: null,
                     style: TextStyle(
                       fontFamily: fontFamily,
-                      color: Colors.white,
+                      color: Colors.grey,
                     ),
+                    decoration: const InputDecoration(border: InputBorder.none),
                   ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: TextFormField(
-                controller: nameC,
-                cursorColor: Colors.white,
-                cursorWidth: 1,
-                autofocus: true,
-                maxLines: null,
-                style: TextStyle(
-                  fontFamily: fontFamily,
-                  color: Colors.grey,
                 ),
-                decoration: const InputDecoration(border: InputBorder.none),
-              ),
+                // if (widget.category != null)
+                buildMenuGroupPicker(),
+                const Divider(
+                  height: 1,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    buildSaveAction(context),
+                    buildCancelAction(context)
+                  ],
+                ),
+              ],
             ),
-            // if (widget.category != null)
-            buildMenuGroupPicker(),
-            const Divider(
-              height: 1,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [buildSaveAction(context), buildCancelAction(context)],
-            ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 
   Widget buildMenuGroupPicker() {
@@ -125,7 +129,8 @@ class _AddOrUpdateCategoryDialogState extends State<AddOrUpdateCategoryDialog> {
                   ),
                 );
               }
-              return Column(
+              return SingleChildScrollView(
+                  child: Column(
                 children: data.map(
                   (menu) {
                     return Padding(
@@ -163,7 +168,7 @@ class _AddOrUpdateCategoryDialogState extends State<AddOrUpdateCategoryDialog> {
                     );
                   },
                 ).toList(),
-              );
+              ));
             })
       ],
     );
@@ -278,6 +283,7 @@ class _AddOrUpdateCategoryDialogState extends State<AddOrUpdateCategoryDialog> {
   }
 
   void updateOrCreateCategory() async {
+    var msg = '';
     final bloc = context.read<TableLayoutBloc>();
     final finalCategory = ProductCategory(
       id: widget.category?.id ?? '',
@@ -293,10 +299,12 @@ class _AddOrUpdateCategoryDialogState extends State<AddOrUpdateCategoryDialog> {
         finalCategory,
         selectedMenuId,
       );
+      msg = 'update';
     } else {
       await bloc.addCategory(finalCategory);
+      msg = 'create';
     }
+    Navigator.of(context).pop(msg);
     await EasyLoading.dismiss();
-    Navigator.pop(context);
   }
 }

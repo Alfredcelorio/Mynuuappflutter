@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project1/common/models/category.dart';
 import 'package:project1/common/models/product.dart';
@@ -61,7 +62,7 @@ class ProductOptionsSheet extends StatelessWidget {
                   Navigator.pop(context);
                   final bloc = context.read<TableLayoutBloc>();
                   final userSession = context.read<FirebaseUser>();
-                  showDialog(
+                  final value = await showDialog(
                     context: context,
                     builder: (BuildContext context) {
                       return MultiProvider(
@@ -77,6 +78,9 @@ class ProductOptionsSheet extends StatelessWidget {
                       );
                     },
                   );
+                  if (value == 'update') {
+                    showToast('Changes saved');
+                  }
                 },
                 child: Text(
                   'Edit',
@@ -116,5 +120,15 @@ class ProductOptionsSheet extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void showToast(String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Color.fromRGBO(254, 253, 253, 0.1),
+        textColor: Color.fromRGBO(254, 253, 253, 1));
   }
 }
