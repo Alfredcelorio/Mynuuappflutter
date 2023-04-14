@@ -53,3 +53,11 @@ Future<File?> pickImage() async {
   final imageTemporary = File(image.path);
   return imageTemporary;
 }
+
+Future<File?> pickVideo() async {
+  final video = await ImagePicker().pickVideo(
+      source: ImageSource.gallery, maxDuration: const Duration(seconds: 10));
+  if (video == null) return null;
+  final imageTemporary = File(video.path);
+  return imageTemporary;
+}

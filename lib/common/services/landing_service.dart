@@ -510,6 +510,7 @@ class CloudFirestoreService {
 
   Future<Restaurant> getRestaurantById(String id) async {
     print(id);
+    await Future.delayed(const Duration(seconds: 1));
     var request = _db.collection('restaurants').doc(id).get();
     return request.then(
       (snap) => Restaurant.fromMap(

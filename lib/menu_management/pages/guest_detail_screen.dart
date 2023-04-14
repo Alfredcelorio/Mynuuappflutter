@@ -106,9 +106,10 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const Icon(
-                                        Icons.account_box_outlined,
-                                        size: 35,
+                                      Image.asset(
+                                        'assets/icons/contact.png',
+                                        height: 30,
+                                        width: 30,
                                       ),
                                       Column(
                                         mainAxisAlignment:
@@ -128,14 +129,17 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                const Icon(Icons.add_call,
-                                                    size: 15),
+                                                Image.asset(
+                                                  'assets/icons/call.png',
+                                                  height: 15,
+                                                  width: 15,
+                                                ),
                                                 Text(
                                                   _getGuestId(guest),
                                                   style: const TextStyle(
                                                     fontFamily: 'Metropolis',
                                                     color: Colors.white,
-                                                    fontSize: 14,
+                                                    fontSize: 13,
                                                   ),
                                                 ),
                                               ],
@@ -191,12 +195,13 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment
                                                       .spaceBetween,
-                                              children: const [
-                                                Icon(
-                                                  Icons.monetization_on_sharp,
-                                                  size: 20,
+                                              children: [
+                                                Image.asset(
+                                                  'assets/icons/price.png',
+                                                  height: 19,
+                                                  width: 19,
                                                 ),
-                                                Text(
+                                                const Text(
                                                   '---',
                                                   style: TextStyle(
                                                     color: Colors.grey,
@@ -241,10 +246,10 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                const Icon(
-                                                  Icons
-                                                      .assistant_photo_outlined,
-                                                  size: 20,
+                                                Image.asset(
+                                                  'assets/icons/flag.png',
+                                                  height: 19,
+                                                  width: 19,
                                                 ),
                                                 Text(
                                                   guest.numberOfVisits
@@ -646,7 +651,7 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                             ? DateFormat('MMM dd').format(guest.birthdate!)
                             : '--/--/----',
                         icon: Icons.date_range_outlined,
-                        iconBackground: 'assets/icons/birthday-bg.png',
+                        iconBackground: 'assets/icons/Icon.png',
                         isCustomIcon: true,
                         customIcon: 'assets/icons/birthday-icon.png',
                       ),
@@ -658,7 +663,8 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                                 .format(guest.firstVisit!.toDate())
                             : '--/--',
                         icon: Icons.date_range,
-                        iconBackground: 'assets/icons/birthday-bg.png',
+                        isCustomIcon: true,
+                        iconBackground: 'assets/icons/dateFirst.png',
                       ),
                     if (mode == 'Details')
                       _buildGuestListTile(
@@ -668,21 +674,22 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                                 .format(guest.lastVisit!.toDate())
                             : '--/--',
                         icon: Icons.calendar_month_outlined,
-                        iconBackground: 'assets/icons/birthday-bg.png',
+                        isCustomIcon: true,
+                        iconBackground: 'assets/icons/dateEnd.png',
                       ),
                     if (mode == 'DetailsTwo')
                       _buildGuestListTile(
                         title: 'VIP',
                         subtitle: _getGuestId(guest),
                         icon: Icons.diamond_outlined,
-                        iconBackground: 'assets/icons/vipmode-bg.png',
+                        iconBackground: 'assets/icons/diamond.png',
                         isSwitch: true,
                         switchValue: guest.vip,
                         onSwitchChanged: (value) {
                           bloc.updateGuest(guest.copyWith(vip: value));
                         },
                         isCustomIcon: true,
-                        customIcon: 'assets/icons/vipmode-icon.png',
+                        customIcon: 'assets/icons/diamond.png',
                       ),
                     if (mode == 'DetailsTwo')
                       _buildGuestListTile(
@@ -726,11 +733,17 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                 child: Stack(
                   children: [
                     Center(
-                      child: Icon(
-                        icon,
-                        color: Colors.white,
-                        size: 20,
-                      ),
+                      child: isCustomIcon
+                          ? Image.asset(
+                              iconBackground,
+                              width: 20,
+                              height: 20,
+                            )
+                          : Icon(
+                              icon,
+                              color: Colors.white,
+                              size: 20,
+                            ),
                     ),
                   ],
                 ),
