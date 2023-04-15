@@ -639,11 +639,11 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                   children: [
                     if (mode == 'Details')
                       _buildGuestListTile(
-                        title: 'Contact',
-                        subtitle: _getGuestId(guest),
-                        icon: Icons.contact_mail_outlined,
-                        iconBackground: '',
-                      ),
+                          title: 'Contact',
+                          subtitle: _getGuestId(guest),
+                          icon: Icons.contact_mail_outlined,
+                          iconBackground: 'assets/icons/contact.png',
+                          isCustomIcon: true),
                     if (mode == 'Details')
                       _buildGuestListTile(
                         title: 'Date of Birth',
