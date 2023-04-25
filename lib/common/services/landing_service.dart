@@ -136,6 +136,24 @@ class CloudFirestoreService {
         );
   }
 
+  Future<List<Product>> getProductsByRestaurant(String restaurantId) {
+    //add two values userID and string global
+    var ref = _db
+        .collection('products')
+        .where('restaurantId', isEqualTo: restaurantId);
+
+    return ref.get().then(
+          (value) => value.docs
+              .map(
+                (doc) => Product.fromMap(
+                  doc.id,
+                  doc.data(),
+                ),
+              )
+              .toList(),
+        );
+  }
+
   Future<List<Guest>> getGuests(String restaurantId) {
     //add two values userID and string global
     var ref = _db.collection('guests').where(
@@ -452,6 +470,15 @@ class CloudFirestoreService {
   Future<Product> getProductById(String id) async {
     return _db.collection('products').doc(id).get().then(
           (snap) => Product.fromMap(
+            snap.id,
+            snap.data() ?? {},
+          ),
+        );
+  }
+
+  Future<ProductCategory> getCategoryById(String id) async {
+    return _db.collection('categories').doc(id).get().then(
+          (snap) => ProductCategory.fromMap(
             snap.id,
             snap.data() ?? {},
           ),

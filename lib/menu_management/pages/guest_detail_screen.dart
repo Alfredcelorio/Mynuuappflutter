@@ -1,12 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:project1/authentication/components/footer.dart';
 import 'package:project1/common/models/guest.dart';
 import 'package:project1/common/services/landing_service.dart';
+import 'package:project1/common/services/likesProvider.dart';
 import 'package:project1/common/style/mynuu_colors.dart';
 import 'package:project1/menu_management/blocs/table_layout_bloc.dart';
+import 'package:project1/menu_management/pages/guest_liked_items.dart';
 import 'package:provider/provider.dart';
 
 class GuestDetailScreen extends StatefulWidget {
@@ -39,6 +42,7 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final providerLikes = context.watch<LikesProvider>();
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -283,6 +287,47 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                     )),
                 const SizedBox(height: 5),
                 _buildGuestInformationData(guest, mode: 'DetailsTwo'),
+                const SizedBox(
+                  height: 5,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 35),
+                  child: SizedBox(
+                      width: 10,
+                      height: 40,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromRGBO(255, 255, 255, 0.05)),
+                        onPressed: () async {
+                          List<String> likesId = [];
+                          if (guest.likeProducts != null) {
+                            for (var i = 0;
+                                i < guest.likeProducts!.length;
+                                i++) {
+                              var likeObj = guest.likeProducts!.elementAt(i)
+                                  as Map<String, dynamic>;
+                              likesId.add(likeObj['id']);
+                            }
+                          }
+                          await providerLikes.loadLikesProducts(
+                              guest.restaurantId, likesId);
+                          // await providerLikes.loadLikesProducts(
+                          //     'SSkzsAvWhxPZsKpULXnCKkalSe32',
+                          //     ['0QOEj9yRkAJIKOkOMMHz', '6t3c3R80cSAKPpUDTFOW']);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Provider.value(
+                                value: bloc,
+                                child: LikeItemsClass(),
+                              ),
+                            ),
+                          );
+                        },
+                        child: const Text('Liked items'),
+                      )),
+                ),
                 const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     child: Center(

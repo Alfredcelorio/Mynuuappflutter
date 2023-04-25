@@ -16,6 +16,15 @@ class Product implements MynuuModel {
   final String? keyword;
   int positionInCategory;
   String? menuId;
+  String? countryState;
+  String? body;
+  String? abv;
+  String? brand;
+  String? region;
+  String? sku;
+  String? type;
+  String? varietal;
+  String? taste;
 
   Product({
     required this.id,
@@ -26,6 +35,15 @@ class Product implements MynuuModel {
     required this.enabled,
     required this.price,
     required this.deleted,
+    this.abv,
+    this.body,
+    this.brand,
+    this.countryState,
+    this.region,
+    this.varietal,
+    this.sku,
+    this.taste,
+    this.type,
     this.views = 0,
     required this.restaurantId,
     required this.positionInCategory,
@@ -48,25 +66,42 @@ class Product implements MynuuModel {
       'keyword': _getKeyword(),
       'positionInCategory': positionInCategory,
       'menuId': menuId,
+      'abv': abv,
+      'body': body,
+      'brand': brand,
+      'countryState': countryState,
+      'region': region,
+      'varietal': varietal,
+      'sku': sku,
+      'taste': taste,
+      'type': type
     };
   }
 
   factory Product.fromMap(String id, Map<String, dynamic> map) {
     return Product(
-      id: id,
-      name: map['name'] ?? '',
-      image: map['image'] ?? '',
-      description: map['description'] ?? '',
-      categoryId: map['categoryId'] ?? '',
-      enabled: map['enabled'] ?? false,
-      price: map['price']?.toDouble() ?? 0.0,
-      views: map['views'] ?? 0,
-      deleted: map['deleted'] ?? false,
-      restaurantId: map['restaurantId'] ?? '',
-      keyword: map['keyword'],
-      positionInCategory: map['positionInCategory'] ?? 0,
-      menuId: map['menuId'],
-    );
+        id: id,
+        name: map['name'] ?? '',
+        image: map['image'] ?? '',
+        description: map['description'] ?? '',
+        categoryId: map['categoryId'] ?? '',
+        enabled: map['enabled'] ?? false,
+        price: map['price']?.toDouble() ?? 0.0,
+        views: map['views'] ?? 0,
+        deleted: map['deleted'] ?? false,
+        restaurantId: map['restaurantId'] ?? '',
+        keyword: map['keyword'],
+        positionInCategory: map['positionInCategory'] ?? 0,
+        menuId: map['menuId'],
+        abv: map['abv'] ?? '',
+        body: map['body'] ?? '',
+        brand: map['brand'] ?? '',
+        countryState: map['countryState'] ?? '',
+        region: map['region'] ?? '',
+        sku: map['sku'] ?? '',
+        taste: map['taste'] ?? '',
+        type: map['type'] ?? '',
+        varietal: map['varietal'] ?? '');
   }
 
   String toJson() => json.encode(toMap());

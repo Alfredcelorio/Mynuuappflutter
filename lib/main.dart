@@ -15,12 +15,14 @@ import 'package:project1/common/pages/not_found_screen.dart';
 import 'package:project1/common/pages/product_detail_carrousel.dart';
 import 'package:project1/common/pages/web_router_screen.dart';
 import 'package:project1/common/services/landing_service.dart';
+import 'package:project1/common/services/likesProvider.dart';
 import 'package:project1/common/services/providers.dart';
 import 'package:project1/common/services/push_notification_service.dart';
 import 'package:project1/common/style/mynuu_colors.dart';
 import 'package:project1/firebase_options.dart';
 import 'package:project1/menu_management/blocs/table_layout_bloc.dart';
 import 'package:project1/menu_management/pages/guest_detail_screen.dart';
+import 'package:project1/menu_management/pages/guest_liked_items.dart';
 import 'package:project1/profile_management/pages/customLoading.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -103,7 +105,7 @@ class _MyAppState extends State<MyApp> {
     routes: <GoRoute>[
       GoRoute(
         path: '/',
-        builder: (BuildContext context, GoRouterState state) => 
+        builder: (BuildContext context, GoRouterState state) =>
             kIsWeb ? const RouteScreen() : const RouteScreen(),
         routes: <GoRoute>[
           GoRoute(
@@ -211,6 +213,9 @@ class _MyAppState extends State<MyApp> {
         providers: [
           ChangeNotifierProvider(
             create: (context) => Providers(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => LikesProvider(),
           ),
           Provider.value(
             value: cloudFirestoreService,

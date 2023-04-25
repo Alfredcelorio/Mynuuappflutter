@@ -46,6 +46,15 @@ class _AddOrEditProductDialogState extends State<AddOrEditProductDialog> {
   TextEditingController descriptionC = TextEditingController();
   TextEditingController priceC = TextEditingController();
   TextEditingController stockC = TextEditingController();
+  TextEditingController abv = TextEditingController();
+  TextEditingController body = TextEditingController();
+  TextEditingController region = TextEditingController();
+  TextEditingController countryState = TextEditingController();
+  TextEditingController sku = TextEditingController();
+  TextEditingController taste = TextEditingController();
+  TextEditingController type = TextEditingController();
+  TextEditingController varietal = TextEditingController();
+  TextEditingController brand = TextEditingController();
 
   final fontFamily = GoogleFonts.georama().fontFamily;
 
@@ -60,6 +69,15 @@ class _AddOrEditProductDialogState extends State<AddOrEditProductDialog> {
       descriptionC.text = widget.product?.description ?? '';
       selectedCategoryId = widget.product?.categoryId ?? '';
       selectedMenuId = widget.product?.menuId ?? '';
+      abv.text = widget.product?.abv ?? '';
+      body.text = widget.product?.body ?? '';
+      region.text = widget.product?.region ?? '';
+      countryState.text = widget.product?.countryState ?? '';
+      sku.text = widget.product?.sku ?? '';
+      taste.text = widget.product?.taste ?? '';
+      type.text = widget.product?.type ?? '';
+      varietal.text = widget.product?.varietal ?? '';
+      brand.text = widget.product?.brand ?? '';
     }
     super.initState();
   }
@@ -106,7 +124,25 @@ class _AddOrEditProductDialogState extends State<AddOrEditProductDialog> {
                           buildPriceField(),
                           const SizedBox(height: 10),
                           buildDescriptionField(),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 10),
+                          buildProductBrandField(),
+                          const SizedBox(height: 10),
+                          buildProductBodyField(),
+                          const SizedBox(height: 10),
+                          buildProductRegionField(),
+                          const SizedBox(height: 10),
+                          buildProductCountryStateField(),
+                          const SizedBox(height: 10),
+                          buildProductSkuField(),
+                          const SizedBox(height: 10),
+                          buildProductTypeField(),
+                          const SizedBox(height: 10),
+                          buildProductAbvField(),
+                          const SizedBox(height: 10),
+                          buildProductVarietalField(),
+                          const SizedBox(height: 10),
+                          buildProductTasteField(),
+                          const SizedBox(height: 10),
                           buildChangeImageButton(context)
                         ],
                       ),
@@ -337,6 +373,7 @@ class _AddOrEditProductDialogState extends State<AddOrEditProductDialog> {
           style: TextStyle(
             fontFamily: fontFamily,
             color: Colors.white,
+            fontSize: 12,
           ),
         ),
         const SizedBox(width: 4),
@@ -432,10 +469,334 @@ class _AddOrEditProductDialogState extends State<AddOrEditProductDialog> {
     );
   }
 
+  Widget buildProductAbvField() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Abv : ",
+          style: TextStyle(
+            fontFamily: fontFamily,
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+            fontSize: 12,
+          ),
+        ),
+        const SizedBox(width: 4),
+        Expanded(
+          child: TextFormField(
+            controller: abv,
+            cursorColor: Colors.white,
+            style: TextStyle(
+              fontFamily: fontFamily,
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              fontSize: 12,
+            ),
+            maxLines: null,
+            decoration: const InputDecoration(
+              isDense: true,
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.zero,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget buildProductBodyField() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Body : ",
+          style: TextStyle(
+            fontFamily: fontFamily,
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+            fontSize: 12,
+          ),
+        ),
+        const SizedBox(width: 4),
+        Expanded(
+          child: TextFormField(
+            controller: body,
+            cursorColor: Colors.white,
+            style: TextStyle(
+              fontFamily: fontFamily,
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              fontSize: 12,
+            ),
+            maxLines: null,
+            decoration: const InputDecoration(
+              isDense: true,
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.zero,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget buildProductRegionField() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Region : ",
+          style: TextStyle(
+            fontFamily: fontFamily,
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+            fontSize: 12,
+          ),
+        ),
+        const SizedBox(width: 4),
+        Expanded(
+          child: TextFormField(
+            controller: region,
+            cursorColor: Colors.white,
+            style: TextStyle(
+              fontFamily: fontFamily,
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              fontSize: 12,
+            ),
+            maxLines: null,
+            decoration: const InputDecoration(
+              isDense: true,
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.zero,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget buildProductCountryStateField() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Country/state : ",
+          style: TextStyle(
+            fontFamily: fontFamily,
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+            fontSize: 12,
+          ),
+        ),
+        const SizedBox(width: 4),
+        Expanded(
+          child: TextFormField(
+            controller: countryState,
+            cursorColor: Colors.white,
+            style: TextStyle(
+              fontFamily: fontFamily,
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              fontSize: 12,
+            ),
+            maxLines: null,
+            decoration: const InputDecoration(
+              isDense: true,
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.zero,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget buildProductSkuField() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Sku : ",
+          style: TextStyle(
+            fontFamily: fontFamily,
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+            fontSize: 12,
+          ),
+        ),
+        const SizedBox(width: 4),
+        Expanded(
+          child: TextFormField(
+            controller: sku,
+            cursorColor: Colors.white,
+            style: TextStyle(
+              fontFamily: fontFamily,
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              fontSize: 12,
+            ),
+            maxLines: null,
+            decoration: const InputDecoration(
+              isDense: true,
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.zero,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget buildProductTasteField() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Taste : ",
+          style: TextStyle(
+            fontFamily: fontFamily,
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+            fontSize: 12,
+          ),
+        ),
+        const SizedBox(width: 4),
+        Expanded(
+          child: TextFormField(
+            controller: taste,
+            cursorColor: Colors.white,
+            style: TextStyle(
+              fontFamily: fontFamily,
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              fontSize: 12,
+            ),
+            maxLines: null,
+            decoration: const InputDecoration(
+              isDense: true,
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.zero,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget buildProductVarietalField() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Varietal : ",
+          style: TextStyle(
+            fontFamily: fontFamily,
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+            fontSize: 12,
+          ),
+        ),
+        const SizedBox(width: 4),
+        Expanded(
+          child: TextFormField(
+            controller: varietal,
+            cursorColor: Colors.white,
+            style: TextStyle(
+              fontFamily: fontFamily,
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              fontSize: 12,
+            ),
+            maxLines: null,
+            decoration: const InputDecoration(
+              isDense: true,
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.zero,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget buildProductTypeField() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Type : ",
+          style: TextStyle(
+            fontFamily: fontFamily,
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+            fontSize: 12,
+          ),
+        ),
+        const SizedBox(width: 4),
+        Expanded(
+          child: TextFormField(
+            controller: type,
+            cursorColor: Colors.white,
+            style: TextStyle(
+              fontFamily: fontFamily,
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              fontSize: 12,
+            ),
+            maxLines: null,
+            decoration: const InputDecoration(
+              isDense: true,
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.zero,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget buildProductBrandField() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Brand : ",
+          style: TextStyle(
+            fontFamily: fontFamily,
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+            fontSize: 12,
+          ),
+        ),
+        const SizedBox(width: 4),
+        Expanded(
+          child: TextFormField(
+            controller: brand,
+            cursorColor: Colors.white,
+            style: TextStyle(
+              fontFamily: fontFamily,
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              fontSize: 12,
+            ),
+            maxLines: null,
+            decoration: const InputDecoration(
+              isDense: true,
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.zero,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
   Widget buildPicturesField() {
     return mYimage != null
         ? SizedBox(
-            height: 140,
+            height: 160,
             width: 96,
             child: Image.file(
               mYimage!,
@@ -528,19 +889,27 @@ class _AddOrEditProductDialogState extends State<AddOrEditProductDialog> {
     var msg = '';
     final bloc = context.read<TableLayoutBloc>();
     final finalProduct = Product(
-      id: widget.product?.id ?? itemnumberC.text,
-      name: nameC.text,
-      image: widget.product?.image ?? 'noImage',
-      description: descriptionC.text,
-      categoryId: selectedCategoryId,
-      enabled: true,
-      price: double.parse(priceC.text),
-      views: 0,
-      deleted: widget.product?.deleted ?? false,
-      restaurantId: context.read<FirebaseUser>().uid,
-      positionInCategory: widget.product?.positionInCategory ?? 0,
-      menuId: selectedMenuId,
-    );
+        id: widget.product?.id ?? itemnumberC.text,
+        name: nameC.text,
+        image: widget.product?.image ?? 'noImage',
+        description: descriptionC.text,
+        categoryId: selectedCategoryId,
+        enabled: true,
+        price: double.parse(priceC.text),
+        views: 0,
+        deleted: widget.product?.deleted ?? false,
+        restaurantId: context.read<FirebaseUser>().uid,
+        positionInCategory: widget.product?.positionInCategory ?? 0,
+        menuId: selectedMenuId,
+        abv: abv.text,
+        body: body.text,
+        brand: brand.text,
+        countryState: countryState.text,
+        region: region.text,
+        sku: sku.text,
+        taste: taste.text,
+        type: type.text,
+        varietal: varietal.text);
     await EasyLoading.show(status: '');
     if (widget.product != null) {
       await bloc.updateProduct(finalProduct, mYimage);

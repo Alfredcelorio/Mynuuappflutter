@@ -16,7 +16,7 @@ class Guest extends MynuuModel {
   String signInType;
   int? numberOfVisits;
   List<dynamic>? listNotes;
-
+  List<dynamic>? likeProducts;
   Guest(
       {required this.firstVisit,
       required this.lastVisit,
@@ -30,7 +30,8 @@ class Guest extends MynuuModel {
       this.numberOfVisits,
       this.birthdate,
       this.phone,
-      this.listNotes});
+      this.listNotes,
+      this.likeProducts});
 
   factory Guest.fromMap(String id, Map<String, dynamic> data) {
     print(data);
@@ -54,6 +55,9 @@ class Guest extends MynuuModel {
         signInType: data['signInType'] ?? '',
         listNotes:
             data['listNotes'] != null ? data['listNotes'] as List<dynamic> : [],
+        likeProducts: data['likeProducts'] != null
+            ? data['likeProducts'] as List<dynamic>
+            : [],
         numberOfVisits: data['numberOfVisits'] ?? 0);
   }
 
@@ -71,7 +75,8 @@ class Guest extends MynuuModel {
       'signInType': signInType,
       'birthdate': birthdate,
       'numberOfVisits': numberOfVisits,
-      'listNotes': listNotes
+      'listNotes': listNotes,
+      'likeProducts': likeProducts
     };
   }
 
@@ -88,6 +93,7 @@ class Guest extends MynuuModel {
       String? signInType,
       int? numberOfVisits,
       List<dynamic>? listNotes,
+      List<dynamic>? likeProducts,
       DateTime? birthdate}) {
     return Guest(
         firstVisit: firstVisit ?? this.firstVisit,
@@ -101,7 +107,8 @@ class Guest extends MynuuModel {
         vip: vip ?? this.vip,
         blacklisted: blacklisted ?? this.blacklisted,
         signInType: signInType ?? this.signInType,
-        listNotes: this.listNotes,
+        listNotes: listNotes ?? this.listNotes,
+        likeProducts: likeProducts ?? this.likeProducts,
         numberOfVisits: numberOfVisits ?? this.numberOfVisits);
   }
 }
