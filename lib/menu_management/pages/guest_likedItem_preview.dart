@@ -114,151 +114,40 @@ class BodyLikeItemPreview extends StatelessWidget {
                     padding: const EdgeInsets.all(8),
                     child: SizedBox(
                       height: 65.w,
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                kIsWeb
-                                    ? Image.network(
-                                        likeProvider.product!.image,
-                                        width: 50,
-                                        height: 20.w,
-                                      )
-                                    : CachedNetworkImage(
-                                        width: 20.w,
-                                        height: 20.w,
-                                        fit: BoxFit.cover,
-                                        filterQuality: FilterQuality.high,
-                                        imageUrl: likeProvider.product!.image,
-                                        errorWidget: (context, url, error) {
-                                          return Center(
-                                            child: Text(
-                                              error.toString(),
-                                              style: const TextStyle(
-                                                  color: Colors.red),
-                                            ),
-                                          );
-                                        },
-                                        imageBuilder:
-                                            (context, imageProvider) =>
-                                                Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10)),
-                                            image: DecorationImage(
-                                              image: imageProvider,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                kIsWeb
-                                    ? Image.network(
-                                        likeProvider.product!.image,
-                                        width: 50,
-                                        height: 50,
-                                      )
-                                    : CachedNetworkImage(
-                                        width: 20.w,
-                                        height: 20.w,
-                                        fit: BoxFit.cover,
-                                        filterQuality: FilterQuality.high,
-                                        imageUrl: likeProvider.product!.image,
-                                        errorWidget: (context, url, error) {
-                                          return Center(
-                                            child: Text(
-                                              error.toString(),
-                                              style: const TextStyle(
-                                                  color: Colors.red),
-                                            ),
-                                          );
-                                        },
-                                        imageBuilder:
-                                            (context, imageProvider) =>
-                                                Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10)),
-                                            image: DecorationImage(
-                                              image: imageProvider,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                kIsWeb
-                                    ? Image.network(
-                                        likeProvider.product!.image,
-                                        width: 50,
-                                        height: 50,
-                                      )
-                                    : CachedNetworkImage(
-                                        width: 20.w,
-                                        height: 20.w,
-                                        fit: BoxFit.cover,
-                                        filterQuality: FilterQuality.high,
-                                        imageUrl: likeProvider.product!.image,
-                                        errorWidget: (context, url, error) {
-                                          return Center(
-                                            child: Text(
-                                              error.toString(),
-                                              style: const TextStyle(
-                                                  color: Colors.red),
-                                            ),
-                                          );
-                                        },
-                                        imageBuilder:
-                                            (context, imageProvider) =>
-                                                Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10)),
-                                            image: DecorationImage(
-                                              image: imageProvider,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                              ],
-                            ),
-                            kIsWeb
-                                ? Image.network(
-                                    likeProvider.product!.image,
-                                    width: 50,
-                                    height: 50,
-                                  )
-                                : CachedNetworkImage(
-                                    width: 55.w,
-                                    height: 75.w,
-                                    fit: BoxFit.cover,
-                                    filterQuality: FilterQuality.high,
-                                    imageUrl: likeProvider.product!.image,
-                                    errorWidget: (context, url, error) {
-                                      return Center(
-                                        child: Text(
-                                          error.toString(),
-                                          style: const TextStyle(
-                                              color: Colors.red),
-                                        ),
-                                      );
-                                    },
-                                    imageBuilder: (context, imageProvider) =>
-                                        Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10)),
-                                        image: DecorationImage(
-                                          image: imageProvider,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
+                      child: Center(
+                        child: kIsWeb
+                            ? Image.network(
+                                likeProvider.product!.image,
+                                width: 50,
+                                height: 50,
+                              )
+                            : CachedNetworkImage(
+                                width: 45.w,
+                                height: 80.w,
+                                fit: BoxFit.cover,
+                                filterQuality: FilterQuality.high,
+                                imageUrl: likeProvider.product!.image,
+                                errorWidget: (context, url, error) {
+                                  return Center(
+                                    child: Text(
+                                      error.toString(),
+                                      style: const TextStyle(color: Colors.red),
+                                    ),
+                                  );
+                                },
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                    image: DecorationImage(
+                                      image: imageProvider,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
-                          ]),
+                                ),
+                              ),
+                      ),
                     )))),
         const SizedBox(
           height: 15,
@@ -305,258 +194,276 @@ class BodyLikeItemPreview extends StatelessWidget {
         const SizedBox(
           height: 15,
         ),
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'brand'.toUpperCase(),
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(185, 185, 185, 1),
-                      fontSize: 16),
-                ),
-                Text(
-                  likeProvider.product!.brand!,
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(242, 242, 242, 1),
-                      fontSize: 16),
-                )
-              ],
-            )),
-        const SizedBox(
-          height: 7,
-        ),
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'country/state'.toUpperCase(),
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(185, 185, 185, 1),
-                      fontSize: 16),
-                ),
-                Text(
-                  likeProvider.product!.countryState!,
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(242, 242, 242, 1),
-                      fontSize: 16),
-                )
-              ],
-            )),
-        const SizedBox(
-          height: 7,
-        ),
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'region'.toUpperCase(),
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(185, 185, 185, 1),
-                      fontSize: 16),
-                ),
-                Text(
-                  likeProvider.product!.region!,
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(242, 242, 242, 1),
-                      fontSize: 16),
-                )
-              ],
-            )),
-        const SizedBox(
-          height: 7,
-        ),
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'wine type'.toUpperCase(),
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(185, 185, 185, 1),
-                      fontSize: 16),
-                ),
-                Text(
-                  likeProvider.product!.type!,
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(242, 242, 242, 1),
-                      fontSize: 16),
-                )
-              ],
-            )),
-        const SizedBox(
-          height: 7,
-        ),
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'varietal'.toUpperCase(),
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(185, 185, 185, 1),
-                      fontSize: 16),
-                ),
-                Text(
-                  likeProvider.product!.varietal!,
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(242, 242, 242, 1),
-                      fontSize: 16),
-                )
-              ],
-            )),
-        const SizedBox(
-          height: 7,
-        ),
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'abv'.toUpperCase(),
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(185, 185, 185, 1),
-                      fontSize: 16),
-                ),
-                Text(
-                  likeProvider.product!.abv!,
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(242, 242, 242, 1),
-                      fontSize: 16),
-                )
-              ],
-            )),
-        const SizedBox(
-          height: 7,
-        ),
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'taste'.toUpperCase(),
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(185, 185, 185, 1),
-                      fontSize: 16),
-                ),
-                Text(
-                  likeProvider.product!.taste!,
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(242, 242, 242, 1),
-                      fontSize: 16),
-                )
-              ],
-            )),
-        const SizedBox(
-          height: 12,
-        ),
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'body'.toUpperCase(),
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(185, 185, 185, 1),
-                      fontSize: 16),
-                ),
-                Text(
-                  likeProvider.product!.body!,
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(242, 242, 242, 1),
-                      fontSize: 16),
-                )
-              ],
-            )),
-        const SizedBox(
-          height: 7,
-        ),
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'sku'.toUpperCase(),
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(185, 185, 185, 1),
-                      fontSize: 16),
-                ),
-                Text(
-                  likeProvider.product!.sku!,
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(242, 242, 242, 1),
-                      fontSize: 16),
-                )
-              ],
-            )),
-        const SizedBox(
-          height: 7,
-        ),
+        if (likeProvider.product!.brand!.isNotEmpty)
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'brand'.toUpperCase(),
+                    style: const TextStyle(
+                        overflow: TextOverflow.clip,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Metropolis',
+                        color: Color.fromRGBO(185, 185, 185, 1),
+                        fontSize: 16),
+                  ),
+                  Text(
+                    likeProvider.product!.brand!,
+                    style: const TextStyle(
+                        overflow: TextOverflow.clip,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Metropolis',
+                        color: Color.fromRGBO(242, 242, 242, 1),
+                        fontSize: 16),
+                  )
+                ],
+              )),
+        if (likeProvider.product!.brand!.isNotEmpty)
+          const SizedBox(
+            height: 7,
+          ),
+        if (likeProvider.product!.countryState!.isNotEmpty)
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'country/state'.toUpperCase(),
+                    style: const TextStyle(
+                        overflow: TextOverflow.clip,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Metropolis',
+                        color: Color.fromRGBO(185, 185, 185, 1),
+                        fontSize: 16),
+                  ),
+                  Text(
+                    likeProvider.product!.countryState!,
+                    style: const TextStyle(
+                        overflow: TextOverflow.clip,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Metropolis',
+                        color: Color.fromRGBO(242, 242, 242, 1),
+                        fontSize: 16),
+                  )
+                ],
+              )),
+        if (likeProvider.product!.countryState!.isNotEmpty)
+          const SizedBox(
+            height: 7,
+          ),
+        if (likeProvider.product!.region!.isNotEmpty)
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'region'.toUpperCase(),
+                    style: const TextStyle(
+                        overflow: TextOverflow.clip,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Metropolis',
+                        color: Color.fromRGBO(185, 185, 185, 1),
+                        fontSize: 16),
+                  ),
+                  Text(
+                    likeProvider.product!.region!,
+                    style: const TextStyle(
+                        overflow: TextOverflow.clip,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Metropolis',
+                        color: Color.fromRGBO(242, 242, 242, 1),
+                        fontSize: 16),
+                  )
+                ],
+              )),
+        if (likeProvider.product!.region!.isNotEmpty)
+          const SizedBox(
+            height: 7,
+          ),
+        if (likeProvider.product!.type!.isNotEmpty)
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'wine type'.toUpperCase(),
+                    style: const TextStyle(
+                        overflow: TextOverflow.clip,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Metropolis',
+                        color: Color.fromRGBO(185, 185, 185, 1),
+                        fontSize: 16),
+                  ),
+                  Text(
+                    likeProvider.product!.type!,
+                    style: const TextStyle(
+                        overflow: TextOverflow.clip,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Metropolis',
+                        color: Color.fromRGBO(242, 242, 242, 1),
+                        fontSize: 16),
+                  )
+                ],
+              )),
+        if (likeProvider.product!.type!.isNotEmpty)
+          const SizedBox(
+            height: 7,
+          ),
+        if (likeProvider.product!.varietal!.isNotEmpty)
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'varietal'.toUpperCase(),
+                    style: const TextStyle(
+                        overflow: TextOverflow.clip,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Metropolis',
+                        color: Color.fromRGBO(185, 185, 185, 1),
+                        fontSize: 16),
+                  ),
+                  Text(
+                    likeProvider.product!.varietal!,
+                    style: const TextStyle(
+                        overflow: TextOverflow.clip,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Metropolis',
+                        color: Color.fromRGBO(242, 242, 242, 1),
+                        fontSize: 16),
+                  )
+                ],
+              )),
+        if (likeProvider.product!.varietal!.isNotEmpty)
+          const SizedBox(
+            height: 7,
+          ),
+        if (likeProvider.product!.abv!.isNotEmpty)
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'abv'.toUpperCase(),
+                    style: const TextStyle(
+                        overflow: TextOverflow.clip,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Metropolis',
+                        color: Color.fromRGBO(185, 185, 185, 1),
+                        fontSize: 16),
+                  ),
+                  Text(
+                    likeProvider.product!.abv!,
+                    style: const TextStyle(
+                        overflow: TextOverflow.clip,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Metropolis',
+                        color: Color.fromRGBO(242, 242, 242, 1),
+                        fontSize: 16),
+                  )
+                ],
+              )),
+        if (likeProvider.product!.abv!.isNotEmpty)
+          const SizedBox(
+            height: 7,
+          ),
+        if (likeProvider.product!.taste!.isNotEmpty)
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'taste'.toUpperCase(),
+                    style: const TextStyle(
+                        overflow: TextOverflow.clip,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Metropolis',
+                        color: Color.fromRGBO(185, 185, 185, 1),
+                        fontSize: 16),
+                  ),
+                  Text(
+                    likeProvider.product!.taste!,
+                    style: const TextStyle(
+                        overflow: TextOverflow.clip,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Metropolis',
+                        color: Color.fromRGBO(242, 242, 242, 1),
+                        fontSize: 16),
+                  )
+                ],
+              )),
+        if (likeProvider.product!.taste!.isNotEmpty)
+          const SizedBox(
+            height: 12,
+          ),
+        if (likeProvider.product!.body!.isNotEmpty)
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'body'.toUpperCase(),
+                    style: const TextStyle(
+                        overflow: TextOverflow.clip,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Metropolis',
+                        color: Color.fromRGBO(185, 185, 185, 1),
+                        fontSize: 16),
+                  ),
+                  Text(
+                    likeProvider.product!.body!,
+                    style: const TextStyle(
+                        overflow: TextOverflow.clip,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Metropolis',
+                        color: Color.fromRGBO(242, 242, 242, 1),
+                        fontSize: 16),
+                  )
+                ],
+              )),
+        if (likeProvider.product!.body!.isNotEmpty)
+          const SizedBox(
+            height: 7,
+          ),
+        if (likeProvider.product!.sku!.isNotEmpty)
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'sku'.toUpperCase(),
+                    style: const TextStyle(
+                        overflow: TextOverflow.clip,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Metropolis',
+                        color: Color.fromRGBO(185, 185, 185, 1),
+                        fontSize: 16),
+                  ),
+                  Text(
+                    likeProvider.product!.sku!,
+                    style: const TextStyle(
+                        overflow: TextOverflow.clip,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Metropolis',
+                        color: Color.fromRGBO(242, 242, 242, 1),
+                        fontSize: 16),
+                  )
+                ],
+              )),
+        if (likeProvider.product!.sku!.isNotEmpty)
+          const SizedBox(
+            height: 7,
+          ),
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 30),
           child: Divider(

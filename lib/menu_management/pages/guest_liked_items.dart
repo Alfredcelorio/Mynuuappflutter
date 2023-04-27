@@ -373,15 +373,32 @@ class BodyLikesItems extends StatelessWidget {
                                       color: Color.fromRGBO(242, 242, 242, 1),
                                       fontSize: 13),
                                 ),
-                                Text(
-                                  prod.description.toUpperCase(),
-                                  style: const TextStyle(
-                                      overflow: TextOverflow.clip,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: 'Metropolis',
-                                      color: Color.fromRGBO(242, 242, 242, 1),
-                                      fontSize: 10),
-                                ),
+                                if (prod.description.length < 140)
+                                  Text(
+                                    prod.description.toUpperCase(),
+                                    style: const TextStyle(
+                                        overflow: TextOverflow.clip,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: 'Metropolis',
+                                        color: Color.fromRGBO(242, 242, 242, 1),
+                                        fontSize: 10),
+                                  ),
+                                if (prod.description.length > 140)
+                                  Expanded(
+                                    flex: 1,
+                                    child: SingleChildScrollView(
+                                      child: Text(
+                                        prod.description.toUpperCase(),
+                                        style: const TextStyle(
+                                            overflow: TextOverflow.clip,
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: 'Metropolis',
+                                            color: Color.fromRGBO(
+                                                242, 242, 242, 1),
+                                            fontSize: 10),
+                                      ),
+                                    ),
+                                  ),
                                 Text(
                                   '\$${prod.price.toString()}',
                                   style: const TextStyle(

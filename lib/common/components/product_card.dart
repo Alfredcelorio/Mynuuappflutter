@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:project1/common/models/product.dart';
 import 'package:project1/common/models/restaurant.dart';
+import 'package:project1/common/services/likesProvider.dart';
 import 'package:project1/common/services/providers.dart';
 import 'package:project1/common/style/mynuu_colors.dart';
 import 'package:provider/provider.dart';
@@ -29,10 +30,12 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final providerR = context.watch<Providers>();
+    final likeProvider = context.watch<LikesProvider>();
     return Padding(
       padding: EdgeInsets.only(left: 1.w, right: 1.w),
       child: InkWell(
-        onTap: () {
+        onTap: () async {
+          await likeProvider.getNameCategory(product.categoryId);
           providerR.changeR(r);
           providerR.changeValuePage(valuePage);
           GoRouter.of(context).push(

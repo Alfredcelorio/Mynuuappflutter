@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:project1/common/pages/restaurant_logo.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:sizer/sizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'package:project1/common/blocs/product_detail_carrousel_bloc.dart';
@@ -109,43 +110,22 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               products.removeWhere((element) => element.id == widget.proId);
               products.insert(0, product);
               print('logo' + providerR.r.logo);
-              return ListView(
-                children: [
-                  Container(
-                    width: 300,
-                    height: isIpad ? 600 : 1200,
-                    child: PageView(
-                      controller: controller,
-                      children: products
-                          .map(
-                            (e) => ProductExtendedCard(
-                              product: e,
-                              categoryId: widget.categoryID,
-                              restaurantShortUrl: widget.restaurantShortUrl,
-                              comesFromDirectLink: widget.comesFromDirectLink,
-                              length: products.length,
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                  if (isIpad)
-                    SafeArea(
-                      child: Center(
-                        child: SmoothPageIndicator(
-                            controller: controller, // PageController
-                            count: products.length,
-                            effect: const JumpingDotEffect(
-                              activeDotColor: mynuuYellow,
-                              dotHeight: 2,
-                              dotWidth: 16,
-                              jumpScale: .7,
-                              verticalOffset: 15,
-                            ), // your preferred effect
-                            onDotClicked: (index) {}),
-                      ),
-                    ),
-                ],
+              return Container(
+                width: 100.w,
+                child: PageView(
+                  controller: controller,
+                  children: products
+                      .map(
+                        (e) => ProductExtendedCard(
+                          product: e,
+                          categoryId: widget.categoryID,
+                          restaurantShortUrl: widget.restaurantShortUrl,
+                          comesFromDirectLink: widget.comesFromDirectLink,
+                          length: products.length,
+                        ),
+                      )
+                      .toList(),
+                ),
               );
             },
           ),
