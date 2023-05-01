@@ -8,6 +8,7 @@ import 'package:project1/common/models/user_system.dart';
 import 'package:project1/menu_management/blocs/table_layout_bloc.dart';
 import 'package:project1/menu_management/pages/coming_soon_screen.dart';
 import 'package:project1/menu_management/pages/guests_table_screen.dart';
+import 'package:project1/menu_management/pages/screen_qrCode.dart';
 import 'package:project1/menu_management/pages/screen_writeNfc.dart';
 import 'package:project1/menu_management/pages/tabslayout.dart';
 import 'package:project1/menu_management/pages/trash.dart';
@@ -44,7 +45,8 @@ class _AdminScreenState extends State<AdminScreen> {
       const GuestsTableScreen(),
       const ComingSoonScreen(),
       const EditLandingScreen(),
-      const ClassNfcPlugin()
+      const ClassNfcPlugin(),
+      const ClassQrCode()
     ];
     super.initState();
   }
@@ -186,6 +188,27 @@ class _AdminScreenState extends State<AdminScreen> {
                     Navigator.pop(context);
                     setState(() {
                       currentPage = 5;
+                    });
+                  },
+                ),
+              if (role != 'Staff')
+                const Divider(
+                  color: Colors.white,
+                ),
+              if (role != 'Staff')
+                ListTile(
+                  title: const Text(
+                    'Qr code',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                    setState(() {
+                      currentPage = 6;
                     });
                   },
                 ),
