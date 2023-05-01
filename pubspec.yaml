@@ -84,6 +84,7 @@ dependencies:
   flutter_easyloading: ^3.0.5
   flutter_session_manager: ^1.0.3
   fluttertoast: ^8.2.1
+  nfc_manager: ^3.2.0
 
 dependency_overrides:
   image_picker_android: 0.8.5+5

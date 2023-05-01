@@ -16,6 +16,7 @@ import 'package:project1/common/pages/product_detail_carrousel.dart';
 import 'package:project1/common/pages/web_router_screen.dart';
 import 'package:project1/common/services/landing_service.dart';
 import 'package:project1/common/services/likesProvider.dart';
+import 'package:project1/common/services/nfc_plugin_provider.dart';
 import 'package:project1/common/services/providers.dart';
 import 'package:project1/common/services/push_notification_service.dart';
 import 'package:project1/common/style/mynuu_colors.dart';
@@ -216,6 +217,9 @@ class _MyAppState extends State<MyApp> {
           ),
           ChangeNotifierProvider(
             create: (context) => LikesProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => NfcPlugin(),
           ),
           Provider.value(
             value: cloudFirestoreService,
