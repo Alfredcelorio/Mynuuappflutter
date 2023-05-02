@@ -984,6 +984,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  nfc_in_flutter:
+    dependency: "direct main"
+    description:
+      name: nfc_in_flutter
+      sha256: "3fbd74e14eebefbdd8a42ae5afd2d66b853b180c4fd2073060afe4fed20ea4ed"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.5"
   nfc_manager:
     dependency: "direct main"
     description:

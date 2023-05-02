@@ -45,7 +45,7 @@ class _AdminScreenState extends State<AdminScreen> {
       const GuestsTableScreen(),
       const ComingSoonScreen(),
       const EditLandingScreen(),
-      const ClassNfcPlugin(),
+      ClassNfcPlugin(),
       const ClassQrCode()
     ];
     super.initState();

@@ -12,6 +12,8 @@
             "args": [
                 "--web-port",
                 "7357",
+                    "--no-sound-null-safety"
+            
             ]
         },
        
