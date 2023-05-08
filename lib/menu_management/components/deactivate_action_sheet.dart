@@ -94,6 +94,7 @@ class DeactivateActionSheet extends StatelessWidget {
                         InkWell(
                           onTap: () async {
                             deactivateProduct(context);
+                            Navigator.pop(context);
                           },
                           child: Text(
                             'Deactivate until tomorrow',

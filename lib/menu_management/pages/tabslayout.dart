@@ -581,9 +581,9 @@ class _TabsLayoutState extends State<TabsLayout> {
                     ],
                     child: DeactivateActionSheet(
                       productResult: pro,
-                      refresh: () => setState(
-                        () => searchC.clear(),
-                      ),
+                      refresh: () => setState(() {
+                        searchC.clear();
+                      }),
                     ),
                   ),
                 );
