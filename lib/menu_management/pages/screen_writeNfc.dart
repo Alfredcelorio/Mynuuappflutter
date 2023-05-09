@@ -24,9 +24,9 @@ class _WriteExampleScreenState extends State<ClassNfcPlugin>
     parent: _controller,
     curve: Curves.easeIn,
   );
+
   StreamSubscription<NDEFMessage>? _stream;
   bool _hasClosedWriteDialog = false;
-  final NfcManager _nfcManager = NfcManager.instance;
 
   @override
   void dispose() {
@@ -35,6 +35,8 @@ class _WriteExampleScreenState extends State<ClassNfcPlugin>
   }
 
   void _write(BuildContext context, String url) async {
+    NDEFMessage emptyMessage = NDEFMessage.withRecords([]);
+
     NDEFMessage message =
         NDEFMessage.withRecords([NDEFRecord.uri(Uri.parse(url))]);
 
@@ -66,7 +68,8 @@ class _WriteExampleScreenState extends State<ClassNfcPlugin>
       );
     }
     try {
-      await NFC.writeNDEF(message).first;
+      await NFC.writeNDEF(emptyMessage).first;
+      await NFC.writeNDEF(message, once: true).first;
       if (!_hasClosedWriteDialog) {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text('Success to "Ndef Write"')));
