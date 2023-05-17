@@ -9,7 +9,7 @@ class Product implements MynuuModel {
   final String description;
   final String categoryId;
   bool enabled;
-  final double price;
+  final String? price;
   final int views;
   bool deleted;
   final String restaurantId;
@@ -79,6 +79,14 @@ class Product implements MynuuModel {
   }
 
   factory Product.fromMap(String id, Map<String, dynamic> map) {
+    map['price'] = map['price'] != null
+        ? map['price'] is int
+            ? map['price']
+            : map['price']
+        : '';
+    if (map['price'].toString().contains('.0')) {
+      map['price'] = map['price'].toString().replaceAll('.0', '');
+    }
     return Product(
         id: id,
         name: map['name'] ?? '',
@@ -86,7 +94,7 @@ class Product implements MynuuModel {
         description: map['description'] ?? '',
         categoryId: map['categoryId'] ?? '',
         enabled: map['enabled'] ?? false,
-        price: map['price']?.toDouble() ?? 0.0,
+        price: map['price'].toString(),
         views: map['views'] ?? 0,
         deleted: map['deleted'] ?? false,
         restaurantId: map['restaurantId'] ?? '',

@@ -895,7 +895,7 @@ class _AddOrEditProductDialogState extends State<AddOrEditProductDialog> {
         description: descriptionC.text,
         categoryId: selectedCategoryId,
         enabled: true,
-        price: double.parse(priceC.text),
+        price: priceC.text,
         views: 0,
         deleted: widget.product?.deleted ?? false,
         restaurantId: context.read<FirebaseUser>().uid,
