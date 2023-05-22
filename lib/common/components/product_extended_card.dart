@@ -152,15 +152,18 @@ class ProductExtendedCard extends StatelessWidget {
                       color: Color.fromRGBO(185, 185, 185, 1),
                       fontSize: 16),
                 ),
-                Text(
-                  product.brand!,
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(242, 242, 242, 1),
-                      fontSize: 16),
-                )
+                SizedBox(
+                  width: 40.w,
+                  child: Text(
+                    product.brand!,
+                    style: const TextStyle(
+                        overflow: TextOverflow.clip,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Metropolis',
+                        color: Color.fromRGBO(242, 242, 242, 1),
+                        fontSize: 16),
+                  ),
+                ),
               ],
             )),
       if (product.brand!.isNotEmpty)
@@ -182,15 +185,17 @@ class ProductExtendedCard extends StatelessWidget {
                       color: Color.fromRGBO(185, 185, 185, 1),
                       fontSize: 16),
                 ),
-                Text(
-                  product.countryState!,
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(242, 242, 242, 1),
-                      fontSize: 16),
-                )
+                SizedBox(
+                    width: 40.w,
+                    child: Text(
+                      product.countryState!,
+                      style: const TextStyle(
+                          overflow: TextOverflow.clip,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'Metropolis',
+                          color: Color.fromRGBO(242, 242, 242, 1),
+                          fontSize: 16),
+                    ))
               ],
             )),
       if (product.countryState!.isNotEmpty)
@@ -212,15 +217,17 @@ class ProductExtendedCard extends StatelessWidget {
                       color: Color.fromRGBO(185, 185, 185, 1),
                       fontSize: 16),
                 ),
-                Text(
-                  product.region!,
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(242, 242, 242, 1),
-                      fontSize: 16),
-                )
+                SizedBox(
+                    width: 50.w,
+                    child: Text(
+                      product.region!,
+                      style: const TextStyle(
+                          overflow: TextOverflow.clip,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'Metropolis',
+                          color: Color.fromRGBO(242, 242, 242, 1),
+                          fontSize: 16),
+                    ))
               ],
             )),
       if (product.region!.isNotEmpty)
@@ -242,15 +249,17 @@ class ProductExtendedCard extends StatelessWidget {
                       color: Color.fromRGBO(185, 185, 185, 1),
                       fontSize: 16),
                 ),
-                Text(
-                  product.type!,
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(242, 242, 242, 1),
-                      fontSize: 16),
-                )
+                SizedBox(
+                    width: 50.w,
+                    child: Text(
+                      product.type!,
+                      style: const TextStyle(
+                          overflow: TextOverflow.clip,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'Metropolis',
+                          color: Color.fromRGBO(242, 242, 242, 1),
+                          fontSize: 16),
+                    ))
               ],
             )),
       if (product.type!.isNotEmpty)
@@ -272,15 +281,17 @@ class ProductExtendedCard extends StatelessWidget {
                       color: Color.fromRGBO(185, 185, 185, 1),
                       fontSize: 16),
                 ),
-                Text(
-                  product.varietal!,
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(242, 242, 242, 1),
-                      fontSize: 16),
-                )
+                SizedBox(
+                    width: 50.w,
+                    child: Text(
+                      product.varietal!,
+                      style: const TextStyle(
+                          overflow: TextOverflow.clip,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'Metropolis',
+                          color: Color.fromRGBO(242, 242, 242, 1),
+                          fontSize: 16),
+                    ))
               ],
             )),
       if (product.varietal!.isNotEmpty)
@@ -302,15 +313,17 @@ class ProductExtendedCard extends StatelessWidget {
                       color: Color.fromRGBO(185, 185, 185, 1),
                       fontSize: 16),
                 ),
-                Text(
-                  product.abv!,
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(242, 242, 242, 1),
-                      fontSize: 16),
-                )
+                SizedBox(
+                    width: 50.w,
+                    child: Text(
+                      product.abv!,
+                      style: const TextStyle(
+                          overflow: TextOverflow.clip,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'Metropolis',
+                          color: Color.fromRGBO(242, 242, 242, 1),
+                          fontSize: 16),
+                    ))
               ],
             )),
       if (product.abv!.isNotEmpty)
@@ -332,15 +345,17 @@ class ProductExtendedCard extends StatelessWidget {
                       color: Color.fromRGBO(185, 185, 185, 1),
                       fontSize: 16),
                 ),
-                Text(
-                  product.taste!,
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(242, 242, 242, 1),
-                      fontSize: 16),
-                )
+                SizedBox(
+                    width: 50.w,
+                    child: Text(
+                      product.taste!,
+                      style: const TextStyle(
+                          overflow: TextOverflow.clip,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'Metropolis',
+                          color: Color.fromRGBO(242, 242, 242, 1),
+                          fontSize: 16),
+                    ))
               ],
             )),
       if (product.taste!.isNotEmpty)
@@ -362,15 +377,17 @@ class ProductExtendedCard extends StatelessWidget {
                       color: Color.fromRGBO(185, 185, 185, 1),
                       fontSize: 16),
                 ),
-                Text(
-                  product.body!,
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(242, 242, 242, 1),
-                      fontSize: 16),
-                )
+                SizedBox(
+                    width: 50.w,
+                    child: Text(
+                      product.body!,
+                      style: const TextStyle(
+                          overflow: TextOverflow.clip,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'Metropolis',
+                          color: Color.fromRGBO(242, 242, 242, 1),
+                          fontSize: 16),
+                    ))
               ],
             )),
       if (product.body!.isNotEmpty)
@@ -392,15 +409,17 @@ class ProductExtendedCard extends StatelessWidget {
                       color: Color.fromRGBO(185, 185, 185, 1),
                       fontSize: 16),
                 ),
-                Text(
-                  product.sku!,
-                  style: const TextStyle(
-                      overflow: TextOverflow.clip,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(242, 242, 242, 1),
-                      fontSize: 16),
-                )
+                SizedBox(
+                    width: 50.w,
+                    child: Text(
+                      product.sku!,
+                      style: const TextStyle(
+                          overflow: TextOverflow.clip,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'Metropolis',
+                          color: Color.fromRGBO(242, 242, 242, 1),
+                          fontSize: 16),
+                    ))
               ],
             )),
       if (product.sku!.isNotEmpty)

@@ -31,6 +31,8 @@ class Menu implements MynuuModel {
       id: id,
       name: map['name'] ?? '',
       restaurantId: map['restaurantId'] ?? '',
+      position: map['position'] ?? 0,
+      status: map['status'] ?? true,
     );
   }
 

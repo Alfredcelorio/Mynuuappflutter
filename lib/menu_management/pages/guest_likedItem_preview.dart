@@ -209,15 +209,17 @@ class BodyLikeItemPreview extends StatelessWidget {
                         color: Color.fromRGBO(185, 185, 185, 1),
                         fontSize: 16),
                   ),
-                  Text(
-                    likeProvider.product!.brand!,
-                    style: const TextStyle(
-                        overflow: TextOverflow.clip,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'Metropolis',
-                        color: Color.fromRGBO(242, 242, 242, 1),
-                        fontSize: 16),
-                  )
+                  SizedBox(
+                      width: 40.w,
+                      child: Text(
+                        likeProvider.product!.brand!,
+                        style: const TextStyle(
+                            overflow: TextOverflow.clip,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Metropolis',
+                            color: Color.fromRGBO(242, 242, 242, 1),
+                            fontSize: 16),
+                      ))
                 ],
               )),
         if (likeProvider.product!.brand!.isNotEmpty)
@@ -239,15 +241,17 @@ class BodyLikeItemPreview extends StatelessWidget {
                         color: Color.fromRGBO(185, 185, 185, 1),
                         fontSize: 16),
                   ),
-                  Text(
-                    likeProvider.product!.countryState!,
-                    style: const TextStyle(
-                        overflow: TextOverflow.clip,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'Metropolis',
-                        color: Color.fromRGBO(242, 242, 242, 1),
-                        fontSize: 16),
-                  )
+                  SizedBox(
+                      width: 40.w,
+                      child: Text(
+                        likeProvider.product!.countryState!,
+                        style: const TextStyle(
+                            overflow: TextOverflow.clip,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Metropolis',
+                            color: Color.fromRGBO(242, 242, 242, 1),
+                            fontSize: 16),
+                      ))
                 ],
               )),
         if (likeProvider.product!.countryState!.isNotEmpty)
@@ -269,15 +273,17 @@ class BodyLikeItemPreview extends StatelessWidget {
                         color: Color.fromRGBO(185, 185, 185, 1),
                         fontSize: 16),
                   ),
-                  Text(
-                    likeProvider.product!.region!,
-                    style: const TextStyle(
-                        overflow: TextOverflow.clip,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'Metropolis',
-                        color: Color.fromRGBO(242, 242, 242, 1),
-                        fontSize: 16),
-                  )
+                  SizedBox(
+                      width: 40.w,
+                      child: Text(
+                        likeProvider.product!.region!,
+                        style: const TextStyle(
+                            overflow: TextOverflow.clip,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Metropolis',
+                            color: Color.fromRGBO(242, 242, 242, 1),
+                            fontSize: 16),
+                      ))
                 ],
               )),
         if (likeProvider.product!.region!.isNotEmpty)
@@ -299,15 +305,17 @@ class BodyLikeItemPreview extends StatelessWidget {
                         color: Color.fromRGBO(185, 185, 185, 1),
                         fontSize: 16),
                   ),
-                  Text(
-                    likeProvider.product!.type!,
-                    style: const TextStyle(
-                        overflow: TextOverflow.clip,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'Metropolis',
-                        color: Color.fromRGBO(242, 242, 242, 1),
-                        fontSize: 16),
-                  )
+                  SizedBox(
+                      width: 40.w,
+                      child: Text(
+                        likeProvider.product!.type!,
+                        style: const TextStyle(
+                            overflow: TextOverflow.clip,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Metropolis',
+                            color: Color.fromRGBO(242, 242, 242, 1),
+                            fontSize: 16),
+                      ))
                 ],
               )),
         if (likeProvider.product!.type!.isNotEmpty)
@@ -329,15 +337,17 @@ class BodyLikeItemPreview extends StatelessWidget {
                         color: Color.fromRGBO(185, 185, 185, 1),
                         fontSize: 16),
                   ),
-                  Text(
-                    likeProvider.product!.varietal!,
-                    style: const TextStyle(
-                        overflow: TextOverflow.clip,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'Metropolis',
-                        color: Color.fromRGBO(242, 242, 242, 1),
-                        fontSize: 16),
-                  )
+                  SizedBox(
+                      width: 40.w,
+                      child: Text(
+                        likeProvider.product!.varietal!,
+                        style: const TextStyle(
+                            overflow: TextOverflow.clip,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Metropolis',
+                            color: Color.fromRGBO(242, 242, 242, 1),
+                            fontSize: 16),
+                      ))
                 ],
               )),
         if (likeProvider.product!.varietal!.isNotEmpty)
@@ -359,15 +369,17 @@ class BodyLikeItemPreview extends StatelessWidget {
                         color: Color.fromRGBO(185, 185, 185, 1),
                         fontSize: 16),
                   ),
-                  Text(
-                    likeProvider.product!.abv!,
-                    style: const TextStyle(
-                        overflow: TextOverflow.clip,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'Metropolis',
-                        color: Color.fromRGBO(242, 242, 242, 1),
-                        fontSize: 16),
-                  )
+                  SizedBox(
+                      width: 40.w,
+                      child: Text(
+                        likeProvider.product!.abv!,
+                        style: const TextStyle(
+                            overflow: TextOverflow.clip,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Metropolis',
+                            color: Color.fromRGBO(242, 242, 242, 1),
+                            fontSize: 16),
+                      ))
                 ],
               )),
         if (likeProvider.product!.abv!.isNotEmpty)
@@ -389,15 +401,17 @@ class BodyLikeItemPreview extends StatelessWidget {
                         color: Color.fromRGBO(185, 185, 185, 1),
                         fontSize: 16),
                   ),
-                  Text(
-                    likeProvider.product!.taste!,
-                    style: const TextStyle(
-                        overflow: TextOverflow.clip,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'Metropolis',
-                        color: Color.fromRGBO(242, 242, 242, 1),
-                        fontSize: 16),
-                  )
+                  SizedBox(
+                      width: 40.w,
+                      child: Text(
+                        likeProvider.product!.taste!,
+                        style: const TextStyle(
+                            overflow: TextOverflow.clip,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Metropolis',
+                            color: Color.fromRGBO(242, 242, 242, 1),
+                            fontSize: 16),
+                      ))
                 ],
               )),
         if (likeProvider.product!.taste!.isNotEmpty)
@@ -419,15 +433,17 @@ class BodyLikeItemPreview extends StatelessWidget {
                         color: Color.fromRGBO(185, 185, 185, 1),
                         fontSize: 16),
                   ),
-                  Text(
-                    likeProvider.product!.body!,
-                    style: const TextStyle(
-                        overflow: TextOverflow.clip,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'Metropolis',
-                        color: Color.fromRGBO(242, 242, 242, 1),
-                        fontSize: 16),
-                  )
+                  SizedBox(
+                      width: 40.w,
+                      child: Text(
+                        likeProvider.product!.body!,
+                        style: const TextStyle(
+                            overflow: TextOverflow.clip,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Metropolis',
+                            color: Color.fromRGBO(242, 242, 242, 1),
+                            fontSize: 16),
+                      ))
                 ],
               )),
         if (likeProvider.product!.body!.isNotEmpty)
@@ -449,15 +465,17 @@ class BodyLikeItemPreview extends StatelessWidget {
                         color: Color.fromRGBO(185, 185, 185, 1),
                         fontSize: 16),
                   ),
-                  Text(
-                    likeProvider.product!.sku!,
-                    style: const TextStyle(
-                        overflow: TextOverflow.clip,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'Metropolis',
-                        color: Color.fromRGBO(242, 242, 242, 1),
-                        fontSize: 16),
-                  )
+                  SizedBox(
+                      width: 40.w,
+                      child: Text(
+                        likeProvider.product!.sku!,
+                        style: const TextStyle(
+                            overflow: TextOverflow.clip,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Metropolis',
+                            color: Color.fromRGBO(242, 242, 242, 1),
+                            fontSize: 16),
+                      ))
                 ],
               )),
         if (likeProvider.product!.sku!.isNotEmpty)
