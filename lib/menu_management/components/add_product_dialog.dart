@@ -19,12 +19,14 @@ class AddOrEditProductDialog extends StatefulWidget {
   final String category;
   final List<ProductCategory>? availableCategories;
   final Product? product;
-  const AddOrEditProductDialog({
-    Key? key,
-    required this.category,
-    required this.availableCategories,
-    this.product,
-  }) : super(key: key);
+  final String menuId;
+  const AddOrEditProductDialog(
+      {Key? key,
+      required this.category,
+      required this.availableCategories,
+      this.product,
+      required this.menuId})
+      : super(key: key);
 
   @override
   State<AddOrEditProductDialog> createState() => _AddOrEditProductDialogState();
@@ -61,6 +63,7 @@ class _AddOrEditProductDialogState extends State<AddOrEditProductDialog> {
   @override
   void initState() {
     selectedCategoryId = widget.category;
+    selectedMenuId = widget.menuId;
     if (widget.product != null) {
       itemnumberC.text = '123';
       nameC.text = widget.product?.name ?? '';

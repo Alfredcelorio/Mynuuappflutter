@@ -106,11 +106,10 @@ class _TabsLayoutState extends State<TabsLayout> {
                       categories: categories,
                     ),
                   if (categories.isNotEmpty && searchC.text.isEmpty)
-                    buildProductList(
-                      context,
-                      categoryId: categories[tabBarIndex!].id,
-                      categories: categories,
-                    ),
+                    buildProductList(context,
+                        categoryId: categories[tabBarIndex!].id,
+                        categories: categories,
+                        menuId: categories[tabBarIndex!].menuId),
                   if (searchC.text.isNotEmpty)
                     _buildFilteredProductsTable(categories, context),
                 ],
@@ -183,12 +182,11 @@ class _TabsLayoutState extends State<TabsLayout> {
                               product: product,
                               onRowTap: () {
                                 if (role != 'Staff') {
-                                  openProductOptionsDialog(
-                                    context,
-                                    categories: categories,
-                                    categoryId: category.id,
-                                    pro: product,
-                                  );
+                                  openProductOptionsDialog(context,
+                                      categories: categories,
+                                      categoryId: category.id,
+                                      pro: product,
+                                      menuId: category.menuId);
                                 }
                               }),
                         )
@@ -429,6 +427,7 @@ class _TabsLayoutState extends State<TabsLayout> {
   Widget buildProductList(
     BuildContext context, {
     required String categoryId,
+    required String menuId,
     required List<ProductCategory> categories,
   }) {
     final authProvider = context.read<AuthenticationBLoc>();
@@ -450,11 +449,10 @@ class _TabsLayoutState extends State<TabsLayout> {
             if (_productList.isEmpty) {
               return Column(
                 children: [
-                  buildAddNewEntry(
-                    context,
-                    categoryId: categoryId,
-                    categories: categories,
-                  ),
+                  buildAddNewEntry(context,
+                      categoryId: categoryId,
+                      categories: categories,
+                      menuId: menuId),
                   // const Center(
                   //   key: ValueKey('new_entry'),
                   //   child: Text(
@@ -502,12 +500,11 @@ class _TabsLayoutState extends State<TabsLayout> {
                             product: pro,
                             onRowTap: () {
                               if (role != 'Staff') {
-                                openProductOptionsDialog(
-                                  context,
-                                  categories: categories,
-                                  categoryId: categoryId,
-                                  pro: pro,
-                                );
+                                openProductOptionsDialog(context,
+                                    categories: categories,
+                                    categoryId: categoryId,
+                                    pro: pro,
+                                    menuId: menuId);
                               }
                             }),
                       )
@@ -516,6 +513,7 @@ class _TabsLayoutState extends State<TabsLayout> {
                     context,
                     categoryId: categoryId,
                     categories: categories,
+                    menuId: menuId,
                   ),
                 ]);
           },
@@ -651,12 +649,11 @@ class _TabsLayoutState extends State<TabsLayout> {
     );
   }
 
-  void openProductOptionsDialog(
-    BuildContext context, {
-    required Product pro,
-    required List<ProductCategory> categories,
-    required String categoryId,
-  }) {
+  void openProductOptionsDialog(BuildContext context,
+      {required Product pro,
+      required List<ProductCategory> categories,
+      required String categoryId,
+      required String menuId}) {
     print("dialog");
     showModalBottomSheet(
       context: context,
@@ -669,16 +666,16 @@ class _TabsLayoutState extends State<TabsLayout> {
           product: pro,
           categories: categories,
           currentCategoryId: categoryId,
+          menuId: menuId,
         ),
       ),
     );
   }
 
-  Widget buildAddNewEntry(
-    BuildContext context, {
-    required String categoryId,
-    required List<ProductCategory> categories,
-  }) {
+  Widget buildAddNewEntry(BuildContext context,
+      {required String categoryId,
+      required List<ProductCategory> categories,
+      required String menuId}) {
     return Center(
       key: const ValueKey('buildAddNewEntry'),
       child: GestureDetector(
@@ -692,9 +689,9 @@ class _TabsLayoutState extends State<TabsLayout> {
                   Provider.value(value: bloc),
                 ],
                 child: AddOrEditProductDialog(
-                  category: categoryId,
-                  availableCategories: categories,
-                ),
+                    category: categoryId,
+                    availableCategories: categories,
+                    menuId: menuId),
               );
             },
           );
@@ -746,11 +743,11 @@ class _TabsLayoutState extends State<TabsLayout> {
           cursorColor: Colors.white,
           maxLines: 1,
           style: TextStyle(color: borderColor, fontFamily: fontFamily),
-          onChanged: (v) {
-            _debounce(() {
-              search();
-              setState(() {});
-            });
+          onChanged: (v) async {
+            EasyLoading.show(status: '');
+            await search();
+            EasyLoading.dismiss();
+            setState(() {});
           },
           decoration: InputDecoration(
             prefixIcon: IconButton(
@@ -815,7 +812,7 @@ class _TabsLayoutState extends State<TabsLayout> {
         textColor: Color.fromRGBO(254, 253, 253, 1));
   }
 
-  void search() async {
+  Future<void> search() async {
     final searchText = searchC.text;
     if (searchText.isNotEmpty) {
       final userSession = context.read<FirebaseUser>();

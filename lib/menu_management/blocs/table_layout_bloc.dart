@@ -237,7 +237,7 @@ class TableLayoutBloc {
     final mountainImagesRef =
         storage.ref().child("$folderName/$productName.jpg");
     try {
-      mountainImagesRef.putFile(file);
+      await mountainImagesRef.putFile(file);
       downloadUrl = await mountainImagesRef.getDownloadURL();
     } catch (e) {
       rethrow;

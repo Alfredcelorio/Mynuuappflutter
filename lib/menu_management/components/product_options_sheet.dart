@@ -12,16 +12,18 @@ import 'package:sizer/sizer.dart';
 import 'add_product_dialog.dart';
 
 class ProductOptionsSheet extends StatelessWidget {
-  const ProductOptionsSheet({
-    Key? key,
-    required this.product,
-    required this.currentCategoryId,
-    required this.categories,
-  }) : super(key: key);
+  const ProductOptionsSheet(
+      {Key? key,
+      required this.product,
+      required this.currentCategoryId,
+      required this.categories,
+      required this.menuId})
+      : super(key: key);
 
   final Product product;
   final String currentCategoryId;
   final List<ProductCategory>? categories;
+  final String menuId;
   @override
   Widget build(BuildContext context) {
     final fontFamily = GoogleFonts.georama().fontFamily;
@@ -74,6 +76,7 @@ class ProductOptionsSheet extends StatelessWidget {
                           category: currentCategoryId,
                           availableCategories: categories,
                           product: product,
+                          menuId: menuId,
                         ),
                       );
                     },
