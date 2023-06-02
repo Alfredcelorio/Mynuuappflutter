@@ -35,8 +35,6 @@ class _WriteExampleScreenState extends State<ClassNfcPlugin>
   }
 
   void _write(BuildContext context, String url) async {
-    NDEFMessage emptyMessage = NDEFMessage.withRecords([]);
-
     NDEFMessage message =
         NDEFMessage.withRecords([NDEFRecord.uri(Uri.parse(url))]);
 
@@ -68,7 +66,6 @@ class _WriteExampleScreenState extends State<ClassNfcPlugin>
       );
     }
     try {
-      await NFC.writeNDEF(emptyMessage).first;
       await NFC.writeNDEF(message, once: true).first;
       if (!_hasClosedWriteDialog) {
         ScaffoldMessenger.of(context)
