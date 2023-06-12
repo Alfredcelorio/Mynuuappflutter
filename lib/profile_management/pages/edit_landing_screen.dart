@@ -44,7 +44,6 @@ class _EditProfileScreenState extends State<EditLandingScreen> {
     final providerFirebaseUser = context.read<FirebaseUser>();
     final providerR = context.read<Providers>();
     providerFirebaseUser.uid = providerR.r.id;
-    print("fireuser: ${providerFirebaseUser.uid}");
     return FutureBuilder<Restaurant>(
       future: bloc.getRestaurantProfile(
         context.read<FirebaseUser>().uid,

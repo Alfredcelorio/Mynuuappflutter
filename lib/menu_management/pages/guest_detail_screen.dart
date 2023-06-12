@@ -10,6 +10,7 @@ import 'package:project1/common/services/likesProvider.dart';
 import 'package:project1/common/style/mynuu_colors.dart';
 import 'package:project1/menu_management/blocs/table_layout_bloc.dart';
 import 'package:project1/menu_management/pages/guest_liked_items.dart';
+import 'package:project1/menu_management/pages/guest_selected_items.dart';
 import 'package:provider/provider.dart';
 
 class GuestDetailScreen extends StatefulWidget {
@@ -53,7 +54,7 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Padding(
-                padding: EdgeInsets.only(left: 6),
+                padding: const EdgeInsets.only(left: 6),
                 child: IconButton(
                   onPressed: () => Navigator.pop(context),
                   icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -293,40 +294,78 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 35),
                   child: SizedBox(
-                      width: 10,
-                      height: 40,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromRGBO(255, 255, 255, 0.05)),
-                        onPressed: () async {
-                          List<String> likesId = [];
-                          if (guest.likeProducts != null) {
-                            for (var i = 0;
-                                i < guest.likeProducts!.length;
-                                i++) {
-                              var likeObj = guest.likeProducts!.elementAt(i)
-                                  as Map<String, dynamic>;
-                              likesId.add(likeObj['id']);
-                            }
+                    width: 10,
+                    height: 40,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromRGBO(255, 255, 255, 0.05)),
+                      onPressed: () async {
+                        List<String> likesId = [];
+                        if (guest.likeProducts != null) {
+                          for (var i = 0; i < guest.likeProducts!.length; i++) {
+                            var likeObj = guest.likeProducts!.elementAt(i)
+                                as Map<String, dynamic>;
+                            likesId.add(likeObj['id']);
                           }
-                          await providerLikes.loadLikesProducts(
-                              guest.restaurantId, likesId);
-                          // await providerLikes.loadLikesProducts(
-                          //     'SSkzsAvWhxPZsKpULXnCKkalSe32',
-                          //     ['0QOEj9yRkAJIKOkOMMHz', '6t3c3R80cSAKPpUDTFOW']);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Provider.value(
-                                value: bloc,
-                                child: LikeItemsClass(),
-                              ),
+                        }
+                        await providerLikes.loadLikesProducts(
+                            guest.restaurantId, likesId);
+                        // await providerLikes.loadLikesProducts(
+                        //     'SSkzsAvWhxPZsKpULXnCKkalSe32',
+                        //     ['0QOEj9yRkAJIKOkOMMHz', '6t3c3R80cSAKPpUDTFOW']);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Provider.value(
+                              value: bloc,
+                              child: const LikeItemsClass(),
                             ),
-                          );
-                        },
-                        child: const Text('Liked items'),
-                      )),
+                          ),
+                        );
+                      },
+                      child: const Text('Liked Items'),
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 35),
+                  margin: const EdgeInsets.only(top: 5),
+                  child: SizedBox(
+                    width: 10,
+                    height: 40,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromRGBO(255, 255, 255, 0.05)),
+                      onPressed: () async {
+                        List<String> likesId = [];
+                        if (guest.likeProducts != null) {
+                          for (var i = 0; i < guest.likeProducts!.length; i++) {
+                            var likeObj = guest.likeProducts!.elementAt(i)
+                                as Map<String, dynamic>;
+                            likesId.add(likeObj['id']);
+                          }
+                        }
+                        await providerLikes.loadLikesProducts(
+                            guest.restaurantId, likesId);
+                        // await providerLikes.loadLikesProducts(
+                        //     'SSkzsAvWhxPZsKpULXnCKkalSe32',
+                        //     ['0QOEj9yRkAJIKOkOMMHz', '6t3c3R80cSAKPpUDTFOW']);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Provider.value(
+                              value: bloc,
+                              child:
+                                  GuestSelectedItems(guestId: widget.guestId),
+                            ),
+                          ),
+                        );
+                      },
+                      child: const Text('Selected Items'),
+                    ),
+                  ),
                 ),
                 const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -351,7 +390,7 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               backgroundColor:
-                                  Color.fromRGBO(255, 255, 255, 0.05)),
+                                  const Color.fromRGBO(255, 255, 255, 0.05)),
                           onPressed: () {
                             setState(() {
                               addOrEdit = true;
@@ -521,100 +560,6 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: _buildTableBody(notes.reversed.toList(), guest),
                 ),
-
-                // const Padding(
-                //   padding: EdgeInsets.all(36.0),
-                //   child: Text(
-                //     'TAGS',
-                //     style: TextStyle(color: Colors.white),
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 20),
-                //   child: Wrap(
-                //     spacing: 10,
-                //     children: [
-                //       Chip(
-                //         label: ConstrainedBox(
-                //           constraints: const BoxConstraints(
-                //             maxWidth: 80,
-                //           ),
-                //           child: Row(
-                //             mainAxisAlignment: MainAxisAlignment.center,
-                //             children: [
-                //               const Icon(
-                //                 Icons.star,
-                //                 color: mynuuGreen,
-                //               ),
-                //               Text(
-                //                 'allergy',
-                //                 style: TextStyle(
-                //                   fontFamily: GoogleFonts.georama().fontFamily,
-                //                   color: Colors.white,
-                //                   fontSize: 11,
-                //                 ),
-                //               ),
-                //             ],
-                //           ),
-                //         ),
-                //         backgroundColor: const Color(0xFF1E1E1E),
-                //       ),
-                //       Chip(
-                //         label: ConstrainedBox(
-                //           constraints: const BoxConstraints(
-                //             maxWidth: 70,
-                //           ),
-                //           child: Row(
-                //             mainAxisAlignment: MainAxisAlignment.center,
-                //             children: [
-                //               const Icon(
-                //                 Icons.star,
-                //                 color: mynuuGreen,
-                //               ),
-                //               Expanded(
-                //                 child: Text(
-                //                   'friends',
-                //                   style: TextStyle(
-                //                     fontFamily:
-                //                         GoogleFonts.georama().fontFamily,
-                //                     color: Colors.white,
-                //                     fontSize: 11,
-                //                   ),
-                //                 ),
-                //               ),
-                //             ],
-                //           ),
-                //         ),
-                //         backgroundColor: const Color(0xFF1E1E1E),
-                //       ),
-                //       Chip(
-                //         label: ConstrainedBox(
-                //           constraints: const BoxConstraints(
-                //             maxWidth: 80,
-                //           ),
-                //           child: Row(
-                //             mainAxisAlignment: MainAxisAlignment.center,
-                //             children: [
-                //               const Icon(
-                //                 Icons.star,
-                //                 color: mynuuYellow,
-                //               ),
-                //               Text(
-                //                 'Birthday',
-                //                 style: TextStyle(
-                //                   fontFamily: GoogleFonts.georama().fontFamily,
-                //                   color: Colors.white,
-                //                   fontSize: 11,
-                //                 ),
-                //               ),
-                //             ],
-                //           ),
-                //         ),
-                //         backgroundColor: const Color(0xFF1E1E1E),
-                //       ),
-                //     ],
-                //   ),
-                // ),
                 const SizedBox(
                   height: 80,
                 ),
@@ -627,51 +572,11 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
     );
   }
 
-  Widget _buildStatisticDataContainer(
-    String title,
-    String value, {
-    Color valueColor = mynuuGreen,
-  }) {
-    return Container(
-      width: 130,
-      height: 90,
-      decoration: BoxDecoration(
-        color: const Color(0xFF1E1E1E).withOpacity(.28),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            title,
-            style: TextStyle(
-              color: Colors.white,
-              fontFamily: GoogleFonts.georama().fontFamily,
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Text(
-            value,
-            style: TextStyle(
-              color: valueColor,
-              fontSize: 20,
-              fontFamily: GoogleFonts.georama().fontFamily,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildGuestInformationData(Guest guest, {String mode = 'Details'}) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Card(
-          color: Color.fromRGBO(255, 255, 255, 0.02),
+          color: const Color.fromRGBO(255, 255, 255, 0.02),
           child: Container(
               height: mode == 'Details' ? 194 : 110,
               decoration: BoxDecoration(
@@ -811,8 +716,8 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
               ? SizedBox(
                   height: 20,
                   child: Switch(
-                    activeColor: Color.fromRGBO(160, 160, 160, 1),
-                    inactiveThumbColor: Color.fromRGBO(160, 160, 160, 1),
+                    activeColor: const Color.fromRGBO(160, 160, 160, 1),
+                    inactiveThumbColor: const Color.fromRGBO(160, 160, 160, 1),
                     activeTrackColor: mynuuYellow,
                     value: switchValue ?? false,
                     onChanged: (value) {
@@ -852,11 +757,6 @@ class _GuestDetailScreenState extends State<GuestDetailScreen> {
   }
 
   TableRow _buildTableRow(Map<String, dynamic> note, Guest g) {
-    double douTam = clickTableRow == null
-        ? 6
-        : clickTableRow != -1
-            ? 4
-            : 6;
     return TableRow(
       children: [
         TableRowInkWell(

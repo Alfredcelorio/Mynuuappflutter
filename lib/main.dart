@@ -72,7 +72,7 @@ void configLoading() {
     ..indicatorSize = 45.0
     ..radius = 10.0
     ..progressColor = mynuuPrimary
-    ..backgroundColor = Color.fromARGB(255, 0, 0, 0).withOpacity(0.8)
+    ..backgroundColor = const Color.fromARGB(255, 0, 0, 0).withOpacity(0.8)
     ..indicatorColor = mynuuPrimary
     ..textColor = Colors.yellow
     ..maskColor = Colors.blue.withOpacity(0.5)
@@ -147,7 +147,7 @@ class _MyAppState extends State<MyApp> {
                     state.extra as SignInNameScreenArguments?;
 
                 if (otpScreenArguments == null) {
-                  return NotFoundScreen();
+                  return const NotFoundScreen();
                 }
 
                 return SignInNameScreen(

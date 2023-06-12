@@ -1,166 +1,135 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:project1/common/models/product.dart';
-import 'package:project1/common/services/likesProvider.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:project1/common/models/selected_item.dart';
 import 'package:project1/common/services/providers.dart';
-import 'package:project1/menu_management/pages/guest_likedItem_preview.dart';
+import 'package:project1/menu_management/blocs/table_layout_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class LikeItemsClass extends StatelessWidget {
-  const LikeItemsClass({Key? key}) : super(key: key);
+class SelectedItemsList extends StatelessWidget {
+  final String guestId;
+
+  const SelectedItemsList({
+    Key? key,
+    required this.guestId,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final providerR = context.read<Providers>();
-    return Scaffold(
-        backgroundColor: Colors.black,
-        appBar: AppBar(
-          backgroundColor: const Color.fromRGBO(0, 0, 0, 1),
-          automaticallyImplyLeading: false, // Don't show the leading button
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                  padding: const EdgeInsets.only(left: 5),
-                  child: IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.chevron_left_sharp,
-                        size: 35, color: Color.fromRGBO(255, 255, 255, 0.7)),
-                  )),
-              Padding(
-                padding: const EdgeInsets.only(right: 20),
-                child: ClipOval(
-                  child: kIsWeb
-                      ? Image.network(
-                          providerR.r.logo,
-                          width: 40,
-                          height: 50,
-                        )
-                      : CachedNetworkImage(
-                          width: 60,
-                          height: 50,
-                          fit: BoxFit.cover,
-                          filterQuality: FilterQuality.high,
-                          imageUrl: providerR.r.logo,
-                          errorWidget: (context, url, error) {
-                            return Center(
-                              child: Text(
-                                error.toString(),
-                                style: const TextStyle(color: Colors.red),
-                              ),
-                            );
-                          },
-                          imageBuilder: (context, imageProvider) => Container(
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(10)),
-                              image: DecorationImage(
-                                image: imageProvider,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
-                ),
-              )
-            ],
-          ),
-        ),
-        body: BodyLikesItems());
-  }
-}
+    TableLayoutBloc bloc = context.read<TableLayoutBloc>();
 
-class BodyLikesItems extends StatelessWidget {
-  TextEditingController searchController = TextEditingController();
-  BodyLikesItems({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final likeProvider = context.watch<LikesProvider>();
-    final providerR = context.read<Providers>();
     return ListView(
       padding: const EdgeInsets.only(top: 5),
       children: [
         Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Image.asset(
-                  'assets/icons/stars.png',
-                  height: 28,
-                  width: 28,
-                ),
-                const Padding(
-                    padding: EdgeInsets.only(left: 20),
-                    child: Text(
-                      'Favorites',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Metropolis',
-                          color: Color.fromRGBO(218, 218, 218, 1),
-                          fontSize: 32),
-                    )),
-              ],
-            )),
-        const SizedBox(height: 11),
-        Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Container(
-            height: 35,
-            decoration: const BoxDecoration(
-              color: Color.fromRGBO(255, 255, 255, 0.12),
-            ),
-            child: TextFormField(
-              controller: searchController,
-              textAlign: TextAlign.end,
-              cursorColor: Colors.white,
-              maxLines: 1,
-              style: const TextStyle(color: Colors.white),
-              onChanged: (v) {
-                likeProvider.notify();
-              },
-              decoration: InputDecoration(
-                prefixIcon: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.search,
-                    color: Color.fromRGBO(205, 211, 214, 1),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Image.asset(
+                'assets/icons/stars.png',
+                height: 28,
+                width: 28,
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 20),
+                child: Text(
+                  'Selected Items',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Metropolis',
+                    color: Color.fromRGBO(218, 218, 218, 1),
+                    fontSize: 32,
                   ),
                 ),
-                hintText: "Search Here",
-                hintStyle: const TextStyle(
-                    fontFamily: 'Metropolis',
-                    color: Color.fromRGBO(205, 211, 214, 1)),
-                contentPadding: EdgeInsets.only(bottom: 1.w, left: 3.w),
               ),
-            ),
+            ],
           ),
         ),
+        const SizedBox(height: 11),
         const SizedBox(height: 5),
-        if (likeProvider.prods.isEmpty)
-          const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 28),
-              child: Center(
-                child: Text(
-                  'No liked items yet',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Metropolis',
-                      color: Color.fromRGBO(218, 218, 218, 1),
-                      fontSize: 20),
-                ),
-              )),
-        if (likeProvider.prods.isNotEmpty)
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 28),
-              child: _buildTableBody(
-                  likeProvider.prods.reversed.toList(), context)),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 28),
+          child: FutureBuilder<List<SelectedItem>>(
+            future: bloc.getGuestSelectedProducts(guestId),
+            builder: (context, snapshot) {
+              final items = snapshot.data;
+
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                EasyLoading.show(status: '');
+                return const Center();
+              }
+
+              if (snapshot.connectionState == ConnectionState.done) {
+                EasyLoading.dismiss();
+              }
+
+              if (items == null) {
+                return const Center(
+                  child: Text(
+                    "No selected items yet",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                );
+              }
+
+              if ((items.isEmpty)) {
+                return const Center(
+                  child: Text(
+                    "No products yet",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                );
+              }
+
+              var total = 0.0;
+
+              for (var element in items) {
+                total += element.quantity * int.parse(element.price);
+              }
+
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 15,
+                      bottom: 5,
+                    ),
+                    child: Row(
+                      children: [
+                        const Text(
+                          "Subtotal: ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'Metropolis',
+                            color: Color.fromRGBO(218, 218, 218, 1),
+                            fontSize: 26,
+                          ),
+                        ),
+                        Text(
+                          total.toString(),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'Metropolis',
+                            color: Color.fromRGBO(218, 218, 218, 1),
+                            fontSize: 26,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  _buildTableBody(
+                    items,
+                    context,
+                  )
+                ],
+              );
+            },
+          ),
+        ),
         const SizedBox(height: 40),
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 70),
@@ -274,27 +243,18 @@ class BodyLikesItems extends StatelessWidget {
     );
   }
 
-  Widget _buildTableBody(List<Product> prods, BuildContext context) {
+  Widget _buildTableBody(List<SelectedItem> prods, BuildContext context) {
     return Table(
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: _buildTableRows(
-        prods
-            .where(
-              (element) =>
-                  element.name.toLowerCase().contains(
-                        searchController.text.toLowerCase(),
-                      ) ||
-                  element.description.toLowerCase().contains(
-                        searchController.text.toLowerCase(),
-                      ),
-            )
-            .toList(),
+        prods,
         context,
       ),
     );
   }
 
-  List<TableRow> _buildTableRows(List<Product> prods, BuildContext context) {
+  List<TableRow> _buildTableRows(
+      List<SelectedItem> prods, BuildContext context) {
     List<TableRow> rows = [];
     for (var prod in prods) {
       rows.add(
@@ -304,9 +264,7 @@ class BodyLikesItems extends StatelessWidget {
     return rows;
   }
 
-  TableRow _buildTableRow(BuildContext context, Product prod) {
-    final providerR = context.read<Providers>();
-    final likeProvider = context.watch<LikesProvider>();
+  TableRow _buildTableRow(BuildContext context, SelectedItem prod) {
     return TableRow(
       decoration: BoxDecoration(
         color: const Color(0xFF1A1A1A).withOpacity(.5),
@@ -314,16 +272,6 @@ class BodyLikesItems extends StatelessWidget {
       ),
       children: [
         TableRowInkWell(
-          onTap: () async {
-            await likeProvider.getNameCategory(prod.categoryId);
-            likeProvider.changeProduct(prod);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const LikeItemPreviewClass(),
-              ),
-            );
-          },
           child: Card(
             color: const Color.fromRGBO(255, 255, 255, 0.05),
             child: SizedBox(
@@ -340,20 +288,34 @@ class BodyLikesItems extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Image.asset(
-                            'assets/icons/heart.png',
-                            height: 20,
-                            width: 20,
-                            color: const Color.fromRGBO(226, 226, 226, 1),
-                          ),
-                          Text(
-                            prod.name.toUpperCase(),
-                            style: const TextStyle(
-                                overflow: TextOverflow.clip,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'Metropolis',
-                                color: Color.fromRGBO(242, 242, 242, 1),
-                                fontSize: 13),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 30.w,
+                                child: Text(
+                                  prod.name.toUpperCase(),
+                                  style: const TextStyle(
+                                    overflow: TextOverflow.clip,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: 'Metropolis',
+                                    color: Color.fromRGBO(242, 242, 242, 1),
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                "* ${prod.quantity.toString()}",
+                                style: const TextStyle(
+                                  overflow: TextOverflow.clip,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Metropolis',
+                                  color: Color.fromRGBO(242, 242, 242, 1),
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ],
                           ),
                           if (prod.description.length < 140)
                             Text(
@@ -381,7 +343,7 @@ class BodyLikesItems extends StatelessWidget {
                               ),
                             ),
                           Text(
-                            '\$${prod.price.toString()}',
+                            '\$${int.parse(prod.price) * prod.quantity}',
                             style: const TextStyle(
                                 overflow: TextOverflow.clip,
                                 fontWeight: FontWeight.w600,

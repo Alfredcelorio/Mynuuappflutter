@@ -76,7 +76,6 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
       ),
       onInputChanged: (PhoneNumber number) {
         this.number = number;
-        // print('Phone Number Changed');
       },
       onInputValidated: (bool value) {
         if (value != isPhoneValid) {

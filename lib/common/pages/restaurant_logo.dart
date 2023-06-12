@@ -33,10 +33,10 @@ class _RestaurantLogoState extends State<RestaurantLogo> {
   Widget build(BuildContext context) {
     final mediaSize = MediaQuery.of(context).size;
     const value = 500;
-    print(mediaSize.width);
     // TamaÃ±os ajustables de widgets
     final isIpad = (mediaSize.width < value);
     final valuePadding = mediaSize.width < value ? 0.0 : 80.0;
+
     return Container(
       width: 100,
       height: 100,

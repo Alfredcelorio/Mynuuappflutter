@@ -88,7 +88,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final mediaSize = MediaQuery.of(context).size;
     const value = 500;
     // TamaÃ±os ajustables de widgets
-    final isIpad = (mediaSize.width < value);
     final valuePadding = mediaSize.width < value ? 0.0 : 80.0;
     return StreamBuilder<Restaurant>(
         stream: widget.firebaseUser.uid == 'notFound'
@@ -160,7 +159,6 @@ class _HomeScreenState extends State<HomeScreen> {
     const value = 500;
     // TamaÃ±os ajustables de widgets
     final isIpad = (mediaSize.width < value);
-    final valuePadding = mediaSize.width < value ? 0.0 : 80;
     return SafeArea(
       child: CustomScrollView(
         slivers: [
@@ -228,38 +226,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-
-          // if (isIpad)
-          //   SliverPersistentHeader(
-          //     pinned: true,
-          //     delegate: SliverAppBarDelegate(
-          //       minHeight: 60.0,
-          //       maxHeight: 60.0,
-          //       child: Provider.value(
-          //         value: homeBloc,
-          //         child: CategoriesListView(
-          //           backgroundColor: restaurant.guestCheckInColor,
-          //           selectedCategory: selectedCategory,
-          //           userSessionId: restaurantId,
-          //           onCategorySelected: (category) {
-          //             setState(() {
-          //               if (selectedCategory?.id == category.id) {
-          //                 isThereACategorySelected = false;
-          //               } else {
-          //                 isThereACategorySelected = true;
-          //               }
-          //               selectedCategory = category;
-          //               if (!isThereACategorySelected) {
-          //                 selectedCategory = null;
-          //               }
-          //               filteredProducts = [];
-          //               showSearchResults = false;
-          //             });
-          //           },
-          //         ),
-          //       ),
-          //     ),
-          //   ),
           showSearchResults
               ? _buildSearchResults()
               : isThereACategorySelected
@@ -470,28 +436,62 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildAdminOptions(
-      Restaurant restaurant, BuildContext context, dynamic isIpad) {
+    Restaurant restaurant,
+    BuildContext context,
+    dynamic isIpad,
+  ) {
     final isIpadValue = isIpad as bool;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         const SizedBox(width: 10),
-        CircleAvatar(
-          backgroundColor: const Color(0xFF1E1E1E),
-          child: IconButton(
+        if (!isIpadValue)
+          FloatingActionButton.extended(
+            label: const Text('Share'), // <-- Text
+            backgroundColor: const Color(0xFF1E1E1E),
+            icon: const Icon(CupertinoIcons.share, color: Colors.white),
             onPressed: () async {
               final currentRestaurant =
                   await homeBloc.getRestaurantById(restaurantId);
               Share.share(
                   "https://mn.mynuutheapp.com/${currentRestaurant.shortUrl}");
             },
-            icon: const Icon(
-              CupertinoIcons.share,
-              color: Colors.white,
+          ),
+        if (isIpadValue)
+          CircleAvatar(
+            backgroundColor: const Color(0xFF1E1E1E),
+            child: IconButton(
+              onPressed: () async {
+                final currentRestaurant =
+                    await homeBloc.getRestaurantById(restaurantId);
+                Share.share(
+                    "https://mn.mynuutheapp.com/${currentRestaurant.shortUrl}");
+              },
+              icon: const Icon(
+                CupertinoIcons.share,
+                color: Colors.white,
+              ),
             ),
           ),
-        ),
-        if (isIpadValue) const SizedBox(width: 10),
+        const SizedBox(width: 10),
+        if (!isIpadValue)
+          FloatingActionButton.extended(
+            label: const Text('Dashboard'), // <-- Text
+            backgroundColor: const Color(0xFF1E1E1E),
+            icon: const Icon(Icons.bar_chart, color: Colors.white),
+            onPressed: () {
+              context.read<Providers>().changeR(restaurant);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context2) => Provider.value(
+                    value: widget.firebaseUser,
+                    child: const AdminScreen(),
+                  ),
+                ),
+              );
+            },
+          ),
         if (isIpadValue)
           InkWell(
             onTap: () {
@@ -506,10 +506,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             },
-            child: CircleAvatar(
-              backgroundColor: const Color(0xFF1E1E1E),
-              child: Image.asset(
-                'assets/icons/hamburguer.png',
+            child: const CircleAvatar(
+              backgroundColor: Color(0xFF1E1E1E),
+              child: Icon(
+                Icons.bar_chart,
+                color: Colors.white,
               ),
             ),
           )

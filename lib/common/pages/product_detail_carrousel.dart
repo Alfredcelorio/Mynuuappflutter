@@ -54,7 +54,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     final providerR = context.watch<Providers>();
     final mediaSize = MediaQuery.of(context).size;
     const value = 400;
-    print('asdasd');
     // TamaÃ±os ajustables de widgets
     final isIpad = (mediaSize.width < value);
     final valuePadding = mediaSize.width < value ? 0.0 : 80.0;
@@ -109,7 +108,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   products.firstWhere((element) => element.id == widget.proId);
               products.removeWhere((element) => element.id == widget.proId);
               products.insert(0, product);
-              print('logo' + providerR.r.logo);
               return Container(
                 width: 100.w,
                 child: PageView(

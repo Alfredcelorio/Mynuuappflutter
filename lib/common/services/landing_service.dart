@@ -6,6 +6,7 @@ import 'package:project1/common/models/menu.dart';
 import 'package:project1/common/models/mynuu_model.dart';
 import 'package:project1/common/models/product.dart';
 import 'package:project1/common/models/restaurant.dart';
+import 'package:project1/common/models/selected_item.dart';
 
 class CloudFirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -280,7 +281,6 @@ class CloudFirestoreService {
   }
 
   Stream<List<Guest>> streamGuests(String restaurantId) {
-    print("rest: $restaurantId");
     //add two values userID and string global
     var ref = _db.collection('guests').where(
           'restaurantId',
@@ -300,7 +300,6 @@ class CloudFirestoreService {
   }
 
   Stream<List<Guest>> streamGuestsStaff(String restaurantId, String token) {
-    print("rest: $restaurantId");
     //add two values userID and string global
     var ref = _db
         .collection('guests')
@@ -536,7 +535,6 @@ class CloudFirestoreService {
   }
 
   Future<Restaurant> getRestaurantById(String id) async {
-    print(id);
     await Future.delayed(const Duration(seconds: 1));
     var request = _db.collection('restaurants').doc(id).get();
     return request.then(
@@ -608,6 +606,24 @@ class CloudFirestoreService {
             snap.data() ?? {},
           ),
         );
+  }
+
+  Future<List<SelectedItem>> getGuestSelectedProducts(String guestId) async {
+    try {
+      var guest = await getGuestById(guestId);
+
+      var products = await Future.wait(
+          guest.buyProducts!.map<Future<SelectedItem>>((e) async {
+        var product = await getProductById(e["id"]);
+
+        return SelectedItem.fromProduct(e["quantity"], product);
+      }));
+
+      return products;
+    } catch (err) {
+      debugPrint(err.toString());
+      return [];
+    }
   }
 
   Future<void> create(String collectionName, MynuuModel object) async {

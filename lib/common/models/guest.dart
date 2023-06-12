@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:project1/common/models/buy_product.dart';
 import 'package:project1/common/models/mynuu_model.dart';
 
 class Guest extends MynuuModel {
@@ -17,48 +21,53 @@ class Guest extends MynuuModel {
   int? numberOfVisits;
   List<dynamic>? listNotes;
   List<dynamic>? likeProducts;
-  Guest(
-      {required this.firstVisit,
-      required this.lastVisit,
-      required this.id,
-      required this.name,
-      required this.email,
-      required this.restaurantId,
-      required this.vip,
-      required this.blacklisted,
-      required this.signInType,
-      this.numberOfVisits,
-      this.birthdate,
-      this.phone,
-      this.listNotes,
-      this.likeProducts});
+  List<dynamic>? buyProducts;
+
+  Guest({
+    required this.firstVisit,
+    required this.lastVisit,
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.restaurantId,
+    required this.vip,
+    required this.blacklisted,
+    required this.signInType,
+    this.numberOfVisits,
+    this.birthdate,
+    this.phone,
+    this.listNotes,
+    this.likeProducts,
+    this.buyProducts,
+  });
 
   factory Guest.fromMap(String id, Map<String, dynamic> data) {
-    print(data);
     return Guest(
-        id: id,
-        firstVisit: data['firstVisit'] != null && data['firstVisit'] != ''
-            ? data['firstVisit']
-            : null,
-        lastVisit: data['lastVisit'] != null && data['lastVisit'] != ''
-            ? data['lastVisit']
-            : null,
-        birthdate: data['birthdate'] != null && data['birthdate'] != ''
-            ? (data['birthdate'] as Timestamp).toDate()
-            : null,
-        name: data['name'] ?? '',
-        email: data['email'] ?? '',
-        phone: data['phone'],
-        restaurantId: data['restaurantId'] ?? '',
-        vip: data['vip'] ?? false,
-        blacklisted: data['blacklisted'] ?? false,
-        signInType: data['signInType'] ?? '',
-        listNotes:
-            data['listNotes'] != null ? data['listNotes'] as List<dynamic> : [],
-        likeProducts: data['likeProducts'] != null
-            ? data['likeProducts'] as List<dynamic>
-            : [],
-        numberOfVisits: data['numberOfVisits'] ?? 0);
+      id: id,
+      firstVisit: data['firstVisit'] != null && data['firstVisit'] != ''
+          ? data['firstVisit']
+          : null,
+      lastVisit: data['lastVisit'] != null && data['lastVisit'] != ''
+          ? data['lastVisit']
+          : null,
+      birthdate: data['birthdate'] != null && data['birthdate'] != ''
+          ? (data['birthdate'] as Timestamp).toDate()
+          : null,
+      name: data['name'] ?? '',
+      email: data['email'] ?? '',
+      phone: data['phone'],
+      restaurantId: data['restaurantId'] ?? '',
+      vip: data['vip'] ?? false,
+      blacklisted: data['blacklisted'] ?? false,
+      signInType: data['signInType'] ?? '',
+      listNotes:
+          data['listNotes'] != null ? data['listNotes'] as List<dynamic> : [],
+      likeProducts: data['likeProducts'] != null
+          ? data['likeProducts'] as List<dynamic>
+          : [],
+      numberOfVisits: data['numberOfVisits'] ?? 0,
+      buyProducts: data["buyProducts"],
+    );
   }
 
   @override

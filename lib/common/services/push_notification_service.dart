@@ -27,8 +27,6 @@ class PushNotificationProvider {
       sound: true,
     );
 
-    // print(await messaging.getToken());
-
     initializeLocalNotifications();
     FirebaseMessaging.onMessageOpenedApp.listen((msg) {
       onResume(msg);
@@ -78,7 +76,6 @@ class PushNotificationProvider {
   void selectNotification(String payload) async {}
 
   Future<dynamic> onMessage(RemoteMessage message) async {
-    print(message.notification!.title);
     await _localNotificationsPlugin.show(
       0,
       message.notification!.title,
@@ -102,7 +99,6 @@ class PushNotificationProvider {
   }
 
   Future<dynamic> onResume(RemoteMessage message) async {
-    print(message.notification!.title);
     final guestId = message.data['guestId'];
     if (guestId != null) {
       _messageStreamController.sink.add(guestId);

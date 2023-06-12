@@ -38,7 +38,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final restau = context.read<Providers>();
     final authProvider = context.read<AuthenticationBLoc>();
     final user = context.read<FirebaseUser>();
-    print(user);
     final String role = authProvider.idsR.value.first['rol'] as String;
     return Scaffold(
       appBar: AppBar(

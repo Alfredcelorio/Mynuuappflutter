@@ -376,7 +376,6 @@ class _TabsLayoutState extends State<TabsLayout> {
               );
             },
           );
-          print(value);
           if (value == 'update') {
             showToast('Changes saved');
           }
@@ -654,7 +653,6 @@ class _TabsLayoutState extends State<TabsLayout> {
       required List<ProductCategory> categories,
       required String categoryId,
       required String menuId}) {
-    print("dialog");
     showModalBottomSheet(
       context: context,
       builder: (context) => MultiProvider(

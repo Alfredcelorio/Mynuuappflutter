@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project1/common/models/guest.dart';
@@ -35,12 +37,17 @@ class Providers extends ChangeNotifier {
 
 List<Guest> filterDate(List<Guest> guests, DateTime valueFilter) {
   List<Guest> dataReturn = [];
+
+  if (guests.isEmpty) return dataReturn;
+
   for (var i = 0; i < guests.length; i++) {
     final valueGuest = guests[i].lastVisit != null
         ? guests[i].lastVisit!.toDate()
         : DateTime.now();
+
     guests[i].lastVisit =
         guests[i].lastVisit == null ? Timestamp.now() : guests[i].lastVisit!;
+
     if (valueGuest.year == valueFilter.year &&
         valueGuest.month == valueFilter.month &&
         valueGuest.day == valueFilter.day) {

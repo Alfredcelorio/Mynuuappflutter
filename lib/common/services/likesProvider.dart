@@ -1,8 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:project1/common/models/guest.dart';
 import 'package:project1/common/models/product.dart';
-import 'package:project1/common/models/restaurant.dart';
 
 import 'landing_service.dart';
 
@@ -31,7 +28,7 @@ class LikesProvider extends ChangeNotifier {
       }
     } catch (error) {
       statusLoad = StatusLoad.error;
-      print(error.toString());
+      debugPrint(error.toString());
     }
     notifyListeners();
   }
@@ -41,7 +38,7 @@ class LikesProvider extends ChangeNotifier {
       final c = await _dbService.getCategoryById(rId);
       nameCategory = c.name;
     } catch (error) {
-      print(error.toString());
+      debugPrint(error.toString());
     }
     notifyListeners();
   }

@@ -65,7 +65,6 @@ class RouteScreen extends StatelessWidget {
           buildLoading();
         }
         EasyLoading.dismiss();
-        print("restaurante: ${authenticationBloc.currentRestaurant}");
         final currentLogo = authenticationBloc.currentRestaurant?.logo ?? '';
         return ValueListenableBuilder(
           valueListenable: authenticationBloc.skipToUploadLogo,

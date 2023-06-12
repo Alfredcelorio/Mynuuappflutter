@@ -73,7 +73,6 @@ class FirebaseAuthService implements AuthService {
 
   @override
   Future<FirebaseUser?> signInWithGoogle() async {
-    print('sdsdsd');
     GoogleSignIn googleSignIn = GoogleSignIn();
     if (kIsWeb) {
       googleSignIn = GoogleSignIn(

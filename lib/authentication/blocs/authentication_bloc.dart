@@ -183,7 +183,6 @@ class AuthenticationBLoc {
     final restInvited = await databaseService.getGuestByAdmin(email);
     if (restInvited.isNotEmpty) {
       idsR.value = restInvited;
-      print(idsR.value);
       currentRestaurant = await databaseService.getRestaurantById(
           idsR.value[0]['idR'] != null ? idsR.value[0]['idR']! : '');
     } else {

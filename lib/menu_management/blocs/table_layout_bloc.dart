@@ -6,6 +6,7 @@ import 'package:project1/common/models/category.dart';
 import 'package:project1/common/models/guest.dart';
 import 'package:project1/common/models/menu.dart';
 import 'package:project1/common/models/product.dart';
+import 'package:project1/common/models/selected_item.dart';
 import 'package:project1/common/models/user_system.dart';
 import 'package:project1/common/services/landing_service.dart';
 
@@ -204,17 +205,19 @@ class TableLayoutBloc {
   }
 
   Stream<List<Guest>> streamRestaurantGuests() {
-    // print(_dbService.getGuests(userSession.uid));
     return _dbService.streamGuests(userSession.uid);
   }
 
   Stream<List<Guest>> streamRestaurantGuestsStaff(String token) {
-    // print(_dbService.getGuests(userSession.uid));
     return _dbService.streamGuestsStaff(userSession.uid, token);
   }
 
   Stream<Guest> streamGuestById(String guestId) {
     return _dbService.streamGuestById(guestId);
+  }
+
+  Future<List<SelectedItem>> getGuestSelectedProducts(String guestId) {
+    return _dbService.getGuestSelectedProducts(guestId);
   }
 
   Future<List<Product>> searchProducts(

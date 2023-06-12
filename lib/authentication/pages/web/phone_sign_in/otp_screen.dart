@@ -65,12 +65,8 @@ class _OtpScreenState extends State<OtpScreen> with WidgetsBindingObserver {
       linkWithExistingUser: false,
       autoRetrievalTimeOutDuration: const Duration(seconds: 60),
       otpExpirationDuration: const Duration(seconds: 60),
-      onCodeSent: () {
-        //print('OTP sent!');
-      },
+      onCodeSent: () {},
       onLoginSuccess: (userCredential, autoVerified) async {
-        debugPrint("autoVerified: $autoVerified");
-        debugPrint("Login success UID: ${userCredential.user?.uid}");
         showInfoSnackBar('Phone number verified successfully!');
 
         final isNewUser = userCredential.additionalUserInfo?.isNewUser;
@@ -96,8 +92,6 @@ class _OtpScreenState extends State<OtpScreen> with WidgetsBindingObserver {
         }
       },
       onLoginFailed: (authException, stackTrace) {
-        debugPrint("An error occurred: ${authException.message}");
-
         showErrorSnackBar('Login failed');
 
         switch (authException.code) {
@@ -139,7 +133,6 @@ class _OtpScreenState extends State<OtpScreen> with WidgetsBindingObserver {
                       TextButton(
                         onPressed: controller.isOtpExpired
                             ? () async {
-                                debugPrint('Resend OTP');
                                 await controller.sendOTP();
                               }
                             : null,

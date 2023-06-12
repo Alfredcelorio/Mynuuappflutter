@@ -9,7 +9,6 @@ import 'package:project1/menu_management/blocs/table_layout_bloc.dart';
 import 'package:project1/menu_management/pages/coming_soon_screen.dart';
 import 'package:project1/menu_management/pages/guests_table_screen.dart';
 import 'package:project1/menu_management/pages/screen_qrCode.dart';
-import 'package:project1/menu_management/pages/screen_writeNfc.dart';
 import 'package:project1/menu_management/pages/tabslayout.dart';
 import 'package:project1/menu_management/pages/trash.dart';
 import 'package:project1/profile_management/pages/edit_landing_screen.dart';
@@ -35,7 +34,6 @@ class _AdminScreenState extends State<AdminScreen> {
     final providerFirebaseUser = context.read<FirebaseUser>();
     final providerR = context.read<Providers>();
     providerFirebaseUser.uid = providerR.r.id;
-    print("fireuser: ${providerFirebaseUser.uid}");
     bloc = TableLayoutBloc(
       providerFirebaseUser,
     );
@@ -45,7 +43,7 @@ class _AdminScreenState extends State<AdminScreen> {
       const GuestsTableScreen(),
       const ComingSoonScreen(),
       const EditLandingScreen(),
-      ClassNfcPlugin(),
+      const SizedBox(),
       const ClassQrCode()
     ];
     super.initState();
