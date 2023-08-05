@@ -1,13 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:project1/common/pages/restaurant_logo.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'package:project1/common/blocs/product_detail_carrousel_bloc.dart';
 import 'package:project1/common/components/product_extended_card.dart';
@@ -52,11 +48,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final providerR = context.watch<Providers>();
-    final mediaSize = MediaQuery.of(context).size;
-    const value = 400;
     // TamaÃ±os ajustables de widgets
-    final isIpad = (mediaSize.width < value);
-    final valuePadding = mediaSize.width < value ? 0.0 : 80.0;
+
     return Provider.value(
         value: bloc,
         child: Scaffold(
@@ -108,7 +101,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   products.firstWhere((element) => element.id == widget.proId);
               products.removeWhere((element) => element.id == widget.proId);
               products.insert(0, product);
-              return Container(
+              return SizedBox(
                 width: 100.w,
                 child: PageView(
                   controller: controller,

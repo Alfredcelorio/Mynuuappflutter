@@ -25,6 +25,7 @@ class Product implements MynuuModel {
   String? type;
   String? varietal;
   String? taste;
+  List<dynamic>? inventory;
 
   Product({
     required this.id,
@@ -49,6 +50,7 @@ class Product implements MynuuModel {
     required this.positionInCategory,
     this.keyword,
     this.menuId,
+    this.inventory,
   });
 
   @override
@@ -74,7 +76,8 @@ class Product implements MynuuModel {
       'varietal': varietal,
       'sku': sku,
       'taste': taste,
-      'type': type
+      'type': type,
+      'inventory': inventory
     };
   }
 
@@ -87,29 +90,32 @@ class Product implements MynuuModel {
     if (map['price'].toString().contains('.0')) {
       map['price'] = map['price'].toString().replaceAll('.0', '');
     }
+
     return Product(
-        id: id,
-        name: map['name'] ?? '',
-        image: map['image'] ?? '',
-        description: map['description'] ?? '',
-        categoryId: map['categoryId'] ?? '',
-        enabled: map['enabled'] ?? false,
-        price: map['price'].toString(),
-        views: map['views'] ?? 0,
-        deleted: map['deleted'] ?? false,
-        restaurantId: map['restaurantId'] ?? '',
-        keyword: map['keyword'],
-        positionInCategory: map['positionInCategory'] ?? 0,
-        menuId: map['menuId'],
-        abv: map['abv'] ?? '',
-        body: map['body'] ?? '',
-        brand: map['brand'] ?? '',
-        countryState: map['countryState'] ?? '',
-        region: map['region'] ?? '',
-        sku: map['sku'] ?? '',
-        taste: map['taste'] ?? '',
-        type: map['type'] ?? '',
-        varietal: map['varietal'] ?? '');
+      id: id,
+      name: map['name'] ?? '',
+      image: map['image'] ?? '',
+      description: map['description'] ?? '',
+      categoryId: map['categoryId'] ?? '',
+      enabled: map['enabled'] ?? false,
+      price: map['price'].toString(),
+      views: map['views'] ?? 0,
+      deleted: map['deleted'] ?? false,
+      restaurantId: map['restaurantId'] ?? '',
+      keyword: map['keyword'],
+      positionInCategory: map['positionInCategory'] ?? 0,
+      menuId: map['menuId'],
+      abv: map['abv'] ?? '',
+      body: map['body'] ?? '',
+      brand: map['brand'] ?? '',
+      countryState: map['countryState'] ?? '',
+      region: map['region'] ?? '',
+      sku: map['sku'] ?? '',
+      taste: map['taste'] ?? '',
+      type: map['type'] ?? '',
+      varietal: map['varietal'] ?? '',
+      inventory: map['inventory'] ?? [],
+    );
   }
 
   String toJson() => json.encode(toMap());

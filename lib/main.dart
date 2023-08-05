@@ -23,7 +23,6 @@ import 'package:project1/common/style/mynuu_colors.dart';
 import 'package:project1/firebase_options.dart';
 import 'package:project1/menu_management/blocs/table_layout_bloc.dart';
 import 'package:project1/menu_management/pages/guest_detail_screen.dart';
-import 'package:project1/menu_management/pages/guest_liked_items.dart';
 import 'package:project1/profile_management/pages/customLoading.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';

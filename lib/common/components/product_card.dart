@@ -96,7 +96,7 @@ class ProductCard extends StatelessWidget {
                       height: 4,
                     ),
                     Text(
-                      product.price! + ' USD',
+                      '${product.price!} USD',
                       style: const TextStyle(
                         fontFamily: 'Metropolis',
                         overflow: TextOverflow.ellipsis,

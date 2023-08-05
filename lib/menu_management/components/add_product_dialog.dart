@@ -33,7 +33,8 @@ class AddOrEditProductDialog extends StatefulWidget {
 }
 
 class _AddOrEditProductDialogState extends State<AddOrEditProductDialog> {
-  List filters = ["chicken", "Seafood", "Chicken", "Salads"];
+  final List<String> bottleTypes = ["bottles", "servings"];
+  final List filters = ["chicken", "Seafood", "Chicken", "Salads"];
   File? mYimage;
   File? myImage2;
   String base64im = "";
@@ -42,6 +43,7 @@ class _AddOrEditProductDialogState extends State<AddOrEditProductDialog> {
 
   late String selectedCategoryId;
   String? selectedMenuId;
+  String? bottleType;
 
   TextEditingController itemnumberC = TextEditingController();
   TextEditingController nameC = TextEditingController();
@@ -57,6 +59,8 @@ class _AddOrEditProductDialogState extends State<AddOrEditProductDialog> {
   TextEditingController type = TextEditingController();
   TextEditingController varietal = TextEditingController();
   TextEditingController brand = TextEditingController();
+
+  TextEditingController quantity = TextEditingController();
 
   final fontFamily = GoogleFonts.georama().fontFamily;
 
@@ -81,84 +85,105 @@ class _AddOrEditProductDialogState extends State<AddOrEditProductDialog> {
       type.text = widget.product?.type ?? '';
       varietal.text = widget.product?.varietal ?? '';
       brand.text = widget.product?.brand ?? '';
+
+      final inventory = widget.product?.inventory;
+
+      if (inventory != null) {
+        quantity.text = inventory.isNotEmpty ? inventory[0]["quantity"] : '';
+        bottleType = inventory.isNotEmpty ? inventory[0]["typeBottles"] : null;
+      }
     }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Container(
-        width: 90.w,
-        decoration: const BoxDecoration(
-          color: mynuuBackgroundModal,
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+
+        if (!currentFocus.hasPrimaryFocus &&
+            currentFocus.focusedChild != null) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        }
+      },
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              buildDialogHeader(context),
-              const SizedBox(height: 24),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    width: 18,
-                  ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(4),
-                    child: buildPicturesField(),
-                  ),
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        right: 8.0,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          buildProductNameField(),
-                          const SizedBox(height: 10),
-                          buildPriceField(),
-                          const SizedBox(height: 10),
-                          buildDescriptionField(),
-                          const SizedBox(height: 10),
-                          buildProductBrandField(),
-                          const SizedBox(height: 10),
-                          buildProductBodyField(),
-                          const SizedBox(height: 10),
-                          buildProductRegionField(),
-                          const SizedBox(height: 10),
-                          buildProductCountryStateField(),
-                          const SizedBox(height: 10),
-                          buildProductSkuField(),
-                          const SizedBox(height: 10),
-                          buildProductTypeField(),
-                          const SizedBox(height: 10),
-                          buildProductAbvField(),
-                          const SizedBox(height: 10),
-                          buildProductVarietalField(),
-                          const SizedBox(height: 10),
-                          buildProductTasteField(),
-                          const SizedBox(height: 10),
-                          buildChangeImageButton(context)
-                        ],
+        child: Container(
+          width: 90.w,
+          decoration: const BoxDecoration(
+            color: mynuuBackgroundModal,
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                buildDialogHeader(context),
+                const SizedBox(height: 24),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      width: 18,
+                    ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(4),
+                      child: buildPicturesField(),
+                    ),
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          right: 8.0,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            buildProductNameField(),
+                            const SizedBox(height: 10),
+                            buildPriceField(),
+                            const SizedBox(height: 10),
+                            buildDescriptionField(),
+                            const SizedBox(height: 10),
+                            buildProductBrandField(),
+                            const SizedBox(height: 10),
+                            buildProductBodyField(),
+                            const SizedBox(height: 10),
+                            buildProductRegionField(),
+                            const SizedBox(height: 10),
+                            buildProductCountryStateField(),
+                            const SizedBox(height: 10),
+                            buildProductSkuField(),
+                            const SizedBox(height: 10),
+                            buildProductTypeField(),
+                            const SizedBox(height: 10),
+                            buildProductAbvField(),
+                            const SizedBox(height: 10),
+                            buildProductVarietalField(),
+                            const SizedBox(height: 10),
+                            buildProductTasteField(),
+                            const SizedBox(height: 10),
+                            buildChangeImageButton(context)
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-              buildMenuGroupPicker(),
-              buildProductCategoryPicker(),
-              const Divider(height: 1),
-              buildSubmitAction(context),
-            ],
+                  ],
+                ),
+                const SizedBox(height: 24),
+                buildInventoryGroup(context),
+                buildMenuGroupPicker(),
+                buildProductCategoryPicker(),
+                const Divider(
+                  height: 1,
+                ),
+                buildSubmitAction(context),
+              ],
+            ),
           ),
         ),
       ),
@@ -248,7 +273,7 @@ class _AddOrEditProductDialogState extends State<AddOrEditProductDialog> {
                           vertical: 6.0,
                         ),
                         child: Text(
-                          '·  ' + menu.name.toString(),
+                          '·  ${menu.name}',
                           style: TextStyle(
                             fontFamily: fontFamily,
                             color: menu.id == selectedMenuId
@@ -308,7 +333,7 @@ class _AddOrEditProductDialogState extends State<AddOrEditProductDialog> {
                           vertical: 6.0,
                         ),
                         child: Text(
-                          '·  ' + category.name.toString(),
+                          '·  ${category.name}',
                           style: TextStyle(
                             fontFamily: fontFamily,
                             color: category.id == selectedCategoryId
@@ -335,6 +360,108 @@ class _AddOrEditProductDialogState extends State<AddOrEditProductDialog> {
                   ),
                 )
               ],
+        )
+      ],
+    );
+  }
+
+  Widget buildInventoryGroup(BuildContext context) {
+    return ExpansionTile(
+      initiallyExpanded: true,
+      backgroundColor: Colors.black,
+      iconColor: mynuuDarkGrey,
+      collapsedBackgroundColor: Colors.black,
+      collapsedIconColor: mynuuDarkGrey,
+      title: Text(
+        "INVENTORY",
+        style: TextStyle(
+          fontFamily: fontFamily,
+          color: Colors.white,
+          fontSize: 14.0,
+        ),
+      ),
+      children: [
+        Container(
+          color: mynuuBackgroundModal,
+          child: Padding(
+            padding: EdgeInsets.only(top: 2.h, left: 5.w, right: 5.w),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 5),
+                      child: Text(
+                        "Quantity:",
+                        style: TextStyle(
+                          fontFamily: fontFamily,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        controller: quantity,
+                        cursorColor: Colors.white,
+                        keyboardType: TextInputType.number,
+                        textInputAction: TextInputAction.done,
+                        style: TextStyle(
+                          fontFamily: fontFamily,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12,
+                        ),
+                        decoration: const InputDecoration(
+                          isDense: true,
+                          contentPadding: EdgeInsets.zero,
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                Row(children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 5),
+                    child: Text(
+                      "Serving Type:",
+                      style: TextStyle(
+                        fontFamily: fontFamily,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                  DropdownButton(
+                    value: bottleType,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: fontFamily,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 12,
+                    ),
+                    dropdownColor: Colors.black87,
+                    iconSize: 5.w,
+                    underline: const SizedBox.shrink(),
+                    items: bottleTypes.map((type) {
+                      return DropdownMenuItem(
+                        value: type,
+                        child: Text(type),
+                      );
+                    }).toList(),
+                    onChanged: (String? value) {
+                      setState(() {
+                        bottleType = value;
+                      });
+                    },
+                  ),
+                ]),
+              ],
+            ),
+          ),
         )
       ],
     );
@@ -912,7 +1039,10 @@ class _AddOrEditProductDialogState extends State<AddOrEditProductDialog> {
         sku: sku.text,
         taste: taste.text,
         type: type.text,
-        varietal: varietal.text);
+        varietal: varietal.text,
+        inventory: [
+          {"typeBottles": bottleType, "quantity": quantity.text}
+        ]);
     await EasyLoading.show(status: '');
     if (widget.product != null) {
       await bloc.updateProduct(finalProduct, mYimage);
